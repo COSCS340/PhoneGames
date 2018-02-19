@@ -12,23 +12,28 @@
 <body>
  
   <div id = "render-target"></div>
-  <h1>Welcome to Phone Games!</h1>
+  <div class = "center-center-container" id = "main-screen">
+	<h1>Welcome to Phone Games!</h1>
 
-  {{> hello}}
-  {{> info}}
+	{{> newGame}} {{> joinGame}}
+  </div>
+  <div id = "footer">
+	{{> info}}
+  </div>
+  
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="newGame">
+  <button>New Game</button>
+</template>
+<template name="joinGame">
+	<button>Join Game</button>
 </template>
 
 <template name="info">
-  <h2>Learn More About Us!</h2>
-  <ul>
-    <li><a href="https://github.com/COSCS340/PhoneGames" target="_blank">See the code</a></li>
-    <li><a href="http://guide.meteor.com" target="_blank">Learn about the Framework supporting this</a></li>
-    <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
-    <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
-  </ul>
+  <h6>Learn More About Us!</h6>
+  <a href="https://github.com/COSCS340/PhoneGames" target="_blank">See the code</a>
+  <a href="http://guide.meteor.com" target="_blank">Learn about the Framework supporting this</a>
+  <a href="https://docs.meteor.com" target="_blank">Read the Docs</a>
+  <a href="https://forums.meteor.com" target="_blank">Discussions</a> 
 </template>

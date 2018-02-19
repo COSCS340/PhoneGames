@@ -59,10 +59,20 @@
 
 /* Containers */
 
+	.center-center-container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		-moz-transform: translateX(-50%) translateY(-50%);
+		-webkit-transform: translateX(-50%) translateY(-50%);
+		transform: translateX(-50%) translateY(-50%);
+	}
+
 	.container {
 		margin-left: auto;
 		margin-right: auto;
 	}
+
 
 	.container.\31 25\25 {
 		width: 100%;
@@ -1639,6 +1649,8 @@
 
 	a {
 		text-decoration: underline;
+		padding-right: 10px;
+		padding-left: 10px;
 	}
 
 		a:hover {
@@ -3726,8 +3738,11 @@
 	#footer {
 		background-color: #f7f7f7;
 		color: #444;
-		padding: 5em 0 4em 0;
-		position: relative;
+		padding: 1rem;
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		left: 0;
 	}
 
 		#footer input, #footer select, #footer textarea {
@@ -3795,7 +3810,7 @@
 		@media screen and (max-width: 1280px) {
 
 			#footer {
-				padding: 4em 2em 3em 2em;
+				padding: 2em 2em 2em 2em;
 			}
 
 		}
@@ -3803,7 +3818,7 @@
 		@media screen and (max-width: 980px) {
 
 			#footer {
-				padding: 3em 2em 2em 2em;
+				padding: 2em 2em 2em 2em;
 			}
 
 				#footer:before {
@@ -3816,7 +3831,7 @@
 		@media screen and (max-width: 736px) {
 
 			#footer {
-				padding: 3em 2em 1em 2em;
+				padding: 2em 2em 1em 2em;
 			}
 
 				#footer:before {
