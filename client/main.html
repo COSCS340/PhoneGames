@@ -1,5 +1,5 @@
 <head>
-  <title>phoneGames</title>
+  <title>Phone Games</title>
   <style>
     h1 {text-align:center;}
     p {text-align:center;}
@@ -10,27 +10,34 @@
 
 
 <body>
- 
-  <div id = "render-target"></div>
-  <div class = "center-center-container" id = "main-screen">
-	<h1>Welcome to Phone Games!</h1>
-
-	{{> newGame}} {{> joinGame}}
-  </div>
-  <div id = "footer">
-	{{> info}}
-  </div>
-  
+	<div id = "render-target">
+		{{> main }}
+	</div>
 </body>
-
-<template name="newGame">
-  <button>New Game</button>
+<template name = "main">
+	{{> Template.dynamic template=currentView }}
+	<div id = "footer">
+		{{> info }}
+	</div>
 </template>
-<template name="joinGame">
-	<button>Join Game</button>
+
+<template name = "homepage">
+	<div class = "center-center-container" id = "main-screen">
+		<h1>Welcome to Phone Games!</h1>
+
+		<button id = "btn-new-game">New Game</button> <button id = "btn-join-game">Join Game</button>
+	</div>
 </template>
 
-<template name="info">
+<template name = "newGame">
+	<p> test1 </p>
+</template>
+
+<template name = "joinGame">
+	<p> test2 </p>
+</template>
+
+<template name = "info">
   <h6>Learn More About Us!</h6>
   <a href="https://github.com/COSCS340/PhoneGames" target="_blank">See the code</a>
   <a href="http://guide.meteor.com" target="_blank">Learn about the Framework supporting this</a>
