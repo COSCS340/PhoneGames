@@ -14,16 +14,50 @@ Meteor.startup(() => {
 });
 
 Template.homepage.events({
-	'click #btn-new-game': function () {
-		console.log("worked2");
+	'click .btn-new-game': function () {
 		Session.set("currentView", "newGame");
 	},
-	'click #btn-join-game': function () {
-		console.log("worked3");
+	'click .btn-join-game': function () {
 		Session.set("currentView", "joinGame");
 	}
 });
 
+Template.newGame.events({
+	isLoggedIn: function() {
+		//for login functionality later on
+		return false;
+	},
+	
+	/* TODO */
+	'click .btn-new-game': function() {
+		Session.set("currentView", "forTesting");
+	},
+	
+	'click .btn-back': function() {
+		Session.set("currentView", "homepage");
+	}
+});
+
+Template.joinGame.events({
+	isLoggedIn: function() {
+		//for login functionality later on
+		return false;
+	},
+	
+	'click .btn-join-game': function() {
+		Session.set("currentView", "forTesting");
+	},
+	
+	'click .btn-back': function() {
+		Session.set("currentView", "homepage");
+	}
+});
+/* this is used for testing so you can get back to the homepage after testing buttons or forms */
+Template.forTesting.events({
+	'click .btn-for-testing': function() {
+		Session.set("currentView", "homepage");
+	}
+});
 Template.main.helpers({
 	currentView: function(){
 		return Session.get("currentView");

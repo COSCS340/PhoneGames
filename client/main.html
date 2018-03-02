@@ -15,26 +15,43 @@
 	</div>
 </body>
 <template name = "main">
-	{{> Template.dynamic template=currentView }}
+	<div class = "center-center-container" id = "main-screen">
+		{{> Template.dynamic template=currentView }}
+	</div>
 	<div id = "footer">
 		{{> info }}
 	</div>
 </template>
 
 <template name = "homepage">
-	<div class = "center-center-container" id = "main-screen">
-		<h1>Welcome to Phone Games!</h1>
+	<h1>Welcome to Phone Games!</h1>
 
-		<button id = "btn-new-game">New Game</button> <button id = "btn-join-game">Join Game</button>
-	</div>
+	<button class = "btn-new-game">New Game</button> <button class = "btn-join-game">Join Game</button>
 </template>
 
 <template name = "newGame">
-	<p> test1 </p>
+	<form class = "userInfo">
+		{{#unless isLoggedIn}}
+			<input type = "text" name = "name" placeholder = "Name"><br>
+		{{/unless}}
+	</form>
+	<button class = "btn-new-game">Create</button> <button class = "btn-back">Back</button>
 </template>
 
 <template name = "joinGame">
-	<p> test2 </p>
+	<form class = "userInfo">
+		{{#unless isLoggedIn}}
+			<input type = "text" name = "name" placeholder = "Name"><br>
+		{{/unless}}
+		<input type = "text" name = "name" placeholder = "Lobby ID">
+	</form>
+	<button class = "btn-join-game">Join</button> <button class = "btn-back">Back</button>
+</template>
+
+<template name = "forTesting">
+	<h1>This is for testing. Hit back to go to the homepage.</h1>
+	
+	<button class = "btn-for-testing">Back</button>
 </template>
 
 <template name = "info">
