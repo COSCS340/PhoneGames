@@ -29,11 +29,17 @@
 	<button class = "btn-new-game">New Game</button> <button class = "btn-join-game">Join Game</button>
 </template>
 
+<template name = "gameSelect">
+	<button class = "btn-game-1">Test Game 1</button> <button class = "btn-game-2">Test Game 2</button><br>
+	<button class = "btn-game-3">Test Game 3</button> <button class = "btn-game-4">Test Game 4</button><br>
+	<button class = "btn-game-5">Test Game 5</button> <button class = "btn-back">Back</button>
+	<!-- need to align and center these buttons at some point -->
+</template>
+
 <template name = "newGame">
+	<h4> Enter your name to play {{whatGame}}</h4>
 	<form class = "userInfo">
-		{{#unless isLoggedIn}}
-			<input type = "text" name = "name" placeholder = "Name"><br>
-		{{/unless}}
+		<input type = "text" name = "name" placeholder = "Name"><br>
 	</form>
 	<button class = "btn-new-game">Create</button> <button class = "btn-back">Back</button>
 </template>
