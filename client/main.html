@@ -7,19 +7,21 @@
   </style>
 </head>
 
-
-
 <body>
 	<div id = "render-target">
 		{{> main }}
 	</div>
 </body>
+
 <template name = "main">
+	<div id = "header">
+		{{> header }}
+	</div>
 	<div class = "center-center-container" id = "main-screen">
 		{{> Template.dynamic template=currentView }}
 	</div>
 	<div id = "footer">
-		{{> info }}
+		{{> footer }}
 	</div>
 </template>
 
@@ -54,13 +56,31 @@
 	<button class = "btn-join-game">Join</button> <button class = "btn-back">Back</button>
 </template>
 
+<template name = "loginPage">
+	<h1> this is an example login page - for testing atm </h1>
+</template>
+
+<template name = "userPage">
+	<h1> this is an example user page - for testing atm - user name is: {{userName}}</h1>
+</template>
+
 <template name = "forTesting">
 	<h1>This is for testing. Hit back to go to the homepage.</h1>
 	
 	<button class = "btn-for-testing">Back</button>
+
 </template>
 
-<template name = "info">
+<template name = "header">
+	<button class = "btn-home" style = "float: left;">Home</button>
+	{{#if isLoggedIn}}
+		<button class = "btn-user-profile" style = "float: right;">{{userName}}</button>
+	{{else}}
+		<button class = "btn-login" style = "float: right;">Login</button>
+	{{/if}}
+</template>
+
+<template name = "footer">
   <h6>Learn More About Us!</h6>
   <a href="https://github.com/COSCS340/PhoneGames" target="_blank">See the code</a>
   <a href="http://guide.meteor.com" target="_blank">Learn about the Framework supporting this</a>

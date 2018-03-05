@@ -6,11 +6,10 @@ import App from '../imports/ui/App.jsx';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-
-
 Meteor.startup(() => {
 	Session.set("currentView", "homepage");
-	var whatGame = "none";
+	Session.set("whatGame", "none");
+	Session.set("userName", "test user name");
     //render(<App />, document.getElementById('render-target'));
 });
 
@@ -25,35 +24,62 @@ Template.homepage.events({
 	}
 });
 
-Template.gameSelect.events({
-
-	isLoggedIn: function() {
-		//for login functionality later on
-		return false;
+Template.header.events({
+	
+	'click .btn-home': function() {
+		Session.set("currentView", "homepage");
 	},
 	
+	'click .btn-login': function() {
+		Session.set("currentView", "loginPage");
+	},
+	
+	'click .btn-user-profile': function() {
+		Session.set("currentView", "userPage");
+	}
+});
+
+Template.header.helpers({
+	
+	userName: function() {
+		return Session.get("userName");
+	},
+	
+	isLoggedIn: function() {
+		return true;
+	}
+});
+
+Template.userPage.helpers({
+	userName: function() {
+		return Session.get("userName");
+	}
+});
+
+Template.gameSelect.events({
+
 	'click .btn-game-1': function() {
-		whatGame = "game1";
+		Session.set("whatGame", "game1");
 		Session.set("currentView", "newGame");
 	},
 	
 	'click .btn-game-2': function() {
-		whatGame = "game2";
+		Session.set("whatGame", "game2");
 		Session.set("currentView", "newGame");
 	},
 	
 	'click .btn-game-3': function() {
-		whatGame = "game3";
+		Session.set("whatGame", "game3");
 		Session.set("currentView", "newGame");
 	},
 	
 	'click .btn-game-4': function() {
-		whatGame = "game4";
+		Session.set("whatGame", "game4");
 		Session.set("currentView", "newGame");
 	},
 	
 	'click .btn-game-5': function() {
-		whatGame = "game5";
+		Session.set("whatGame", "game5");
 		Session.set("currentView", "newGame");
 	},
 	
@@ -65,24 +91,19 @@ Template.gameSelect.events({
 Template.newGame.helpers({
 	
 	whatGame: function() {
-		return whatGame;
+		return Session.get("whatGame");
 	}
 });
 
 Template.newGame.events({
-	
-	isLoggedIn: function() {
-		//for login functionality later on
-		return false;
-	},
-		
+
 	/* TODO */
 	'click .btn-new-game': function() {
 		Session.set("currentView", "forTesting");
 	},
 	
 	'click .btn-back': function() {
-		whatGame = 'none';
+		Session.set("whatGame", "none");
 		Session.set("currentView", "gameSelect");
 	}
 });
@@ -110,7 +131,6 @@ Template.forTesting.events({
 	}
 });
 Template.main.helpers({
-	
 	currentView: function(){
 		return Session.get("currentView");
 	}
