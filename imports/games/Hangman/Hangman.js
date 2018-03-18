@@ -1,11 +1,9 @@
-import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
+//import { Random } from 'meteor/random'
+import './Hangman.html';
 
-import './main.html';
+/* hangman */
 
-
-
-Template.game.onCreated(function gameOnCreated() {
+Template.gameHangman.onCreated(function gameOnCreated() {
 
   this.completeWord = new ReactiveVar("PEPPER");
 
@@ -17,13 +15,13 @@ Template.game.onCreated(function gameOnCreated() {
   }
 
   this.word = new ReactiveVar(blanks);
-  this.guesses = new ReactiveVar(5);
+  this.numGuesses = new ReactiveVar(5);
   this.winText = new ReactiveVar("");
 });
 
-Template.game.helpers({
-  guesses() {
-    return Template.instance().guesses.get();
+Template.gameHangman.helpers({
+  numGuesses() {
+    return Template.instance().numGuesses.get();
   },
   word() {
     return Template.instance().word.get();
@@ -34,12 +32,24 @@ Template.game.helpers({
   winText() {
     return Template.instance().winText.get();
   },
+
+  guess() {
+	if (Template.instance().numGuesses.get() == 1) {
+		return "guess";
+	} else {
+		return "guesses";
+	}
+  }
 });
 
-Template.game.events({
+Template.gameHangman.events({
   //when any button is clicked
   'click button'(event, instance) {
 
+	if (instance.numGuesses.get() == 0) {
+		return;
+	}
+  
     var letter = event.target.innerText;
 
     console.log("-" + letter + "-");
@@ -53,7 +63,12 @@ Template.game.events({
 
       //if string does not contain letter
       if (word.indexOf(letter) == -1){
-        instance.guesses.set(instance.guesses.get()-1);
+		if (instance.numGuesses.get() > 0) {
+			instance.numGuesses.set(instance.numGuesses.get()-1);
+		}
+		if (instance.numGuesses.get() == 0) {
+			instance.winText.set("You Lost :(");
+		}
       }
       //String does contain letter
       else{
@@ -74,9 +89,6 @@ Template.game.events({
           instance.winText.set("You Win!");
         }
       }
-
-
-
 
     }
   },

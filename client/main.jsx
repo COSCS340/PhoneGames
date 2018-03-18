@@ -1,16 +1,22 @@
-import React from 'react';
+// import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { render } from 'react-dom';
+// import { render } from 'react-dom';
 import { Session } from 'meteor/session';
-import App from '../imports/ui/App.jsx';
+// import App from '../imports/ui/App.jsx';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import '../imports/games/Hangman/Hangman.js';
 
 Meteor.startup(() => {
 	Session.set("currentView", "homepage");
 	Session.set("whatGame", "none");
 	Session.set("userName", "test user name");
+	Session.set("docTitle", "Phone Games");
     //render(<App />, document.getElementById('render-target'));
+});
+
+Deps.autorun(function(){
+	document.title = Session.get("docTitle");
 });
 
 Template.homepage.events({
@@ -28,6 +34,7 @@ Template.header.events({
 	
 	'click .btn-home': function() {
 		Session.set("currentView", "homepage");
+		Session.set("docTitle", "Phone Games");
 	},
 	
 	'click .btn-login': function() {
@@ -59,8 +66,9 @@ Template.userPage.helpers({
 Template.gameSelect.events({
 
 	'click .btn-game-1': function() {
-		Session.set("whatGame", "game1");
-		Session.set("currentView", "newGame");
+		Session.set("whatGame", "Hangman");
+		Session.set("currentView", "gameHangmanUI");
+		Session.set("docTitle", "Hangman");
 	},
 	
 	'click .btn-game-2': function() {
@@ -135,3 +143,7 @@ Template.main.helpers({
 		return Session.get("currentView");
 	}
 });
+
+
+
+

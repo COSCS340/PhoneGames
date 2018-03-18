@@ -1,17 +1,18 @@
-<head>
-  <title>Hangman</title>
-</head>
+<template name = "gameHangmanUI">
+	<h1> Hangman! </h1>
+	
+	{{> gameHangman}}
+</template>
 
-<body>
-  <h1>Hangman!</h1>
-
-  {{> game}}
-</body>
-
-<template name="game">
-  <p><h1>Word: {{word}}</h1></p>
+<template name = "gameHangman">
+  <p>
+	<h1>
+		Word: {{word}}
+		{{winText}}
+	</h1>
+  </p>
   <p><h1>{{winText}}</h1></p>
-  <p>You have {{guesses}} guesses left.</p>
+  <p>You have {{numGuesses}} {{guess}} left.</p>
   <button>A</button>
   <button>B</button>
   <button>C</button>
