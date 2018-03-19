@@ -17,6 +17,9 @@ Template.gameHangman.onCreated(function gameOnCreated() {
   this.word = new ReactiveVar(blanks);
   this.numGuesses = new ReactiveVar(5);
   this.winText = new ReactiveVar("");
+  this.won = new ReactiveVar(false);
+  this.prompt = new ReactiveVar("Word");
+  this.done = new ReactiveVar(false);
 });
 
 Template.gameHangman.helpers({
@@ -32,7 +35,14 @@ Template.gameHangman.helpers({
   winText() {
     return Template.instance().winText.get();
   },
-
+  done() {
+	return Template.instance().done.get();
+  },
+  
+  prompt() {
+	return Template.instance().prompt.get();  
+  },
+  
   guess() {
 	if (Template.instance().numGuesses.get() == 1) {
 		return "guess";
@@ -43,21 +53,26 @@ Template.gameHangman.helpers({
 });
 
 Template.gameHangman.events({
+  
+  'click .btn-back': function() {
+		Session.set("currentView", "gameSelect");
+		Session.set("whatGame", "none");
+		return;
+  },
+  
   //when any button is clicked
   'click button'(event, instance) {
-
-	if (instance.numGuesses.get() == 0) {
+	if (instance.numGuesses.get() == 0 || instance.won.get() == true) {
 		return;
 	}
   
     var letter = event.target.innerText;
 
-    console.log("-" + letter + "-");
-
     //if button hasn't already been clicked
     if (letter != ""){
       //set button to clicked
-      event.target.innerText = " ";
+      event.target.innerText = "";
+//	  document.getElementById(event.target.innerText).style.textIndent = "-99999px";
 
       var word = instance.completeWord.get();
 
@@ -68,6 +83,8 @@ Template.gameHangman.events({
 		}
 		if (instance.numGuesses.get() == 0) {
 			instance.winText.set("You Lost :(");
+			instance.done.set(true);
+			instance.prompt.set("The word was");
 		}
       }
       //String does contain letter
@@ -87,7 +104,9 @@ Template.gameHangman.events({
         //check if any blanks remain
         if (newBlanks.indexOf("_") == -1){
           instance.winText.set("You Win!");
-        }
+		  instance.won.set(true);
+		  instance.done.set(true);
+		}
       }
 
     }
