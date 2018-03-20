@@ -50,16 +50,12 @@
 
 <template name = "joinGame">
 	<form class = "userInfo">
-		{{#unless isLoggedIn}}
+		{{#unless currentUser}}
 			<input type = "text" name = "name" placeholder = "Name"><br>
 		{{/unless}}
 		<input type = "text" name = "name" placeholder = "Lobby ID">
 	</form>
 	<button class = "btn-join-game">Join</button> <button class = "btn-back">Back</button>
-</template>
-
-<template name = "loginPage">
-	<h1> this is an example login page - for testing atm </h1>
 </template>
 
 <template name = "userPage">
@@ -70,15 +66,18 @@
 	<h1>This is for testing. Hit back to go to the homepage.</h1>
 	
 	<button class = "btn-for-testing">Back</button>
-
 </template>
 
 <template name = "header">
 	<button class = "btn-home" style = "float: left;">Home</button>
-	{{#if isLoggedIn}}
-		<button class = "btn-user-profile" style = "float: right;">{{userName}}</button>
+	{{#if currentUser}}
+		<button class = "btn-user-profile" style = "float: right;">{{> loginButtons align="right" }}</button>
+		<button style = "float: right;">{{currentUser.username}}</button>
 	{{else}}
-		<button class = "btn-login" style = "float: right;">Login</button>
+		<div style = "float: right;">
+			{{> loginButtons align="right"}}
+		</div>
+	<!--	<button class = "btn-login" style = "float: right;">Login</button> -->
 	{{/if}}
 </template>
 

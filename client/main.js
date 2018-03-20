@@ -6,6 +6,8 @@ import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import '../imports/games/Hangman/Hangman.js';
+import '../imports/startup/accounts-config.js';
+//import '../imports/ui/body.js';
 
 Meteor.startup(() => {
 	Session.set("currentView", "homepage");
@@ -52,10 +54,7 @@ Template.header.helpers({
 	userName: function() {
 		return Session.get("userName");
 	},
-	
-	isLoggedIn: function() {
-		return true;
-	}
+
 });
 
 Template.userPage.helpers({
@@ -68,7 +67,6 @@ Template.gameSelect.events({
 
 	'click .btn-game-1': function() {
 		Session.set("whatGame", "Hangman");
-//		Session.set("mainDivClass", "");
 		Session.set("currentView", "gameHangmanUI");
 		Session.set("docTitle", "Hangman");
 	},
@@ -133,6 +131,7 @@ Template.joinGame.events({
 		Session.set("currentView", "homepage");
 	}
 });
+
 /* this is used for testing so you can get back to the homepage after testing buttons or forms */
 Template.forTesting.events({
 	
@@ -140,6 +139,7 @@ Template.forTesting.events({
 		Session.set("currentView", "homepage");
 	}
 });
+
 Template.main.helpers({
 	currentView: function(){
 		return Session.get("currentView");
