@@ -71,8 +71,8 @@
 <template name = "header">
 	<button class = "btn-home" style = "float: left;">Home</button>
 	{{#if currentUser}}
-		<button class = "btn-user-profile" style = "float: right;">{{> loginButtons align="right" }}</button>
-		<button style = "float: right;">{{currentUser.username}}</button>
+		<button style = "float: right;">{{> loginButtons align="right" }}</button>
+		<button class = "btn-user-profile" style = "float: right;">{{currentUser.username}}</button>
 	{{else}}
 		<div style = "float: right;">
 			{{> loginButtons align="right"}}
@@ -81,7 +81,13 @@
 	{{/if}}
 </template>
 
+<template name = "lobby">
+	<h1> this is the lobby page for {{whatGame}}</h1>
+	<button class = "btn-back">Back</button>
+</template>
+
 <template name = "footer">
+  <button class = "btn-admin-info">Adm info</button>
   <h6>Learn More About Us!</h6>
   <a href="https://github.com/COSCS340/PhoneGames" target="_blank">See the code</a>
   <a href="http://guide.meteor.com" target="_blank">Learn about the Framework supporting this</a>
@@ -89,6 +95,14 @@
   <a href="https://forums.meteor.com" target="_blank">Discussions</a> 
 </template>
 
+<template name = "adminInfo">
+	{{#each user}}
+		{{_id}}
+		{{username}}
+		<button class = "btn-remove-user">Remove</button>
+		<br>
+	{{/each}}
+</template>
 
 
 

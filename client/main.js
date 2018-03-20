@@ -16,6 +16,7 @@ Meteor.startup(() => {
 	Session.set("docTitle", "Phone Games");
 	Session.set("mainDivClass", "center-center-container");
     //render(<App />, document.getElementById('render-target'));
+	Meteor.subscribe('allUsers');
 });
 
 Deps.autorun(function(){
@@ -73,22 +74,38 @@ Template.gameSelect.events({
 	
 	'click .btn-game-2': function() {
 		Session.set("whatGame", "game2");
-		Session.set("currentView", "newGame");
+		if (!Meteor.userId()) {
+			Session.set("currentView", "newGame");
+		} else {
+			Session.set("currentView", "lobby");
+		}
 	},
 	
 	'click .btn-game-3': function() {
 		Session.set("whatGame", "game3");
-		Session.set("currentView", "newGame");
+		if (!Meteor.userId()) {
+			Session.set("currentView", "newGame");
+		} else {
+			Session.set("currentView", "lobby");
+		}
 	},
 	
 	'click .btn-game-4': function() {
 		Session.set("whatGame", "game4");
-		Session.set("currentView", "newGame");
+		if (!Meteor.userId()) {
+			Session.set("currentView", "newGame");
+		} else {
+			Session.set("currentView", "lobby");
+		}
 	},
 	
 	'click .btn-game-5': function() {
 		Session.set("whatGame", "game5");
-		Session.set("currentView", "newGame");
+		if (!Meteor.userId()) {
+			Session.set("currentView", "newGame");
+		} else {
+			Session.set("currentView", "lobby");
+		}
 	},
 	
 	'click .btn-back': function() {
@@ -107,7 +124,7 @@ Template.newGame.events({
 
 	/* TODO */
 	'click .btn-new-game': function() {
-		Session.set("currentView", "forTesting");
+		Session.set("currentView", "lobby");
 	},
 	
 	'click .btn-back': function() {
@@ -118,17 +135,24 @@ Template.newGame.events({
 
 Template.joinGame.events({
 	
-	isLoggedIn: function() {
-		//for login functionality later on
-		return false;
-	},
-	
 	'click .btn-join-game': function() {
 		Session.set("currentView", "forTesting");
 	},
 	
 	'click .btn-back': function() {
 		Session.set("currentView", "homepage");
+	}
+});
+
+Template.lobby.events({
+	'click .btn-back': function() {
+		Session.set("currentView", "gameSelect");
+	}
+});
+
+Template.lobby.helpers({
+	whatGame: function() {
+		return Session.get("whatGame");
 	}
 });
 
@@ -150,6 +174,23 @@ Template.main.helpers({
 	}
 });
 
+Template.footer.events({
+	'click .btn-admin-info': function() {
+		Session.set("currentView", "adminInfo");
+	}
+});
+
+Template.adminInfo.helpers({
+	user: function() {
+		return Meteor.users.find();
+	}
+});
+
+Template.adminInfo.events({
+	'click .btn-remove-user': function() {
+		Meteor.call('removeUser', this._id);
+	}
+});
 
 
 
