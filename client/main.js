@@ -12,6 +12,7 @@ Meteor.startup(() => {
 	Session.set("whatGame", "none");
 	Session.set("userName", "test user name");
 	Session.set("docTitle", "Phone Games");
+	Session.set("mainDivClass", "center-center-container");
     //render(<App />, document.getElementById('render-target'));
 });
 
@@ -67,6 +68,7 @@ Template.gameSelect.events({
 
 	'click .btn-game-1': function() {
 		Session.set("whatGame", "Hangman");
+//		Session.set("mainDivClass", "");
 		Session.set("currentView", "gameHangmanUI");
 		Session.set("docTitle", "Hangman");
 	},
@@ -141,6 +143,10 @@ Template.forTesting.events({
 Template.main.helpers({
 	currentView: function(){
 		return Session.get("currentView");
+	},
+	
+	mainDivClass: function() {
+		return Session.get("mainDivClass");
 	}
 });
 

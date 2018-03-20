@@ -17,9 +17,11 @@
 	<div id = "header">
 		{{> header }}
 	</div>
-	<div class = "center-center-container" id = "main-screen">
+	
+	<div class = "{{mainDivClass}}" id = "main-screen">
 		{{> Template.dynamic template=currentView }}
 	</div>
+	
 	<div id = "footer">
 		{{> footer }}
 	</div>

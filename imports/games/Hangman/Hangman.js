@@ -55,6 +55,7 @@ Template.gameHangman.helpers({
 Template.gameHangman.events({
   
   'click .btn-back': function() {
+//		Session.set("mainDivClass","center-center-container");
 		Session.set("currentView", "gameSelect");
 		Session.set("whatGame", "none");
 		return;
