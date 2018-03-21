@@ -125,11 +125,18 @@ Template.newGame.events({
 		}
 	},
 	
-	'click .btn-new-game': function(event) {
-		if (!this.username) {
-			console.log("You have no username");
+	'click .btn-new-game': function(event, template) {
+		var name = document.getElementById('textbox-name').value;
+		if (name.length > 0 && name.length < 15) {
+			Meteor.call('changeUsername', name);
+			Session.set("currentView", "lobby");
+		} else {
+			if (name.length == 0) {
+				document.getElementById('errName').innerHTML = "names must be more than 0 characters";
+				document.getElementById('textbox-name').style.borderColor = '#e52213';
+			}
 		}
-		Session.set("currentView", "lobby");
+		
 	},
 	
 	'click .btn-back': function() {
@@ -167,8 +174,17 @@ Template.joinGame.events({
 		}
 	},
 	
-	'submit .userInfo': function(event, template) {
-		event.preventDefault();
+	'click .btn-join-game': function(event, template) {
+		var name = document.getElementById('textbox-name').value;
+		if (name.length > 0 && name.length < 15) {
+			Meteor.call('changeUsername', name);
+			Session.set("currentView", "lobby");
+		} else {
+			if (name.length == 0) {
+				document.getElementById('errName').innerHTML = "names must be more than 0 characters";
+				document.getElementById('textbox-name').style.borderColor = '#e52213';
+			}
+		}
 		
 //		Session.set("currentView", "forTesting");
 	},

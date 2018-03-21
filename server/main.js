@@ -9,6 +9,10 @@ Meteor.startup(() => {
   Meteor.methods({
 	  removeUser: function(userId) {
 		Meteor.users.remove(userId);
+	  },
+	  
+	  changeUsername: function(userId) {
+		Meteor.users.update({_id:Meteor.user()._id}, {$set:{"username":userId}});
 	  }
   });
   
