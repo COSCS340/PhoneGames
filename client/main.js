@@ -7,6 +7,7 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import '../imports/games/Hangman/Hangman.js';
 import '../imports/startup/accounts-config.js';
+import '../imports/games/TTT/TTT.js';
 //import '../imports/ui/body.js';
 
 Meteor.startup(() => {
@@ -62,12 +63,8 @@ Template.gameSelect.events({
 	},
 	
 	'click .btn-game-2': function() {
-		Session.set("whatGame", "game2");
-		if (!Meteor.user().username) {
-			Session.set("currentView", "newGame");
-		} else {
-			Session.set("currentView", "lobby");
-		}
+		Session.set("currentView", "gameTTTUI");
+		Session.set("docTitle", "Tic-Tac-Toe");
 	},
 	
 	'click .btn-game-3': function() {
