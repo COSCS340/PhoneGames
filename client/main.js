@@ -57,7 +57,6 @@ Template.header.events({
 Template.gameSelect.events({
 
 	'click .btn-game-1': function() {
-		Session.set("whatGame", "Hangman");
 		Session.set("currentView", "gameHangmanUI");
 		Session.set("docTitle", "Hangman");
 	},
@@ -161,7 +160,7 @@ Template.joinGame.events({
 		var tVal = event.target.value;
 		if (!tVal) {
 			document.getElementById('textbox-lobby').style.borderColor = '#e52213';
-			document.getElementById('errLobby').innerHTML = "Lobby codes must be exactly x characters";
+			document.getElementById('errLobby').innerHTML = "lobby ids must be exactly x characters";
 		} else {
 			document.getElementById('textbox-lobby').style.borderColor = '#e3e3e3';
 			document.getElementById('errLobby').innerHTML = "";
