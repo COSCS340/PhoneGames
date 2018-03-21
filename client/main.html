@@ -43,23 +43,27 @@
 <template name = "newGame">
 	<h4> Enter your name to play {{whatGame}}</h4>
 	<form class = "userInfo">
-		<input type = "text" name = "name" placeholder = "Name"><br>
+		<input type = "text" name = "username" id = "textbox-name" placeholder = "Name">
+		<span id= "errName"></span><br>
 	</form>
 	<button class = "btn-new-game">Create</button> <button class = "btn-back">Back</button>
 </template>
 
 <template name = "joinGame">
+	<h4> Enter your name and lobby code</h4>
 	<form class = "userInfo">
-		{{#unless currentUser}}
-			<input type = "text" name = "name" placeholder = "Name"><br>
+		{{#unless currentUser.username}}
+			<input type = "text" name = "username" id = "textbox-name" placeholder = "Name">
+			<span id= "errName"></span><br>
 		{{/unless}}
-		<input type = "text" name = "name" placeholder = "Lobby ID">
+		<input type = "text" name = "lobbyID" id = "textbox-lobby" placeholder = "Lobby ID">
+		<span id= "errLobby"></span><br>
+		<button type = "submit" class = "btn-join-game">Join</button> <button class = "btn-back">Back</button>
 	</form>
-	<button class = "btn-join-game">Join</button> <button class = "btn-back">Back</button>
 </template>
 
 <template name = "userPage">
-	<h1> this is an example user page - for testing atm - user name is: {{userName}}</h1>
+	<h1> this is an example user page - for testing atm - user name is: {{currentUser.username}}</h1>
 </template>
 
 <template name = "forTesting">
@@ -70,7 +74,7 @@
 
 <template name = "header">
 	<button class = "btn-home" style = "float: left;">Home</button>
-	{{#if currentUser}}
+	{{#if currentUser.username}}
 		<button style = "float: right;">{{> loginButtons align="right" }}</button>
 		<button class = "btn-user-profile" style = "float: right;">{{currentUser.username}}</button>
 	{{else}}

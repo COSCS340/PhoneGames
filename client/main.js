@@ -10,13 +10,17 @@ import '../imports/startup/accounts-config.js';
 //import '../imports/ui/body.js';
 
 Meteor.startup(() => {
+	Session.set("docTitle", "Phone Games");
 	Session.set("currentView", "homepage");
 	Session.set("whatGame", "none");
-	Session.set("userName", "test user name");
-	Session.set("docTitle", "Phone Games");
 	Session.set("mainDivClass", "center-center-container");
     //render(<App />, document.getElementById('render-target'));
 	Meteor.subscribe('allUsers');
+	Tracker.autorun(function() {
+		if (!Meteor.user()) {
+			AccountsAnonymous.login();
+		}
+	});
 });
 
 Deps.autorun(function(){
@@ -50,20 +54,6 @@ Template.header.events({
 	}
 });
 
-Template.header.helpers({
-	
-	userName: function() {
-		return Session.get("userName");
-	},
-
-});
-
-Template.userPage.helpers({
-	userName: function() {
-		return Session.get("userName");
-	}
-});
-
 Template.gameSelect.events({
 
 	'click .btn-game-1': function() {
@@ -74,7 +64,7 @@ Template.gameSelect.events({
 	
 	'click .btn-game-2': function() {
 		Session.set("whatGame", "game2");
-		if (!Meteor.userId()) {
+		if (!Meteor.user().username) {
 			Session.set("currentView", "newGame");
 		} else {
 			Session.set("currentView", "lobby");
@@ -83,7 +73,7 @@ Template.gameSelect.events({
 	
 	'click .btn-game-3': function() {
 		Session.set("whatGame", "game3");
-		if (!Meteor.userId()) {
+		if (!Meteor.user().username) {
 			Session.set("currentView", "newGame");
 		} else {
 			Session.set("currentView", "lobby");
@@ -92,7 +82,7 @@ Template.gameSelect.events({
 	
 	'click .btn-game-4': function() {
 		Session.set("whatGame", "game4");
-		if (!Meteor.userId()) {
+		if (!Meteor.user().username) {
 			Session.set("currentView", "newGame");
 		} else {
 			Session.set("currentView", "lobby");
@@ -101,7 +91,7 @@ Template.gameSelect.events({
 	
 	'click .btn-game-5': function() {
 		Session.set("whatGame", "game5");
-		if (!Meteor.userId()) {
+		if (!Meteor.user().username) {
 			Session.set("currentView", "newGame");
 		} else {
 			Session.set("currentView", "lobby");
@@ -114,7 +104,6 @@ Template.gameSelect.events({
 });
 
 Template.newGame.helpers({
-	
 	whatGame: function() {
 		return Session.get("whatGame");
 	}
@@ -123,7 +112,24 @@ Template.newGame.helpers({
 Template.newGame.events({
 
 	/* TODO */
-	'click .btn-new-game': function() {
+	'blur input[name = "username"]': function(event, template) {
+		if (!event.target.value || event.target.value.length > 15) {
+			document.getElementById('textbox-name').style.borderColor = '#e52213';
+			if (event.target.value.length > 15) {
+				document.getElementById('errName').innerHTML = "names must be less than 15 characters";
+			} else {
+				document.getElementById('errName').innerHTML = "names must be more than 0 characters";
+			}
+		} else {
+			document.getElementById('textbox-name').style.borderColor = '#e3e3e3';
+			document.getElementById('errName').innerHTML = "";
+		}
+	},
+	
+	'click .btn-new-game': function(event) {
+		if (!this.username) {
+			console.log("You have no username");
+		}
 		Session.set("currentView", "lobby");
 	},
 	
@@ -135,8 +141,37 @@ Template.newGame.events({
 
 Template.joinGame.events({
 	
-	'click .btn-join-game': function() {
-		Session.set("currentView", "forTesting");
+	'blur input[name = "username"]': function(event, template) {
+		var tVal = event.target.value;
+		if (!tVal || tVal.length > 15) {
+			document.getElementById('textbox-name').style.borderColor = '#e52213';
+			if (tVal.length > 15) {
+				document.getElementById('errName').innerHTML = "names must be less than 15 characters";
+			} else {
+				document.getElementById('errName').innerHTML = "names must be more than 0 characters";
+			}
+		} else {
+			document.getElementById('textbox-name').style.borderColor = '#e3e3e3';
+			document.getElementById('errName').innerHTML = "";
+		}
+	},
+	
+	/* change to event.target.length != # of chars lobby strings are later when lobbies are implemented */
+	'blur input[name = "lobbyID"]': function(event, template) {
+		var tVal = event.target.value;
+		if (!tVal) {
+			document.getElementById('textbox-lobby').style.borderColor = '#e52213';
+			document.getElementById('errLobby').innerHTML = "Lobby codes must be exactly x characters";
+		} else {
+			document.getElementById('textbox-lobby').style.borderColor = '#e3e3e3';
+			document.getElementById('errLobby').innerHTML = "";
+		}
+	},
+	
+	'submit .userInfo': function(event, template) {
+		event.preventDefault();
+		
+//		Session.set("currentView", "forTesting");
 	},
 	
 	'click .btn-back': function() {
