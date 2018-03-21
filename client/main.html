@@ -17,9 +17,11 @@
 	<div id = "header">
 		{{> header }}
 	</div>
-	<div class = "center-center-container" id = "main-screen">
+	
+	<div class = "{{mainDivClass}}" id = "main-screen">
 		{{> Template.dynamic template=currentView }}
 	</div>
+	
 	<div id = "footer">
 		{{> footer }}
 	</div>
@@ -41,46 +43,59 @@
 <template name = "newGame">
 	<h4> Enter your name to play {{whatGame}}</h4>
 	<form class = "userInfo">
-		<input type = "text" name = "name" placeholder = "Name"><br>
+		<input type = "text" name = "username" id = "textbox-name" placeholder = "Name">
+		<span id= "errName"></span><br>
 	</form>
 	<button class = "btn-new-game">Create</button> <button class = "btn-back">Back</button>
 </template>
 
 <template name = "joinGame">
+	{{#unless currentUser.username}}
+		<h4> Enter your name and lobby code</h4>
+	{{else}}
+		<h4> Enter the lobby code</h4>
+	{{/unless}}
 	<form class = "userInfo">
-		{{#unless isLoggedIn}}
-			<input type = "text" name = "name" placeholder = "Name"><br>
+		{{#unless currentUser.username}}
+			<input type = "text" name = "username" id = "textbox-name" placeholder = "Name">
+			<span id= "errName"></span><br>
 		{{/unless}}
-		<input type = "text" name = "name" placeholder = "Lobby ID">
+		<input type = "text" name = "lobbyID" id = "textbox-lobby" placeholder = "Lobby ID">
+		<span id= "errLobby"></span><br>
+		<button type = "submit" class = "btn-join-game">Join</button> <button class = "btn-back">Back</button>
 	</form>
-	<button class = "btn-join-game">Join</button> <button class = "btn-back">Back</button>
-</template>
-
-<template name = "loginPage">
-	<h1> this is an example login page - for testing atm </h1>
 </template>
 
 <template name = "userPage">
-	<h1> this is an example user page - for testing atm - user name is: {{userName}}</h1>
+	<h1> this is an example user page - for testing atm - user name is: {{currentUser.username}}</h1>
 </template>
 
 <template name = "forTesting">
 	<h1>This is for testing. Hit back to go to the homepage.</h1>
 	
 	<button class = "btn-for-testing">Back</button>
-
 </template>
 
 <template name = "header">
 	<button class = "btn-home" style = "float: left;">Home</button>
-	{{#if isLoggedIn}}
-		<button class = "btn-user-profile" style = "float: right;">{{userName}}</button>
+	{{#if currentUser.username}}
+		<button style = "float: right;">{{> loginButtons align="right" }}</button>
+		<button class = "btn-user-profile" style = "float: right;">{{currentUser.username}}</button>
 	{{else}}
-		<button class = "btn-login" style = "float: right;">Login</button>
+		<div style = "float: right;">
+			{{> loginButtons align="right"}}
+		</div>
+	<!--	<button class = "btn-login" style = "float: right;">Login</button> -->
 	{{/if}}
 </template>
 
+<template name = "lobby">
+	<h1> this is the lobby page for {{whatGame}}</h1>
+	<button class = "btn-back">Back</button>
+</template>
+
 <template name = "footer">
+  <button class = "btn-admin-info">Adm info</button>
   <h6>Learn More About Us!</h6>
   <a href="https://github.com/COSCS340/PhoneGames" target="_blank">See the code</a>
   <a href="http://guide.meteor.com" target="_blank">Learn about the Framework supporting this</a>
@@ -88,6 +103,14 @@
   <a href="https://forums.meteor.com" target="_blank">Discussions</a> 
 </template>
 
+<template name = "adminInfo">
+	{{#each user}}
+		{{_id}}
+		{{username}}
+		<button class = "btn-remove-user">Remove</button>
+		<br>
+	{{/each}}
+</template>
 
 
 
