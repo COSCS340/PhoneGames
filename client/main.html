@@ -90,7 +90,10 @@
 </template>
 
 <template name = "lobby">
-	<h1> this is the lobby page for {{whatGame}}</h1>
+	<h1> this is the lobby page for {{whatGame}} and the lobby id is {{lobbyId}}</h1>
+	{{#each users}}
+		{{this.name}}<br>
+	{{/each}}
 	<button class = "btn-back">Back</button>
 </template>
 

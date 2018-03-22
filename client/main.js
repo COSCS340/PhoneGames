@@ -9,6 +9,7 @@ import '../imports/games/Hangman/Hangman.js';
 import '../imports/startup/accounts-config.js';
 import '../imports/games/TTT/TTT.js';
 //import '../imports/ui/body.js';
+import '../lib/collection.js';
 
 Meteor.startup(() => {
 	Session.set("docTitle", "Phone Games");
@@ -17,11 +18,12 @@ Meteor.startup(() => {
 	Session.set("mainDivClass", "center-center-container");
     //render(<App />, document.getElementById('render-target'));
 	Meteor.subscribe('allUsers');
-	Tracker.autorun(function() {
+	Meteor.subscribe('lobbies');
+//	Tracker.autorun(function() {
 		if (!Meteor.user()) {
 			AccountsAnonymous.login();
 		}
-	});
+//	});
 });
 
 Deps.autorun(function(){
@@ -72,6 +74,7 @@ Template.gameSelect.events({
 		if (!Meteor.user().username) {
 			Session.set("currentView", "newGame");
 		} else {
+			Meteor.call('createLobby', Session.get("whatGame"));
 			Session.set("currentView", "lobby");
 		}
 	},
@@ -126,6 +129,7 @@ Template.newGame.events({
 		var name = document.getElementById('textbox-name').value;
 		if (name.length > 0 && name.length < 15) {
 			Meteor.call('changeUsername', name);
+			Meteor.call('createLobby', Session.get("whatGame"))
 			Session.set("currentView", "lobby");
 		} else {
 			if (name.length == 0) {
@@ -172,15 +176,30 @@ Template.joinGame.events({
 	},
 	
 	'click .btn-join-game': function(event, template) {
-		var name = document.getElementById('textbox-name').value;
-		if (name.length > 0 && name.length < 15) {
+		event.preventDefault();
+		if (document.getElementById('textbox-name')) {
+			name = document.getElementById('textbox-name').value;
+		}
+		var lobbyId = document.getElementById('textbox-lobby').value;
+		if (name && name.length > 0 && name.length < 15) {
 			Meteor.call('changeUsername', name);
-			Session.set("currentView", "lobby");
-		} else {
+//			Session.set("currentView", "lobby");
+		} else if (name) {
 			if (name.length == 0) {
 				document.getElementById('errName').innerHTML = "names must be more than 0 characters";
 				document.getElementById('textbox-name').style.borderColor = '#e52213';
+			} else {
+				document.getElementById('errName').innerHTML = "names must be less than 15 characters";
+				document.getElementById('textbox-name').style.borderColor = '#e52213';
 			}
+		}
+		if (Meteor.call('joinGame', lobbyId) > 0) {
+			console.log("returning false");
+			document.getElementById('errLobby').innerHTML = "this lobby code is not valid";
+			document.getElementById('textbox-lobby').style.borderColor = '#e52213';
+		} else {
+			console.log("returning true");
+			Session.set("currentView", "lobby");
 		}
 		
 //		Session.set("currentView", "forTesting");
@@ -200,6 +219,21 @@ Template.lobby.events({
 Template.lobby.helpers({
 	whatGame: function() {
 		return Session.get("whatGame");
+	},
+	
+	lobbyId: function() {
+		var lobby = Lobbies.find({}).fetch();
+		if (lobby && lobby[0] && lobby[0].lobbyId) {
+			return lobby[0].lobbyId;
+		}
+	},
+	
+	users: function() {
+		return Lobbies.find({}).fetch()[0].players;
+	},
+	
+	names: function() {
+		return this.name;
 	}
 });
 

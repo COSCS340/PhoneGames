@@ -22,6 +22,11 @@ Template.game.helpers({
 
 Template.game.events({
   //when any button is clicked
+  'click .btn-back': function() {
+		Session.set("currentView", "gameSelect");
+		return;
+  },
+  
   'click button'(event, instance) {
 
     if (instance.done.get()){
