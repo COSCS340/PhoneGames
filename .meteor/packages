@@ -20,7 +20,7 @@ shell-server@0.3.1            # Server-side component of the `meteor shell` comm
 insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
 react-meteor-data
 session@1.1.7
-random
-accounts-password
-accounts-ui
-brettle:accounts-anonymous
+random                        # Allow 'true' (psuedo) random alphanumeric generation
+accounts-password             # Allow account + password login
+accounts-ui                   # Simplify login UI
+brettle:accounts-anonymous    # Allow Anonymous accounts for users that don't want log in info
