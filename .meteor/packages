@@ -18,8 +18,8 @@ ecmascript@0.10.0              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.3.1            # Server-side component of the `meteor shell` command
 
 insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
-react-meteor-data
-session@1.1.7
+react-meteor-data             # Meteor package for react rendering services
+session@1.1.7                 # Session package for meteor client -> server -> client flow
 
 random                        # Allow 'true' (psuedo) random alphanumeric generation
 accounts-password             # Allow account + password login
