@@ -26,3 +26,4 @@ accounts-password             # Allow account + password login
 accounts-ui                   # Simplify login UI
 brettle:accounts-anonymous    # Allow Anonymous accounts for users that don't want log in info
 aldeed:collection2@3.0.0      # Allow for lobbies and games to be created
+twbs:bootstrap
