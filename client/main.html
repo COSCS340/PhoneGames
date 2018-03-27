@@ -107,14 +107,45 @@
 </template>
 
 <template name = "adminInfo">
+	<button class = "btn-users">Users</button>
+	<button class = "btn-lobbies">Lobbies</button><br>
+	<button class = "btn-msgcodes">Msg Codes</button>
+	<button class = "btn-errcodes">Err Codes</button>
+</template>
+
+<template name = "adminInfoUsers">
 	{{#each user}}
 		{{_id}}
 		{{username}}
 		<button class = "btn-remove-user">Remove</button>
 		<br>
 	{{/each}}
+	<button class = "btn-back">Back</button>
 </template>
 
+<template name = "adminInfoLobbies">
+	{{#each lobby}}
+		{{lobbyId}}
+		{{createdBy}}
+		<button class = "btn-remove-lobby">Remove</button>
+		<br>
+	{{/each}}
+	<button class = "btn-back">Back</button>
+</template>
+
+<template name = "adminInfoMsgCodes">
+	{{#each msgcode}}
+		{{@index}}: {{this}}<br>
+	{{/each}}
+	<button class = "btn-back">Back</button>
+</template>
+
+<template name = "adminInfoErrCodes">
+	{{#each errcode}}
+		{{@index}}: {{this}}<br>
+	{{/each}}
+	<button class = "btn-back">Back</button>
+</template>
 
 
 
