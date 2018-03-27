@@ -17,64 +17,64 @@ Meteor.startup(() => {
 	Session.set("currentView", "homepage");
 	Session.set("whatGame", "none");
 	Session.set("mainDivClass", "center-center-container");
-    //render(<App />, document.getElementById('render-target'));
+	//render(<App />, document.getElementById('render-target'));
 	Meteor.subscribe('allUsers');
 	Meteor.subscribe('lobbies');
 	Meteor.subscribe('games');
-//	Tracker.autorun(function() {
-		if (!Meteor.user()) {
-			AccountsAnonymous.login();
-		}
-//	});
+	//	Tracker.autorun(function() {
+	if (!Meteor.user()) {
+		AccountsAnonymous.login();
+	}
+	//	});
 
-	
+
 });
 
-Deps.autorun(function(){
+Deps.autorun(function () {
 	document.title = Session.get("docTitle");
 });
 
 Template.homepage.events({
-	
+
 	'click .btn-new-game': function () {
 		Session.set("currentView", "gameSelect");
 	},
-	
+
 	'click .btn-join-game': function () {
 		Session.set("currentView", "joinGame");
 	}
 });
 
 Template.header.events({
-	
-	'click .btn-home': function() {
+
+	'click .btn-home': function () {
 		Session.set("currentView", "homepage");
 		Session.set("docTitle", "Phone Games");
 	},
-	
-	'click .btn-login': function() {
+
+	'click .btn-login': function () {
 		Session.set("currentView", "loginPage");
 	},
-	
-	'click .btn-user-profile': function() {
+
+	'click .btn-user-profile': function () {
 		Session.set("currentView", "userPage");
 	}
 });
 
 Template.gameSelect.events({
 
-	'click .btn-game-1': function() {
+	'click .btn-game-1': function () {
 		Session.set("currentView", "gameHangmanUI");
 		Session.set("docTitle", "Hangman");
 	},
-	
-	'click .btn-game-2': function() {
+
+	'click .btn-game-2': function () {
 		Session.set("currentView", "gameTTTUI");
 		Session.set("docTitle", "Tic-Tac-Toe");
 	},
-	
-	'click .btn-game-3': function() {
-		Session.set("whatGame", "game3");
+
+	'click .btn-game-3': function () {
+		Session.set("whatGame", "Spyfall");
 		if (!Meteor.user().username) {
 			Session.set("currentView", "newGame");
 		} else {
@@ -82,8 +82,8 @@ Template.gameSelect.events({
 			Session.set("currentView", "lobby");
 		}
 	},
-	
-	'click .btn-game-4': function() {
+
+	'click .btn-game-4': function () {
 		Session.set("whatGame", "game4");
 		if (!Meteor.user().username) {
 			Session.set("currentView", "newGame");
@@ -91,8 +91,8 @@ Template.gameSelect.events({
 			Session.set("currentView", "lobby");
 		}
 	},
-	
-	'click .btn-game-5': function() {
+
+	'click .btn-game-5': function () {
 		Session.set("whatGame", "game5");
 		if (!Meteor.user().username) {
 			Session.set("currentView", "newGame");
@@ -100,14 +100,14 @@ Template.gameSelect.events({
 			Session.set("currentView", "lobby");
 		}
 	},
-	
-	'click .btn-back': function() {
+
+	'click .btn-back': function () {
 		Session.set("currentView", "homepage");
 	}
 });
 
 Template.newGame.helpers({
-	whatGame: function() {
+	whatGame: function () {
 		return Session.get("whatGame");
 	}
 });
@@ -115,7 +115,7 @@ Template.newGame.helpers({
 Template.newGame.events({
 
 	/* TODO */
-	'blur input[name = "username"]': function(event, template) {
+	'blur input[name = "username"]': function (event, template) {
 		if (!event.target.value || event.target.value.length > 15) {
 			document.getElementById('textbox-name').style.borderColor = '#e52213';
 			if (event.target.value.length > 15) {
@@ -128,8 +128,8 @@ Template.newGame.events({
 			document.getElementById('errName').innerHTML = "";
 		}
 	},
-	
-	'click .btn-new-game': function(event, template) {
+
+	'click .btn-new-game': function (event, template) {
 		var name = document.getElementById('textbox-name').value;
 		if (name.length > 0 && name.length < 15) {
 			Meteor.call('changeUsername', name);
@@ -141,18 +141,17 @@ Template.newGame.events({
 				document.getElementById('textbox-name').style.borderColor = '#e52213';
 			}
 		}
-		
+
 	},
-	
-	'click .btn-back': function() {
-		Session.set("whatGame", "none");
+
+	'click .btn-back': function () {
 		Session.set("currentView", "gameSelect");
 	}
 });
 
 Template.joinGame.events({
-	
-	'blur input[name = "username"]': function(event, template) {
+
+	'blur input[name = "username"]': function (event, template) {
 		var tVal = event.target.value;
 		if (!tVal || tVal.length > 15) {
 			document.getElementById('textbox-name').style.borderColor = '#e52213';
@@ -166,9 +165,9 @@ Template.joinGame.events({
 			document.getElementById('errName').innerHTML = "";
 		}
 	},
-	
+
 	/* change to event.target.length != # of chars lobby strings are later when lobbies are implemented */
-	'blur input[name = "lobbyID"]': function(event, template) {
+	'blur input[name = "lobbyID"]': function (event, template) {
 		var tVal = event.target.value;
 		if (!tVal) {
 			document.getElementById('textbox-lobby').style.borderColor = '#e52213';
@@ -178,8 +177,8 @@ Template.joinGame.events({
 			document.getElementById('errLobby').innerHTML = "";
 		}
 	},
-	
-	'click .btn-join-game': function(event, template) {
+
+	'click .btn-join-game': function (event, template) {
 		event.preventDefault();
 		if (document.getElementById('textbox-name')) {
 			name = document.getElementById('textbox-name').value;
@@ -187,7 +186,7 @@ Template.joinGame.events({
 		var lobbyId = document.getElementById('textbox-lobby').value;
 		if (name && name.length > 0 && name.length < 15) {
 			Meteor.call('changeUsername', name);
-//			Session.set("currentView", "lobby");
+			//			Session.set("currentView", "lobby");
 		} else if (name) {
 			if (name.length == 0) {
 				document.getElementById('errName').innerHTML = "names must be more than 0 characters";
@@ -205,144 +204,145 @@ Template.joinGame.events({
 			console.log("returning true");
 			Session.set("currentView", "lobby");
 		}
-		
-//		Session.set("currentView", "forTesting");
+
+		//		Session.set("currentView", "forTesting");
 	},
-	
-	'click .btn-back': function() {
+
+	'click .btn-back': function () {
 		Session.set("currentView", "homepage");
 	}
 });
 
 Template.lobby.events({
-	'click .btn-back': function() {
+
+	'click .btn-start': function () {
+		Session.set("currentView", Session.get("whatGame"));
+	},
+
+	'click .btn-back': function () {
 		Session.set("currentView", "gameSelect");
-	}
+	},
 });
 
 Template.lobby.helpers({
-	whatGame: function() {
+	whatGame: function () {
 		return Session.get("whatGame");
 	},
-	
-	lobbyId: function() {
+
+	lobbyId: function () {
 		var lobby = Lobbies.find({}).fetch();
 		if (lobby && lobby[0] && lobby[0].lobbyId) {
 			return lobby[0].lobbyId;
 		}
 	},
-	
-	users: function() {
+
+	users: function () {
 		var players = Lobbies.find({}).fetch();
 		if (players && players[0] && players[0].players) {
 			return players[0].players;
 		}
 	},
-	
-	names: function() {
+
+	names: function () {
 		return this.name;
 	}
 });
 
 /* this is used for testing so you can get back to the homepage after testing buttons or forms */
 Template.forTesting.events({
-	
-	'click .btn-for-testing': function() {
+
+	'click .btn-for-testing': function () {
 		Session.set("currentView", "homepage");
 	}
 });
 
 Template.main.helpers({
-	currentView: function(){
+	currentView: function () {
 		return Session.get("currentView");
 	},
-	
-	mainDivClass: function() {
+
+	mainDivClass: function () {
 		return Session.get("mainDivClass");
 	}
 });
 
 Template.footer.events({
-	'click .btn-admin-info': function() {
+	'click .btn-admin-info': function () {
 		Session.set("currentView", "adminInfo");
 	}
 });
 
 Template.adminInfo.events({
-	'click .btn-users': function() {
+	'click .btn-users': function () {
 		Session.set("currentView", "adminInfoUsers");
 	},
-	
-	'click .btn-lobbies': function() {
+
+	'click .btn-lobbies': function () {
 		Session.set("currentView", "adminInfoLobbies");
 	},
-	
-	'click .btn-msgcodes': function() {
+
+	'click .btn-msgcodes': function () {
 		Session.set("currentView", "adminInfoMsgCodes");
 	},
-	
-	'click .btn-errcodes': function() {
+
+	'click .btn-errcodes': function () {
 		Session.set("currentView", "adminInfoErrCodes");
 	},
 
 });
 
-
 Template.adminInfoUsers.helpers({
-	user: function() {
+	user: function () {
 		return Meteor.users.find();
-	}
+	},
 });
 
 Template.adminInfoUsers.events({
-	'click .btn-remove-user': function() {
+	'click .btn-remove-user': function () {
 		Meteor.call('removeUser', this._id);
 	},
-	
-	'click .btn-back': function() {
+
+	'click .btn-back': function () {
 		Session.set("currentView", "adminInfo");
 	},
 });
 
 Template.adminInfoLobbies.helpers({
-	lobby: function() {
+	lobby: function () {
 		return Lobbies.find().fetch();
 	}
 });
 
 Template.adminInfoLobbies.events({
-	'click .btn-remove-lobby': function() {
-		console.log(this.createdBy);
+	'click .btn-remove-lobby': function () {
 		Meteor.call('removeLobby', this.lobbyId);
 	},
-	
-	'click .btn-back': function() {
+
+	'click .btn-back': function () {
 		Session.set("currentView", "adminInfo");
 	},
 });
 
 Template.adminInfoMsgCodes.helpers({
-	msgcode: function() {
+	msgcode: function () {
 		return msgCodes;
 	}
 });
 
 Template.adminInfoMsgCodes.events({
-	'click .btn-back': function() {
+	'click .btn-back': function () {
 		Session.set("currentView", "adminInfo");
 	},
 });
 
 Template.adminInfoErrCodes.helpers({
-	errcode: function() {
+	errcode: function () {
 		return errCodes;
 	}
 });
 
 Template.adminInfoErrCodes.events({
-	'click .btn-back': function() {
+	'click .btn-back': function () {
 		Session.set("currentView", "adminInfo");
 	},
 });
-
-
