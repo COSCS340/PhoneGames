@@ -1,11 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
-import '../lib/collection.js';
+import '../lib/collections.js';
+import { msgCodes, errCodes } from '../lib/codes.js';
 
 Meteor.startup(() => {
   // code to run on server at startup
   
-Lobbies.remove({});
+// Lobbies.remove({});
+// Games.remove({});
 
 Tracker.autorun(function() {  
   Meteor.publish('lobbies', function() {
@@ -13,7 +15,11 @@ Tracker.autorun(function() {
   });
   
   Meteor.publish('allUsers', function() {
-   return Meteor.users.find()
+	return Meteor.users.find()
+  });
+  
+  Meteor.publish('games', function() {
+	return Games.find(); 
   });
 });
 
@@ -26,10 +32,18 @@ Tracker.autorun(function() {
 		Meteor.users.update({_id:Meteor.user()._id}, {$set:{"username":userName}});
 	  },
 	  
+	  removeLobby: function(lobbyId) {
+		if (!lobbyId) {
+			throw new Meteor.Error('lobby-invalid', errCodes[0]);
+		}
+		
+		Lobbies.remove({_id: Lobbies.findOne({lobbyId: this.lobbyId})._id});
+	  },
+	  
 	  createLobby: function(whatGame) {
 		let id;
 		if (!this.userId) { 
-			throw new Meteor.Error('access-denied', 'You must be logged in to create a game.'); 
+			throw new Meteor.Error('access-denied', errCodes[1]); 
 		}
 
 		const user = Meteor.users.findOne(this.userId);
@@ -38,9 +52,12 @@ Tracker.autorun(function() {
 		  userId: this.userId
 		};
 		const newGame = {
+		  lobbyId: Random.id(4).toUpperCase(),
 		  createdBy: this.userId,
-		  players: [ player ],
 		  gameName: whatGame,
+		  players: [ player ],
+		  minPlayers: 1,
+		  maxPlayers: 2,
 		};
 
 		return id = Lobbies.insert(newGame);
@@ -69,7 +86,8 @@ Tracker.autorun(function() {
 		  };
 		  const action = {$addToSet: {players: player}};
 		  
-		  return Lobbies.update(criteria, action);
+		  Lobbies.update(criteria, action);
+		  return 
 		}
 		  
   });

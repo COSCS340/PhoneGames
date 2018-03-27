@@ -9,7 +9,8 @@ import '../imports/games/Hangman/Hangman.js';
 import '../imports/startup/accounts-config.js';
 import '../imports/games/TTT/TTT.js';
 //import '../imports/ui/body.js';
-import '../lib/collection.js';
+import '../lib/collections.js';
+import { msgCodes, errCodes } from '../lib/codes.js';
 
 Meteor.startup(() => {
 	Session.set("docTitle", "Phone Games");
@@ -19,11 +20,14 @@ Meteor.startup(() => {
     //render(<App />, document.getElementById('render-target'));
 	Meteor.subscribe('allUsers');
 	Meteor.subscribe('lobbies');
+	Meteor.subscribe('games');
 //	Tracker.autorun(function() {
 		if (!Meteor.user()) {
 			AccountsAnonymous.login();
 		}
 //	});
+
+	
 });
 
 Deps.autorun(function(){
@@ -229,7 +233,10 @@ Template.lobby.helpers({
 	},
 	
 	users: function() {
-		return Lobbies.find({}).fetch()[0].players;
+		var players = Lobbies.find({}).fetch();
+		if (players && players[0] && players[0].players) {
+			return players[0].players;
+		}
 	},
 	
 	names: function() {
@@ -261,17 +268,81 @@ Template.footer.events({
 	}
 });
 
-Template.adminInfo.helpers({
+Template.adminInfo.events({
+	'click .btn-users': function() {
+		Session.set("currentView", "adminInfoUsers");
+	},
+	
+	'click .btn-lobbies': function() {
+		Session.set("currentView", "adminInfoLobbies");
+	},
+	
+	'click .btn-msgcodes': function() {
+		Session.set("currentView", "adminInfoMsgCodes");
+	},
+	
+	'click .btn-errcodes': function() {
+		Session.set("currentView", "adminInfoErrCodes");
+	},
+
+});
+
+
+Template.adminInfoUsers.helpers({
 	user: function() {
 		return Meteor.users.find();
 	}
 });
 
-Template.adminInfo.events({
+Template.adminInfoUsers.events({
 	'click .btn-remove-user': function() {
 		Meteor.call('removeUser', this._id);
+	},
+	
+	'click .btn-back': function() {
+		Session.set("currentView", "adminInfo");
+	},
+});
+
+Template.adminInfoLobbies.helpers({
+	lobby: function() {
+		return Lobbies.find().fetch();
 	}
 });
 
+Template.adminInfoLobbies.events({
+	'click .btn-remove-lobby': function() {
+		console.log(this.createdBy);
+		Meteor.call('removeLobby', this.lobbyId);
+	},
+	
+	'click .btn-back': function() {
+		Session.set("currentView", "adminInfo");
+	},
+});
+
+Template.adminInfoMsgCodes.helpers({
+	msgcode: function() {
+		return msgCodes;
+	}
+});
+
+Template.adminInfoMsgCodes.events({
+	'click .btn-back': function() {
+		Session.set("currentView", "adminInfo");
+	},
+});
+
+Template.adminInfoErrCodes.helpers({
+	errcode: function() {
+		return errCodes;
+	}
+});
+
+Template.adminInfoErrCodes.events({
+	'click .btn-back': function() {
+		Session.set("currentView", "adminInfo");
+	},
+});
 
 
