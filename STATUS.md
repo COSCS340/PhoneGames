@@ -12,7 +12,7 @@ Google Cloud’s app engine and virtual machine servers. The login system allows
 using any unique username and password they desire. In order to keep track of everyone as they play, we require that every user has an
 account before exploring what games we have to offer. The reason we do this is to simplify bookkeeping on our end and to ensure that our
 users will have a better overall experience. The two games we demoed were hangman and tic-tac-toe, both used to showcase our website’s
-interactivity and demonstrate the groundwork we’ve performed thus far.
+interactivity and demonstrate the groundwork we’ve performed thus far.  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As for changes to our project, we’ve had to switch CSS
 stylesheets multiple times because our mobile UI/UX is lacking severely compared to other modern websites and we’re still not satisfied
 with our website’s design. Also, many of the early packages we tried using for the accounts system lacked the functionality that we
@@ -63,7 +63,7 @@ focus creating a more intuitive and appealing website by redesigning most of the
 ## Project Management
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As of the time of submitting our status report, our project is
 on schedule and will be ready to present by the end of next month. All of the large hurdles we had to get over such as the login system
-and lobbies have been fully implemented and all that’s left to do is to finish implementing our primary games and redesign the UI.
+and lobbies have been fully implemented and all that’s left to do is to finish implementing our primary games and redesign the UI.  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Since the start of the semester, we have had to push many
 features back by a few weeks because there was an initial learning curve that we didn’t predict. Because of that, the initial schedule
 we outlined in our initial proposal and through github’s issue tracker had to be pushed back by two weeks. Despite that setback, we’ve
@@ -71,7 +71,6 @@ managed to catch up to our original schedule through hard work and we are on tra
 originally planned.
 
 ## Reflection
-
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because each of us had structured roles, our experiences of what went well and what didn't are very different from each others' and because of that, we've included every person's experience.
 - Preston
   - Creating the server, managing our packages, and handling the dockerfile and app.yaml all went smoothly. 
