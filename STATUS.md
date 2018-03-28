@@ -71,7 +71,7 @@ managed to catch up to our original schedule through hard work and we are on tra
 originally planned.
 
 ## Reflection
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because each of us had structured roles, our experiences of what went well and what didn't are very different from each others' and because of that, we've included every person's experience.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Because each of us had structured roles, our experiences of what went well and what didn't are very different from each others' and because of that we've included every person's experience.
 - Preston
   - Creating the server, managing our packages, and handling the dockerfile and app.yaml all went smoothly. 
   - However, I ran into some trouble with Google’s app development platform because it was hard to get it to deploy and function properly using Meteor. Then I ran into more problems when I tried to create an instance of our site in a virtual machine that had MongoDB functionality. 
@@ -81,10 +81,10 @@ originally planned.
   - However, removing all of the bugs I created in the site's user interface has been very challenging because I had already moved on to creating new features and was unfamiliar with the code I had written previously.
   - In the future, I'll make the UI alongside implementing new features because planning ahead will prevent the subtle bugs that I struggled to squash when making the UI for old features.
 - Michael
-  - Writing game logic and coming up with new game ideas was a breeze
+  - Writing game logic and coming up with new game ideas was a breeze.
   - Although that part was easy, creating the graphics for each game was hard to do because of my lack of experience with HTML and CSS. Also, converting games from single player implementations to multiplayer ones proved to be much harder than anticipated.
   - For the next iteration, I think that writing a generic multiplayer module will allow me to start with a basic set of graphics and multiplayer functionality regardless of what game I'm creating so that I can go from design and implementation to usable much more quickly.
 - Howard
-  - Writing game logic and the UI for my games went well and looks good
+  - Writing game logic and the UI for my games went well and looks good.
   - While it's a lot easier now, initially I struggled a lot with JavaScript and templating - it was new to me. It took a while to get up to speed and I'm still unsure of how to put multiplayer into my games.
   - Before our next release, I plan on going through more JavaScript tutorials and working through our code base so that I can hopefully implement multiplayer in my games without the issues Michael has faced when implementing multiplayer in his games.
