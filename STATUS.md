@@ -26,11 +26,26 @@ hasn’t been effected. Despite the changes we made to our requirements and over
 had no effect on whom we perceive to be our target audience or what our final solution will deliver to our intended audience.
 
 ## Technology
-
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The main components of our project are Meteor, its
+subcomponents, and Google Cloud. Meteor is a JavaScript web framework that we used to create our website while Google Cloud was used to
+host our project so that everyone on the web can access it. In Meteor lies MongoDB which is a database package that allows us to store
+and share data between clients and the server so that we can easily keep track of accounts, games, and in the future, lobbies. Due to
+the nature of our project being a webapp, we use Google Cloud's App Engine to store the user-facing side of things while a virtual
+machine interfaces with the app engine to run server-side methods and store information in a database.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Our major goals for this iteration were to create the a
+barebones website, a login system to keep track of users, and to implement a few simple games to utilize that login system’s
+functionality.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;At the time of our demo, we had a working homepage, game
+selection screen, account / login system, and two games (hangman and tic-tac-toe).
 ![Game Selection](https://i.imgur.com/D3xE16G.png)
 ![Hangman](https://i.imgur.com/h4gtX3V.png)
 ![TicTacToe](https://i.imgur.com/8JnqmJZ.png)
-
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;So far we've created unit tests that test different parts of our site to check for various errors such as accessing undefined objects, returning the wrong data types, and disconnected UI components.
+For the next iteration we plan on doing more penetration testing because our users information may still be insecure and accessible by
+other users who shouldn't be able to see it.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For the next iteration, we plan to have lobbies implemented so
+that we can start working on adding multiplayer to our existing games and have an easier time implementing our main games. Also, we hope
+to have our chat lobby up and running before our next release.
 
 ## Team
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When we first started the project we divided the work into 2
