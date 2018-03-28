@@ -62,8 +62,9 @@ focus creating a more intuitive and appealing website by redesigning most of the
 
 ## Project Management
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As of the time of submitting our status report, our project is
-on schedule and will be ready to present by the end of next month. All of the large hurdles we had to get over such as the login system
-and lobbies have been fully implemented and all that’s left to do is to finish implementing our primary games and redesign the UI.  
+on schedule and will be ready to presented by the end of next month. All of the large hurdles we had to get over such as the login
+system and lobbies have been fully implemented and all that’s left to do is to finish implementing our primary games and redesign the
+UI.  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Since the start of the semester, we have had to push many
 features back by a few weeks because there was an initial learning curve that we didn’t predict. Because of that, the initial schedule
 we outlined in our initial proposal and through github’s issue tracker had to be pushed back by two weeks. Despite that setback, we’ve
