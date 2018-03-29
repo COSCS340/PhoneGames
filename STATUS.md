@@ -50,7 +50,7 @@ selection screen, account / login system, and two working games (hangman and tic
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;So far we've created unit tests that test different parts of our app to check for various errors such as accessing undefined objects, returning the wrong data types, and disconnected UI components.
 For the next iteration we plan on doing more penetration testing because our users information may still be insecure and accessible by
 other users who shouldn't be able to see it.  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For the next iteration, we plan to have lobbies implemented so
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We plan to have lobbies implemented so
 that we can start working on adding multiplayer to our existing games and have an easier time implementing our main games. Also, we hope
 to have our chat lobby up and running before our next release.
 
