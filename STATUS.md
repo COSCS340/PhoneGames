@@ -47,11 +47,11 @@ selection screen, account / login system, and two working games (hangman and tic
 ![Game Selection](https://i.imgur.com/D3xE16G.png)
 ![Hangman](https://i.imgur.com/h4gtX3V.png)
 ![TicTacToe](https://i.imgur.com/8JnqmJZ.png)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;So far we've created unit tests that test different parts of our app to check for various errors such as accessing undefined objects, returning the wrong data types, and disconnected UI components.
-For the next iteration we plan on doing more penetration testing because our users information may still be insecure and accessible by
-other users who shouldn't be able to see it.  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We plan to have lobbies implemented so
-that we can start working on adding multiplayer to our existing games and have an easier time implementing our main games. Also, we hope
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;So far we've created unit tests that test different parts of our
+app to check for various errors such as accessing undefined objects, returning the wrong data types, and disconnected UI components. By
+the time we present we plan to have performed more penetration testing because as of now our users information may still be insecure and
+able to be accessed by other users who shouldn't be able to see it.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For our next iteration, we plan to have lobbies implemented so that we can start working on adding multiplayer to our existing games and have an easier time implementing our main games. Also, we hope
 to have our chat lobby up and running before our next release.
 
 ## Team
