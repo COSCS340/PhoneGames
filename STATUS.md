@@ -65,7 +65,7 @@ closer to the final deadline and finish creating and implementing our main games
 integrated seamlessly with the app and perform QA testing to ensure our users’ experience is bug-free. Preston will continue to work on
 a site-wide chat system and then move to performing penetration tests to make sure our users’ data is secure. Michael will be in charge
 of creating and playtesting our main games, refining the rules and visuals to keep users coming back. And lastly, Howard will shift his
-focus creating a more intuitive and appealing website by redesigning most of the its UI, layout, and overall experience.
+focus towards creating a more intuitive and appealing website by redesigning most of the its UI, layout, and overall experience.
 
 ## Project Management
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As of the time of submitting our status report, our project is
@@ -73,7 +73,7 @@ on schedule and will be ready to presented by the end of next month. All of the 
 system and lobbies have been fully implemented and all that’s left to do is to finish implementing our primary games and redesign the
 UI.  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Since the start of the semester, we have had to push many
-features back by a few weeks because there was an initial learning curve that we didn’t predict. Because of that, the initial schedule
+features back by a few weeks because there was an initial learning curve that we didn’t predict. Because of that, the schedule
 we outlined in our initial proposal and through github’s issue tracker had to be pushed back by two weeks. Despite that setback, we’ve
 managed to catch up to our original schedule through hard work and we are on track to complete our project in the next three weeks like
 originally planned.
