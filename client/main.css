@@ -1,5 +1,62 @@
 
 
+/* This will override the accounts-ui's butt-ugly styling and conform it to our own */
+
+#login-buttons .login-button, .accounts-dialog .login-button{
+    background: inherit;
+    background-color: #eaeaea;
+    border-outline:4px;
+    border-radius: 0px;
+    border: inherit;
+    padding: inherit;
+    outline: inherit;
+    color: inherit;
+    box-sizing: inherit;
+}
+
+#login-buttons .login-button:hover, .accounts-dialog .login-button:hover{
+    background: inherit;
+    border-outline:4px;
+    border-radius: 0px;
+    border: inherit;
+    padding: inherit;
+    outline: inherit;
+    color: inherit;
+    box-sizing: inherit;
+}
+
+#login-buttons .login-button:active, .accounts-dialog .login-button:active{
+    background: inherit; 
+    border-outline:4px;
+    border-radius: 0px;
+    border: inherit;
+    padding: inherit;
+    outline: inherit;
+    color: inherit;
+    box-sizing: inherit;
+    box-shadow: inherit;
+}
+
+.accounts-dialog {
+    /*border: inherit;*/
+    border-outline:4px;
+    border-radius: 0px;
+    outline: inherit;
+    box-shadow: inherit;
+}
+/* this will change the input focus (the outline of currently selected item) to match our theme */
+
+*:focus{
+    color: inherit;
+    outline: inherit;
+}
+
+.form-control:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
 /*
 	Typify by TEMPLATED
 	templated.co @templatedco

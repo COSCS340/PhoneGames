@@ -1,0 +1,5 @@
+
+*.json
+.meteor/.meteor/.DS_Store
+.meteor/.DS_Store
+.DS_Store
