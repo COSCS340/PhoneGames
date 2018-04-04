@@ -1,10 +1,13 @@
 import './Hangman.html';
+import { wordBank } from './HangmanWords.js';
 /* hangman */
 
 Template.gameHangman.onCreated(function gameOnCreated() {
 
+	var rand = Math.floor(Math.random() * wordBank.length);
+
 	/* add pulling word from a dict */
-	this.completeWord = new ReactiveVar("PEPPER");
+	this.completeWord = new ReactiveVar(wordBank[rand]);
 
 	//generate string of "_"'s
 	var blanks = "";
@@ -78,6 +81,7 @@ Template.gameHangman.events({
 
 			/* if guessed letter is not in the word */
 			if (word.indexOf(letter) == -1) {
+				//console.log("sorry, " + letter + " is not in " + word);
 				if (instance.numGuesses.get() > 0) {
 					instance.numGuesses.set(instance.numGuesses.get() - 1);
 				}
@@ -89,6 +93,7 @@ Template.gameHangman.events({
 			}
 			/* if it is in the word */
 			else {
+				//console.log("correct, " + letter + " is in " + word);
 				var newBlanks = "";
 				for (var i = 0; i < word.length; i++) {
 					if (word.charAt(i) == letter) {
