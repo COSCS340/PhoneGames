@@ -9,15 +9,9 @@ Template.game.onCreated(function gameOnCreated() {
 });
 
 Template.game.helpers({
-	flip() {
-		return Template.instance().flip.get();
-	},
-	winner() {
-		return Template.instance().winner.get();
-	},
-	done() {
-		return Template.instance().done.get();
-	},
+	flip() {return Template.instance().flip.get();},
+	winner() {return Template.instance().winner.get();},
+	done() {return Template.instance().done.get();},
 });
 
 Template.game.events({
