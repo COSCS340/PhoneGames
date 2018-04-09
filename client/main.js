@@ -74,13 +74,15 @@ Template.gameSelect.events({
 	},
 
 	'click .btn-game-3': function () {
-		Session.set("whatGame", "Spyfall");
-		if (!Meteor.user().username) {
+		Session.set("whatGame", "Monikers");
+		Session.set("currentView", "monikersTest");
+/*		if (!Meteor.user().username) {
 			Session.set("currentView", "newGame");
 		} else {
 			Meteor.call('createLobby', Session.get("whatGame"));
 			Session.set("currentView", "lobby");
 		}
+*/
 	},
 
 	'click .btn-game-4': function () {
@@ -344,5 +346,11 @@ Template.adminInfoErrCodes.helpers({
 Template.adminInfoErrCodes.events({
 	'click .btn-back': function () {
 		Session.set("currentView", "adminInfo");
+	},
+});
+
+Template.monikersTest.helpers({
+	card: function() {
+		return '/Monikers/blacula.png';
 	},
 });

@@ -17,11 +17,11 @@
 	<div id = "header">
 		{{> header }}
 	</div>
-	
+
 	<div class = "{{mainDivClass}}" id = "main-screen">
 		{{> Template.dynamic template=currentView }}
 	</div>
-	
+
 	<div id = "footer">
 		{{> footer }}
 	</div>
@@ -35,7 +35,7 @@
 
 <template name = "gameSelect">
 	<button class = "btn-game-1">Hangman</button> <button class = "btn-game-2">Tic-Tac-Toe</button><br>
-	<button class = "btn-game-3">Spyfall</button> <button class = "btn-game-4">Test Game 4</button><br>
+	<button class = "btn-game-3">Monikers</button> <button class = "btn-game-4">Test Game 4</button><br>
 	<button class = "btn-game-5">Test Game 5</button> <button class = "btn-back">Back</button>
 	<!-- need to align and center these buttons at some point -->
 </template>
@@ -72,7 +72,7 @@
 
 <template name = "forTesting">
 	<h1>This is for testing. Hit back to go to the homepage.</h1>
-	
+
 	<button class = "btn-for-testing">Back</button>
 </template>
 
@@ -103,7 +103,7 @@
   <a href="https://github.com/COSCS340/PhoneGames" target="_blank">See the code</a>
   <a href="http://guide.meteor.com" target="_blank">Learn about the Framework supporting this</a>
   <a href="https://docs.meteor.com" target="_blank">Read the Docs</a>
-  <a href="https://forums.meteor.com" target="_blank">Discussions</a> 
+  <a href="https://forums.meteor.com" target="_blank">Discussions</a>
 </template>
 
 <template name = "adminInfo">
@@ -148,7 +148,7 @@
 	<button class = "btn-back">Back</button>
 </template>
 
-
-
-
-
+<template name = "monikersTest">
+  <img src="{{card}}">
+  <p> {{card}} </p>
+</template>
