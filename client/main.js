@@ -74,8 +74,8 @@ Template.gameSelect.events({
 	},
 
 	'click .btn-game-3': function () {
-		Session.set("whatGame", "Monikers");
-		Session.set("currentView", "monikersTest");
+		Session.set("whatGame", "Celebrity");
+		Session.set("currentView", "celebrityTest");
 /*		if (!Meteor.user().username) {
 			Session.set("currentView", "newGame");
 		} else {
@@ -349,8 +349,8 @@ Template.adminInfoErrCodes.events({
 	},
 });
 
-Template.monikersTest.helpers({
+Template.celebrityTest.helpers({
 	card: function() {
-		return '/Monikers/blacula.png';
+		return '/Celebrity/A Castrato.png';
 	},
 });
