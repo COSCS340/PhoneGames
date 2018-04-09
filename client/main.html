@@ -11,6 +11,7 @@
 	<div id = "render-target">
 		{{> main }}
 	</div>
+	
 </body>
 
 <template name = "main">
@@ -18,6 +19,10 @@
 		{{> header }}
 	</div>
 	
+	<div id = "side-bar">
+		{{> chatterBox}}
+	</div>
+
 	<div class = "{{mainDivClass}}" id = "main-screen">
 		{{> Template.dynamic template=currentView }}
 	</div>
