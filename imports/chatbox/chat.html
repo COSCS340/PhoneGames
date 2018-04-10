@@ -7,16 +7,15 @@
 
 <template name="chatterBox">
 
-    <div class="container">
+    <div class="container-pane">
 	<body>
-	    <h3 align="center">PhoneGames Chat</h3>
+	    <!-- <h3 align="center">PhoneGames Chat</h3> -->
 	    {{#if currentUser}}
 	    <div class="top-chat-bar">
 		<!-- display channel buttons here (lobby, global, private) -->
 		<ul class = "chat-selectors" align="left">
 		    <li><button class="global-chat">Global</button></li>
 		    <li><button class="lobby-chat">Lobby</button></li>
-		    <li><button class="private-chat">Private</button></li>
 		</ul>
 	    </div>
 	    {{/if}}
