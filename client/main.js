@@ -11,12 +11,16 @@ import '../imports/games/TTT/TTT.js';
 //import '../imports/ui/body.js';
 import '../lib/collections.js';
 import { msgCodes, errCodes } from '../lib/codes.js';
+var cnt = 0;
+var CelebrityData = require('../imports/games/Celebrity/cards.json');
+var CelebrityCards = CelebrityData.cards;
 
 Meteor.startup(() => {
 	Session.set("docTitle", "Phone Games");
 	Session.set("currentView", "homepage");
 	Session.set("whatGame", "none");
 	Session.set("mainDivClass", "center-center-container");
+	Session.set("currentCard", "/Celebrity/Blacula.png");
 	//render(<App />, document.getElementById('render-target'));
 	Meteor.subscribe('allUsers');
 	Meteor.subscribe('lobbies');
@@ -26,7 +30,6 @@ Meteor.startup(() => {
 		AccountsAnonymous.login();
 	}
 	//	});
-
 
 });
 
@@ -340,7 +343,7 @@ Template.adminInfoMsgCodes.events({
 Template.adminInfoErrCodes.helpers({
 	errcode: function () {
 		return errCodes;
-	}
+	},
 });
 
 Template.adminInfoErrCodes.events({
@@ -351,6 +354,22 @@ Template.adminInfoErrCodes.events({
 
 Template.celebrityTest.helpers({
 	card: function() {
-		return '/Celebrity/A Castrato.png';
+		return Session.get("currentCard");
+	},
+});
+
+Template.celebrityTest.events({
+	'click .btn-next': function () {
+		cnt += 1;
+		Session.set("currentCard", CelebrityCards[cnt - 1].path);
+	},
+	'click .btn-list': function () {
+		Session.set("currentView", "celebrityCardList");
+	},
+});
+
+Template.celebrityCardList.helpers({
+	CelebrityCards: function () {
+		return CelebrityCards;
 	},
 });

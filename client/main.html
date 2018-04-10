@@ -35,7 +35,7 @@
 
 <template name = "gameSelect">
 	<button class = "btn-game-1">Hangman</button> <button class = "btn-game-2">Tic-Tac-Toe</button><br>
-	<button class = "btn-game-3">Monikers</button> <button class = "btn-game-4">Test Game 4</button><br>
+	<button class = "btn-game-3">Celebrity</button> <button class = "btn-game-4">Test Game 4</button><br>
 	<button class = "btn-game-5">Test Game 5</button> <button class = "btn-back">Back</button>
 	<!-- need to align and center these buttons at some point -->
 </template>
@@ -149,6 +149,12 @@
 </template>
 
 <template name = "celebrityTest">
-  <img src="{{card}}">
+  <img src="{{card}}"><button class = "btn-next">Next Card</button><button class = "btn-list">List Cards</button>
   <p> {{card}} </p>
+</template>
+
+<template name = "celebrityCardList">
+  {{#each CelebrityCards}}
+    {{this.name}}: {{this.points}}, {{this.safe}}, {{this.path}}<br>
+  {{/each}}
 </template>
