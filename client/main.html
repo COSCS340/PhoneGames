@@ -17,11 +17,11 @@
 	<div id = "header">
 		{{> header }}
 	</div>
-	
+
 	<div class = "{{mainDivClass}}" id = "main-screen">
 		{{> Template.dynamic template=currentView }}
 	</div>
-	
+
 	<div id = "footer">
 		{{> footer }}
 	</div>
@@ -72,7 +72,7 @@
 
 <template name = "forTesting">
 	<h1>This is for testing. Hit back to go to the homepage.</h1>
-	
+
 	<button class = "btn-for-testing">Back</button>
 </template>
 
@@ -94,6 +94,9 @@
 	{{#each users}}
 		{{this.name}}<br>
 	{{/each}}
+  {{#if playerCount}}
+    <button class = "btn-start">Start</button>
+  {{/if}}
 	<button class = "btn-back">Back</button>
 </template>
 
@@ -103,7 +106,7 @@
   <a href="https://github.com/COSCS340/PhoneGames" target="_blank">See the code</a>
   <a href="http://guide.meteor.com" target="_blank">Learn about the Framework supporting this</a>
   <a href="https://docs.meteor.com" target="_blank">Read the Docs</a>
-  <a href="https://forums.meteor.com" target="_blank">Discussions</a> 
+  <a href="https://forums.meteor.com" target="_blank">Discussions</a>
 </template>
 
 <template name = "adminInfo">
@@ -147,8 +150,3 @@
 	{{/each}}
 	<button class = "btn-back">Back</button>
 </template>
-
-
-
-
-

@@ -1,32 +1,21 @@
-import { Mongo } from 'meteor/mongo';
-
-//might need some way to stop user from clicking anything until database if fully loaded
-Games = new Mongo.Collection("games");
-
 Meteor.methods({
-  "makeGame"(p1ID) {
-    Games.insert({
+  makeTTT: function (p1ID, p2ID) {
+    TTT.insert({
       player1: p1ID,  //X
-      player2: -1,    //O
+      player2: p2ID,    //O
       turn: p1ID,
-      board : "---------",
+      board: "---------",
       win: 0,
     });
-    return Games.findOne({player1: p1ID})._id;
+    return TTT.findOne({player1: p1ID})._id;
   },
-  "joinGame"(gameID, userID) {
-    //Add 2nd player
-    Games.update(gameID, {
-      $set: { player2: userID },
-    });
-    console.log(Games.findOne(gameID));
-  },
-  "makeMove"(gameID, userID, cell) {
+  makeMove: function (gameID, userID, cell) {
 
-    var game = Games.findOne(gameID);
+    var game = TTT.findOne({ $or: [ { player1: Meteor.userId() }, { player2: Meteor.userId() }]});
 
-    if (game.win > 0)
+    if (!game || game.win > 0) {
       return;
+    }
 
     //console.log(game);
     if (game.turn === userID){
@@ -47,11 +36,16 @@ Meteor.methods({
       }
 
       var win = 0;
-      if (checkWin(brd))
-        win = game.turn;
-
+      if (checkWin(brd)) {
+        if (game.turn == game.player1) {
+          win = 1;
+        } else {
+          win = 2;
+        }
+      }
       //update board and turn
-      Games.update(gameID, {
+      console.log(brd);
+      TTT.update({$or: [ { player1: Meteor.userId() }, { player2: Meteor.userId() }]}, {
         $set: {
           board: brd,
           turn: otherPlayer,
@@ -59,12 +53,10 @@ Meteor.methods({
         },
       });
 
-      console.log(Games.findOne(gameID));
     }
     else {
       console.log("not your turn: " + userID);
     }
-
   },
 
 });
@@ -91,19 +83,4 @@ function checkWin(board){
 
 function setCharAt(str,index,chr) {
   return str.substr(0,index) + chr + str.substr(Number(index)+1);
-}
-
-if (Meteor.isServer){
-
-  //clear database when server is restarted (not on client refresh)
-  Games.remove({});
-
-  Meteor.publish('games', function myGamePublication() {
-    return Games.find();
-  });
-
-}
-
-if (Meteor.isClient){
-  Meteor.subscribe("games");
 }
