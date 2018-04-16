@@ -8,12 +8,16 @@ import '../imports/startup/accounts-config.js';
 import '../imports/games/TTT/TTTclient.js';
 import '../lib/collections.js';
 import { msgCodes, errCodes } from '../lib/codes.js';
+var cnt = 0;
+var CelebrityData = require('../imports/games/Celebrity/cards.json');
+var CelebrityCards = CelebrityData.cards;
 
 Meteor.startup(() => {
 	Session.set("docTitle", "Phone Games");
 	Session.set("currentView", "homepage");
 	Session.set("whatGame", "none");
 	Session.set("mainDivClass", "center-center-container");
+	Session.set("currentCard", "/Celebrity/Blacula.png");
 	//render(<App />, document.getElementById('render-target'));
 	Meteor.subscribe('allUsers');
 	Meteor.subscribe('lobbies');
@@ -24,7 +28,6 @@ Meteor.startup(() => {
 		AccountsAnonymous.login();
 	}
 	//	});
-
 
 });
 
@@ -78,13 +81,15 @@ Template.gameSelect.events({
 	},
 
 	'click .btn-game-3': function () {
-		Session.set("whatGame", "Spyfall");
-		if (!Meteor.user().username) {
+		Session.set("whatGame", "Celebrity");
+		Session.set("currentView", "celebrityTest");
+/*		if (!Meteor.user().username) {
 			Session.set("currentView", "newGame");
 		} else {
 			Meteor.call('createLobby', Session.get("whatGame"));
 			Session.set("currentView", "lobby");
 		}
+*/
 	},
 
 	'click .btn-game-4': function () {
@@ -375,12 +380,34 @@ Template.adminInfoMsgCodes.events({
 Template.adminInfoErrCodes.helpers({
 	errcode: function () {
 		return errCodes;
-	}
+	},
 });
 
 Template.adminInfoErrCodes.events({
 	'click .btn-back': function () {
 		Session.set("currentView", "adminInfo");
+	},
+});
+
+Template.celebrityTest.helpers({
+	card: function() {
+		return Session.get("currentCard");
+	},
+});
+
+Template.celebrityTest.events({
+	'click .btn-next': function () {
+		cnt += 1;
+		Session.set("currentCard", CelebrityCards[cnt - 1].path);
+	},
+	'click .btn-list': function () {
+		Session.set("currentView", "celebrityCardList");
+	},
+});
+
+Template.celebrityCardList.helpers({
+	CelebrityCards: function () {
+		return CelebrityCards;
 	},
 });
 
@@ -391,3 +418,4 @@ function makeGame(gameName) {
 		console.log("the game name is undefined: " + gameName);
 	}
 };
+
