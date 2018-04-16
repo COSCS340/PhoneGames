@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import '../lib/collection.js';
+import '../imports/chatbox/chatlobby_server.js'
+//import {sendMessage} from '../imports/chatbox/chatlobby.js';
 
 Meteor.startup(() => {
   // code to run on server at startup

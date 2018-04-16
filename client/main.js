@@ -8,7 +8,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import '../imports/games/Hangman/Hangman.js';
 import '../imports/startup/accounts-config.js';
 // Import chat functionality from chatter box
-import '../imports/chatbox/chatlobby.js';
+import '../imports/chatbox/chatlobby_client.js';
 import '../imports/games/TTT/TTT.js';
 //import '../imports/ui/body.js';
 import '../lib/collection.js';
