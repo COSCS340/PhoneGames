@@ -1,19 +1,27 @@
 <head>
   <title>{{title}}</title>
   <style>
-    h1 {text-align:center;}
-    p {text-align:center;}
-    body {text-align: center;}
+    h1 {
+      text-align: center;
+    }
+
+    p {
+      text-align: center;
+    }
+
+    body {
+      text-align: center;
+    }
   </style>
 </head>
 
 <body>
-	<div id = "render-target">
-		{{> main }}
-	</div>
+  <div id="render-target">
+    {{> main }}
+  </div>
 </body>
 
-<template name = "main">
+<template name="main">
 	<div id = "header">
 		{{> header }}
 	</div>
@@ -27,20 +35,20 @@
 	</div>
 </template>
 
-<template name = "homepage">
+<template name="homepage">
 	<h1>Welcome to Phone Games!</h1>
 
 	<button class = "btn-new-game">New Game</button> <button class = "btn-join-game">Join Game</button>
 </template>
 
-<template name = "gameSelect">
+<template name="gameSelect">
 	<button class = "btn-game-1">Hangman</button> <button class = "btn-game-2">Tic-Tac-Toe</button><br>
 	<button class = "btn-game-3">Celebrity</button> <button class = "btn-game-4">Test Game 4</button><br>
 	<button class = "btn-game-5">Test Game 5</button> <button class = "btn-back">Back</button>
 	<!-- need to align and center these buttons at some point -->
 </template>
 
-<template name = "newGame">
+<template name="newGame">
 	<h4> Enter your name to play {{whatGame}}</h4>
 	<form class = "userInfo">
 		<input type = "text" name = "username" id = "textbox-name" placeholder = "Name">
@@ -49,7 +57,7 @@
 	<button class = "btn-new-game">Create</button> <button class = "btn-back">Back</button>
 </template>
 
-<template name = "joinGame">
+<template name="joinGame">
 	{{#unless currentUser.username}}
 		<h4> Enter your name and lobby code</h4>
 	{{else}}
@@ -66,17 +74,17 @@
 	</form>
 </template>
 
-<template name = "userPage">
+<template name="userPage">
 	<h1> this is an example user page - for testing atm - user name is: {{currentUser.username}}</h1>
 </template>
 
-<template name = "forTesting">
+<template name="forTesting">
 	<h1>This is for testing. Hit back to go to the homepage.</h1>
 
 	<button class = "btn-for-testing">Back</button>
 </template>
 
-<template name = "header">
+<template name="header">
 	<button class = "btn-home" style = "float: left;">Home</button>
 	{{#if currentUser.username}}
 		<button style = "float: right;">{{> loginButtons align="right" }}</button>
@@ -89,7 +97,7 @@
 	{{/if}}
 </template>
 
-<template name = "lobby">
+<template name="lobby">
 	<h1> this is the lobby page for {{whatGame}} and the lobby id is {{lobbyId}}</h1>
 	{{#each users}}
 		{{this.name}}<br>
@@ -100,7 +108,7 @@
 	<button class = "btn-back">Back</button>
 </template>
 
-<template name = "footer">
+<template name="footer">
   <button class = "btn-admin-info">Adm info</button>
   <h6>Learn More About Us!</h6>
   <a href="https://github.com/COSCS340/PhoneGames" target="_blank">See the code</a>
@@ -109,14 +117,14 @@
   <a href="https://forums.meteor.com" target="_blank">Discussions</a>
 </template>
 
-<template name = "adminInfo">
+<template name="adminInfo">
 	<button class = "btn-users">Users</button>
 	<button class = "btn-lobbies">Lobbies</button><br>
 	<button class = "btn-msgcodes">Msg Codes</button>
 	<button class = "btn-errcodes">Err Codes</button>
 </template>
 
-<template name = "adminInfoUsers">
+<template name="adminInfoUsers">
 	{{#each user}}
 		{{_id}}
 		{{username}}
@@ -126,7 +134,7 @@
 	<button class = "btn-back">Back</button>
 </template>
 
-<template name = "adminInfoLobbies">
+<template name="adminInfoLobbies">
 	{{#each lobby}}
 		{{lobbyId}}
 		{{createdById}}
@@ -137,26 +145,26 @@
 	<button class = "btn-back">Back</button>
 </template>
 
-<template name = "adminInfoMsgCodes">
+<template name="adminInfoMsgCodes">
 	{{#each msgcode}}
 		{{@index}}: {{this}}<br>
 	{{/each}}
 	<button class = "btn-back">Back</button>
 </template>
 
-<template name = "adminInfoErrCodes">
+<template name="adminInfoErrCodes">
 	{{#each errcode}}
 		{{@index}}: {{this}}<br>
 	{{/each}}
 	<button class = "btn-back">Back</button>
 </template>
 
-<template name = "celebrityTest">
+<template name="celebrityTest">
   <img src="{{card}}"><button class = "btn-next">Next Card</button><button class = "btn-list">List Cards</button>
   <p> {{card}} </p>
 </template>
 
-<template name = "celebrityCardList">
+<template name="celebrityCardList">
   {{#each CelebrityCards}}
     {{this.name}}: {{this.points}}, {{this.safe}}, {{this.path}}<br>
   {{/each}}

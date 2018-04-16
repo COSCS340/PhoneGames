@@ -6,136 +6,152 @@ import { msgCodes, errCodes, minimumPlayers, maximumPlayers } from '../lib/codes
 
 Meteor.startup(() => {
 
-	Lobbies.remove({});
-	// Games.remove({});
-	TTT.remove({});
+  Lobbies.remove({});
+  // Games.remove({});
+  TTT.remove({});
 
-	Tracker.autorun(function () {
-		Meteor.publish('lobbies', function () {
-			return Lobbies.find(/*{"createdBy": this.userId}*/);
-		});
+  Tracker.autorun(function() {
+    Meteor.publish('lobbies', function() {
+      return Lobbies.find( /*{"createdBy": this.userId}*/ );
+    });
 
-		Meteor.publish('allUsers', function () {
-			return Meteor.users.find()
-		});
+    Meteor.publish('allUsers', function() {
+      return Meteor.users.find()
+    });
 
-		Meteor.publish('games', function () {
-			return Games.find();
-		});
+    Meteor.publish('games', function() {
+      return Games.find();
+    });
 
-		Meteor.publish('ttt', function () {
-			return TTT.find();
-		});
+    Meteor.publish('ttt', function() {
+      return TTT.find();
+    });
 
-	});
+  });
 
-	Meteor.methods({
-		removeUser: function (userId) {
-			Meteor.users.remove(userId);
-		},
+  Meteor.methods({
+    removeUser: function(userId) {
+      Meteor.users.remove(userId);
+    },
 
-		changeUsername: function (userName) {
-			Meteor.users.update({
-				_id: Meteor.user()._id
-			}, {
-				$set: {
-					"username": userName
-				}
-			});
-		},
+    changeUsername: function(userName) {
+      Meteor.users.update({
+        _id: Meteor.user()._id
+      }, {
+        $set: {
+          "username": userName
+        }
+      });
+    },
 
-		removeLobby: function (lobbyId) {
-			if (!lobbyId) {
-				throw new Meteor.Error('lobby-invalid', errCodes[0]);
-			}
+    removeLobby: function(lobbyId) {
+      if (!lobbyId) {
+        throw new Meteor.Error('lobby-invalid', errCodes[0]);
+      }
 
-			return Lobbies.remove({
-				_id: Lobbies.findOne({
-					lobbyId: lobbyId
-				})._id
-			});
-		},
+      return Lobbies.remove({
+        _id: Lobbies.findOne({
+          lobbyId: lobbyId
+        })._id
+      });
+    },
 
-		createLobby: function (whatGame) {
-			let id;
-			if (!this.userId) {
-				throw new Meteor.Error('access-denied', errCodes[1]);
-			}
+    createLobby: function(whatGame) {
+      let id;
+      if (!this.userId) {
+        throw new Meteor.Error('access-denied', errCodes[1]);
+      }
 
-			const user = Meteor.users.findOne(this.userId);
-			const player = {
-				name: user.username,
-				userId: this.userId
-			};
+      const user = Meteor.users.findOne(this.userId);
+      const player = {
+        name: user.username,
+        userId: this.userId
+      };
 
-			var min = minimumPlayers[whatGame];
-			var max = maximumPlayers[whatGame];
+      var min = minimumPlayers[whatGame];
+      var max = maximumPlayers[whatGame];
 
-			const newGame = {
-				lobbyId: Random.id(4).toUpperCase(),
-				createdById: this.userId,
-				createdByUser: user.username,
-				gameName: whatGame,
-				players: [player],
-				minPlayers: min,
-				maxPlayers: max,
-				started: false,
-			};
+      const newGame = {
+        lobbyId: Random.id(4).toUpperCase(),
+        createdById: this.userId,
+        createdByUser: user.username,
+        gameName: whatGame,
+        players: [player],
+        minPlayers: min,
+        maxPlayers: max,
+        started: false,
+      };
 
-			return id = Lobbies.insert(newGame);
-		},
+      return id = Lobbies.insert(newGame);
+    },
 
-		startLobby: function () {
-			Lobbies.update({"players.userId": this.userId}, { $set: {started: true} });
-		},
+    startLobby: function() {
+      Lobbies.update({
+        "players.userId": this.userId
+      }, {
+        $set: {
+          started: true
+        }
+      });
+    },
 
-		joinGame: function (gameId) {
-			if (Meteor.user() == null) {
-				throw new Meteor.Error('not-logged-in', 'You must be logged in to join a game');
-			}
+    joinGame: function(gameId) {
+      if (Meteor.user() == null) {
+        throw new Meteor.Error('not-logged-in', 'You must be logged in to join a game');
+      }
 
-			const game = Lobbies.findOne({ lobbyId: gameId });
-			if (typeof(game) == 'undefined') {
-				return errCodes.invalidLobbyCode;
-			}
+      const game = Lobbies.findOne({
+        lobbyId: gameId
+      });
+      if (typeof(game) == 'undefined') {
+        return errCodes.invalidLobbyCode;
+      }
 
-			if (game.players.length + 1 > game.maxPlayers) {
-				return errCodes.fullLobby;
-			}
+      if (game.players.length + 1 > game.maxPlayers) {
+        return errCodes.fullLobby;
+      }
 
-			if (!!_.findWhere(game.players, {	userId: Meteor.userId()	})) {
-				throw new Meteor.Error('already-joined-game', 'You (${Meteor.userId()}) have already joined game with id ${gameId} ${hasAlreadyJoined} ${player}');
-			}
+      if (!!_.findWhere(game.players, {
+          userId: Meteor.userId()
+        })) {
+        throw new Meteor.Error('already-joined-game', 'You (${Meteor.userId()}) have already joined game with id ${gameId} ${hasAlreadyJoined} ${player}');
+      }
 
-			var player = {
-				userId: Meteor.userId(),
-				name: __guard__(Meteor.user(), x => x.username)
-			};
+      var player = {
+        userId: Meteor.userId(),
+        name: __guard__(Meteor.user(), x => x.username)
+      };
 
-			return Lobbies.update({ lobbyId: gameId }, {	$addToSet: { players: player }});
-		},
+      return Lobbies.update({
+        lobbyId: gameId
+      }, {
+        $addToSet: {
+          players: player
+        }
+      });
+    },
 
-		leaveGame(gameId) {},
+    leaveGame(gameId) {},
 
-	});
+  });
 
-	Lobbies.allow({
-		insert(userId, doc) {
-			return Meteor.userId() !== null;
-		},
-		update(userId, doc, fieldNames, modifier) {
-			const player = {
-				userId: Meteor.userId(),
-				name: Meteor.user().username
-			};
-			return ((_.findWhere(doc.players, player)) != null) && (doc.hasFinished === false);
-		},
-		remove(userId, doc) {
-			return false;
-		}
-	});
+  Lobbies.allow({
+    insert(userId, doc) {
+      return Meteor.userId() !== null;
+    },
+    update(userId, doc, fieldNames, modifier) {
+      const player = {
+        userId: Meteor.userId(),
+        name: Meteor.user().username
+      };
+      return ((_.findWhere(doc.players, player)) != null) && (doc.hasFinished === false);
+    },
+    remove(userId, doc) {
+      return false;
+    }
+  });
 });
 
 function __guard__(value, transform) {
-	return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
 }

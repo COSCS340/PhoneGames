@@ -1,24 +1,32 @@
 Meteor.methods({
-  makeTTT: function (p1ID, p2ID) {
+  makeTTT: function(p1ID, p2ID) {
     TTT.insert({
-      player1: p1ID,  //X
-      player2: p2ID,    //O
+      player1: p1ID, //X
+      player2: p2ID, //O
       turn: p1ID,
       board: "---------",
       win: 0,
     });
-    return TTT.findOne({player1: p1ID})._id;
+    return TTT.findOne({
+      player1: p1ID
+    })._id;
   },
-  makeMove: function (gameID, userID, cell) {
+  makeMove: function(gameID, userID, cell) {
 
-    var game = TTT.findOne({ $or: [ { player1: Meteor.userId() }, { player2: Meteor.userId() }]});
+    var game = TTT.findOne({
+      $or: [{
+        player1: Meteor.userId()
+      }, {
+        player2: Meteor.userId()
+      }]
+    });
 
     if (!game || game.win > 0) {
       return;
     }
 
     //console.log(game);
-    if (game.turn === userID){
+    if (game.turn === userID) {
 
       var brd = game.board;
 
@@ -26,11 +34,10 @@ Meteor.methods({
         return;
 
       var otherPlayer;
-      if (userID === game.player1){
+      if (userID === game.player1) {
         brd = setCharAt(brd, cell, "X");
         otherPlayer = game.player2;
-      }
-      else{
+      } else {
         brd = setCharAt(brd, cell, "O");
         otherPlayer = game.player1;
       }
@@ -45,7 +52,13 @@ Meteor.methods({
       }
       //update board and turn
       console.log(brd);
-      TTT.update({$or: [ { player1: Meteor.userId() }, { player2: Meteor.userId() }]}, {
+      TTT.update({
+        $or: [{
+          player1: Meteor.userId()
+        }, {
+          player2: Meteor.userId()
+        }]
+      }, {
         $set: {
           board: brd,
           turn: otherPlayer,
@@ -53,15 +66,14 @@ Meteor.methods({
         },
       });
 
-    }
-    else {
+    } else {
       console.log("not your turn: " + userID);
     }
   },
 
 });
 
-function checkWin(board){
+function checkWin(board) {
   //check rows
   for (var i = 0; i < 9; i += 3)
     if (board[i + 0] != "-" && board[i + 0] == board[i + 1] && board[i + 1] == board[i + 2])
@@ -81,6 +93,6 @@ function checkWin(board){
   return false;
 }
 
-function setCharAt(str,index,chr) {
-  return str.substr(0,index) + chr + str.substr(Number(index)+1);
+function setCharAt(str, index, chr) {
+  return str.substr(0, index) + chr + str.substr(Number(index) + 1);
 }
