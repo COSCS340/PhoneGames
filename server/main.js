@@ -1,12 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import '../lib/collections.js';
-import { msgCodes, errCodes } from '../lib/codes.js';
+import '../imports/games/TTT/TTTserver.js'
+import { msgCodes, errCodes, minimumPlayers, maximumPlayers } from '../lib/codes.js';
 
 Meteor.startup(() => {
 
-	// Lobbies.remove({});
+	Lobbies.remove({});
 	// Games.remove({});
+	TTT.remove({});
 
 	Tracker.autorun(function () {
 		Meteor.publish('lobbies', function () {
@@ -20,6 +22,11 @@ Meteor.startup(() => {
 		Meteor.publish('games', function () {
 			return Games.find();
 		});
+
+		Meteor.publish('ttt', function () {
+			return TTT.find();
+		});
+
 	});
 
 	Meteor.methods({
@@ -60,37 +67,43 @@ Meteor.startup(() => {
 				name: user.username,
 				userId: this.userId
 			};
+
+			var min = minimumPlayers[whatGame];
+			var max = maximumPlayers[whatGame];
+
 			const newGame = {
 				lobbyId: Random.id(4).toUpperCase(),
 				createdById: this.userId,
 				createdByUser: user.username,
 				gameName: whatGame,
 				players: [player],
-				minPlayers: 1,
-				maxPlayers: 2,
+				minPlayers: min,
+				maxPlayers: max,
+				started: false,
 			};
 
 			return id = Lobbies.insert(newGame);
 		},
 
-		joinGame(gameId) {
+		startLobby: function () {
+			Lobbies.update({"players.userId": this.userId}, { $set: {started: true} });
+		},
 
-			if ((Meteor.user() == null)) {
+		joinGame: function (gameId) {
+			if (Meteor.user() == null) {
 				throw new Meteor.Error('not-logged-in', 'You must be logged in to join a game');
 			}
 
-			const criteria = {
-				lobbyId: gameId
-			};
-			const game = Lobbies.findOne(criteria);
+			const game = Lobbies.findOne({ lobbyId: gameId });
 			if (typeof(game) == 'undefined') {
-				return false;
+				return errCodes.invalidLobbyCode;
 			}
-			const hasAlreadyJoined = !!_.findWhere(game.players, {
-					userId: Meteor.userId()
-				});
 
-			if (hasAlreadyJoined) {
+			if (game.players.length + 1 > game.maxPlayers) {
+				return errCodes.fullLobby;
+			}
+
+			if (!!_.findWhere(game.players, {	userId: Meteor.userId()	})) {
 				throw new Meteor.Error('already-joined-game', 'You (${Meteor.userId()}) have already joined game with id ${gameId} ${hasAlreadyJoined} ${player}');
 			}
 
@@ -98,17 +111,11 @@ Meteor.startup(() => {
 				userId: Meteor.userId(),
 				name: __guard__(Meteor.user(), x => x.username)
 			};
-			const action = {
-				$addToSet: {
-					players: player
-				}
-			};
 
-			Lobbies.update(criteria, action);
-			return
+			return Lobbies.update({ lobbyId: gameId }, {	$addToSet: { players: player }});
 		},
 
-		leaveGame(gameId) {}
+		leaveGame(gameId) {},
 
 	});
 
