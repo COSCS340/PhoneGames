@@ -1,23 +1,23 @@
-import SimpleSchema from 'simpl-schema';
+import SimpleSchema from "simpl-schema";
 
 TTT = new Mongo.Collection("ttt");
 const Schemas = {};
 
 Schemas.TTT = new SimpleSchema({
   player1: {
-    type: String,
+    type: String
   },
   player2: {
-    type: String,
+    type: String
   },
   turn: {
-    type: String,
+    type: String
   },
   board: {
-    type: String,
+    type: String
   },
   win: {
-    type: Number,
+    type: Number
   }
 });
 

@@ -1,13 +1,13 @@
-<template name = "gameHangmanUI">
+<template name="gameHangmanUI">
 	<h1> Hangman! </h1>
-	
+
 	{{> gameHangman}}
 </template>
 
-<template name = "gameHangman">
+<template name="gameHangman">
   <p>
 	<h1>
-		{{prompt}}: 
+		{{prompt}}:
 		{{#if done}}
 			{{completeWord}}
 		{{else}}
@@ -20,7 +20,7 @@
   </p>
   {{#unless done}}
 	  <p>You have {{numGuesses}} {{guess}} left.</p>
-	  
+
 	  <div style = "display:flex; justify-content: space-around; margin: 5px;">
 	  <button id = "A">A</button>
 	  <button id = "B">B</button>
@@ -53,6 +53,6 @@
 	</div>
 {{/unless}}
 <button class = "btn-back">Back</button>
-  
-  
+
+
 </template>

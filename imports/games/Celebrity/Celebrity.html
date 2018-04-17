@@ -1,0 +1,25 @@
+<template name="celebrityLobbyOptions">
+  <h1>Celebrity Options</h1>
+  <select id="cardSafety">
+    <option value="sfw">12+ - SFW</option>
+    <option value="ssfw">16+ - Semi-SFW</option>
+    <option value="nsfw">18+ - NSFW</option>
+  </select>
+  <select id="gameLength">
+    <option value="short">Short - 15 minutes</option>
+    <option value="medium">Medium - 30 minutes</option>
+    <option value="long">Long - 45 minutes</option>
+  </select>
+  <button class = "btn-start">Start Lobby</button>
+</template>
+
+<template name="celebrityTest">
+  <img src="{{card}}"><button class = "btn-next">Next Card</button><button class = "btn-list">List Cards</button>
+  <p> {{card}} </p>
+</template>
+
+<template name="celebrityCardList">
+  {{#each CelebrityCards}}
+    {{this.name}}: {{this.points}}, {{this.safe}}, {{this.path}}<br>
+  {{/each}}
+</template>
