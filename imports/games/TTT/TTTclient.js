@@ -1,4 +1,4 @@
-import './TTTUI.html';
+import "./TTTUI.html";
 
 Template.TTT.onCreated(function() {
   this.winner = new ReactiveVar("");
@@ -8,20 +8,26 @@ Template.TTT.onCreated(function() {
   this.ready = new ReactiveVar(0);
 
   this.observe = TTT.find({
-    $or: [{
-      player1: Meteor.userId()
-    }, {
-      player2: Meteor.userId()
-    }]
+    $or: [
+      {
+        player1: Meteor.userId()
+      },
+      {
+        player2: Meteor.userId()
+      }
+    ]
   }).observeChanges({
     changed: function(id, fields) {
       console.log("changed");
       var game = TTT.findOne({
-        $or: [{
-          player1: Meteor.userId()
-        }, {
-          player2: Meteor.userId()
-        }]
+        $or: [
+          {
+            player1: Meteor.userId()
+          },
+          {
+            player2: Meteor.userId()
+          }
+        ]
       });
 
       //check if board has changed
@@ -34,13 +40,11 @@ Template.TTT.onCreated(function() {
         }
 
         if (game.win > 0) {
-          if (game.win == this.userId)
-            this.winner = "You Win!";
-          else
-            this.winner = "You Lost";
+          if (game.win == this.userId) this.winner = "You Win!";
+          else this.winner = "You Lost";
         }
       }
-    },
+    }
   });
 });
 
@@ -59,17 +63,16 @@ Template.TTT.helpers({
   },
   ready: function() {
     return Template.instance().ready.get();
-  },
+  }
 });
 
 Template.TTT.events({
-
-  'click .btn-back': function(event, instance) {
+  "click .btn-back": function(event, instance) {
     Session.set("currentView", "gameSelect");
     return instance.observe.stop();
   },
 
-  'click .grid-item' (event, instance) {
+  "click .grid-item"(event, instance) {
     var gameID = instance.gameID.get();
     var userId = instance.userId;
     if (gameID && userId && event.currentTarget.id) {
@@ -78,5 +81,5 @@ Template.TTT.events({
       console.log(gameID);
       console.log(userId);
     }
-  },
+  }
 });

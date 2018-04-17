@@ -5,20 +5,22 @@ Meteor.methods({
       player2: p2ID, //O
       turn: p1ID,
       board: "---------",
-      win: 0,
+      win: 0
     });
     return TTT.findOne({
       player1: p1ID
     })._id;
   },
   makeMove: function(gameID, userID, cell) {
-
     var game = TTT.findOne({
-      $or: [{
-        player1: Meteor.userId()
-      }, {
-        player2: Meteor.userId()
-      }]
+      $or: [
+        {
+          player1: Meteor.userId()
+        },
+        {
+          player2: Meteor.userId()
+        }
+      ]
     });
 
     if (!game || game.win > 0) {
@@ -27,11 +29,9 @@ Meteor.methods({
 
     //console.log(game);
     if (game.turn === userID) {
-
       var brd = game.board;
 
-      if (brd[cell] != '-')
-        return;
+      if (brd[cell] != "-") return;
 
       var otherPlayer;
       if (userID === game.player1) {
@@ -52,43 +52,57 @@ Meteor.methods({
       }
       //update board and turn
       console.log(brd);
-      TTT.update({
-        $or: [{
-          player1: Meteor.userId()
-        }, {
-          player2: Meteor.userId()
-        }]
-      }, {
-        $set: {
-          board: brd,
-          turn: otherPlayer,
-          win: win
+      TTT.update(
+        {
+          $or: [
+            {
+              player1: Meteor.userId()
+            },
+            {
+              player2: Meteor.userId()
+            }
+          ]
         },
-      });
-
+        {
+          $set: {
+            board: brd,
+            turn: otherPlayer,
+            win: win
+          }
+        }
+      );
     } else {
       console.log("not your turn: " + userID);
     }
-  },
-
+  }
 });
 
 function checkWin(board) {
   //check rows
   for (var i = 0; i < 9; i += 3)
-    if (board[i + 0] != "-" && board[i + 0] == board[i + 1] && board[i + 1] == board[i + 2])
+    if (
+      board[i + 0] != "-" &&
+      board[i + 0] == board[i + 1] &&
+      board[i + 1] == board[i + 2]
+    ) {
       return true;
-
+    }
   //check cols
   for (var i = 0; i < 3; i++)
-    if (board[i + 0] != "-" && board[i + 0] == board[i + 3] && board[i + 3] == board[i + 6])
+    if (
+      board[i + 0] != "-" &&
+      board[i + 0] == board[i + 3] &&
+      board[i + 3] == board[i + 6]
+    ) {
       return true;
-
+    }
   //check diagonals
-  if (board[0] != "-" && board[0] == board[4] && board[4] == board[8])
+  if (board[0] != "-" && board[0] == board[4] && board[4] == board[8]) {
     return true;
-  if (board[2] != "-" && board[2] == board[4] && board[4] == board[6])
+  }
+  if (board[2] != "-" && board[2] == board[4] && board[4] == board[6]) {
     return true;
+  }
 
   return false;
 }

@@ -1,18 +1,5 @@
 <head>
   <title>{{title}}</title>
-  <style>
-    h1 {
-      text-align: center;
-    }
-
-    p {
-      text-align: center;
-    }
-
-    body {
-      text-align: center;
-    }
-  </style>
 </head>
 
 <body>
@@ -45,14 +32,13 @@
 	<button class = "btn-game-1">Hangman</button> <button class = "btn-game-2">Tic-Tac-Toe</button><br>
 	<button class = "btn-game-3">Celebrity</button> <button class = "btn-game-4">Test Game 4</button><br>
 	<button class = "btn-game-5">Test Game 5</button> <button class = "btn-back">Back</button>
-	<!-- need to align and center these buttons at some point -->
 </template>
 
 <template name="newGame">
 	<h4> Enter your name to play {{whatGame}}</h4>
 	<form class = "userInfo">
 		<input type = "text" name = "username" id = "textbox-name" placeholder = "Name">
-		<span id= "errName"></span><br>
+		<span id = "errName"></span><br>
 	</form>
 	<button class = "btn-new-game">Create</button> <button class = "btn-back">Back</button>
 </template>
@@ -66,10 +52,10 @@
 	<form class = "userInfo">
 		{{#unless currentUser.username}}
 			<input type = "text" name = "username" id = "textbox-name" placeholder = "Name">
-			<span id= "errName"></span><br>
+			<span id = "errName"></span><br>
 		{{/unless}}
 		<input type = "text" name = "lobbyID" id = "textbox-lobby" placeholder = "Lobby ID">
-		<span id= "errLobby"></span><br>
+		<span id = "errLobby"></span><br>
 		<button type = "submit" class = "btn-join-game">Join</button> <button class = "btn-back">Back</button>
 	</form>
 </template>

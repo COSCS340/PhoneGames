@@ -1,9 +1,8 @@
-import './Hangman.html';
-import { wordBank } from './HangmanWords.js';
+import "./Hangman.html";
+import { wordBank } from "./HangmanWords.js";
 /* hangman */
 
 Template.gameHangman.onCreated(function gameOnCreated() {
-
   var rand = Math.floor(Math.random() * wordBank.length);
 
   /* add pulling word from a dict */
@@ -12,7 +11,7 @@ Template.gameHangman.onCreated(function gameOnCreated() {
   //generate string of "_"'s
   var blanks = "";
   for (var i = 0; i < this.completeWord.get().length; i++) {
-    blanks += "_ "
+    blanks += "_ ";
   }
 
   this.word = new ReactiveVar(blanks);
@@ -23,7 +22,6 @@ Template.gameHangman.onCreated(function gameOnCreated() {
 });
 
 Template.gameHangman.helpers({
-
   numGuesses() {
     return Template.instance().numGuesses.get();
   },
@@ -58,13 +56,12 @@ Template.gameHangman.helpers({
 });
 
 Template.gameHangman.events({
-
-  'click .btn-back': function() {
+  "click .btn-back": function() {
     Session.set("currentView", "gameSelect");
     return;
   },
 
-  'click button' (event, instance) {
+  "click button"(event, instance) {
     if (instance.numGuesses.get() == 0 || instance.done.get()) {
       return;
     }
@@ -73,7 +70,6 @@ Template.gameHangman.events({
 
     /* if button is not opaque -> clicked */
     if (document.getElementById(event.target.innerText).style.opacity != 0.5) {
-
       /* make button opaque to indicate it is unable to be clicked again */
       document.getElementById(letter).style.opacity = 0.5;
 
@@ -90,9 +86,8 @@ Template.gameHangman.events({
           instance.done.set(true);
           instance.prompt.set("The word was");
         }
-      }
-      /* if it is in the word */
-      else {
+      } else {
+        /* if it is in the word */
         //console.log("correct, " + letter + " is in " + word);
         var newBlanks = "";
         for (var i = 0; i < word.length; i++) {
@@ -110,7 +105,6 @@ Template.gameHangman.events({
           instance.done.set(true);
         }
       }
-
     }
-  },
+  }
 });
