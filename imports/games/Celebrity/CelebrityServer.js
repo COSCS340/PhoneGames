@@ -1,8 +1,9 @@
+import "./CelebrityCollection.js";
+
 Meteor.methods({
   makeCelebrity: function(players) {
     Celebrity.insert({
-      players: this.players, //list of players
-      
+      //      players: this.players, //list of players
     });
   }
 });

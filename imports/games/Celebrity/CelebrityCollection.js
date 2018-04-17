@@ -1,4 +1,4 @@
-import SimpleSchema from 'simpl-schema';
+import SimpleSchema from "simpl-schema";
 
 Celebrity = new Mongo.Collection("celebrity");
 const Schemas = {};
@@ -11,17 +11,32 @@ const PlayerInfoSchema = new SimpleSchema({
     type: String,
     regEx: SimpleSchema.RegEx.Id
   },
-  hand: {
-    type: Array
+  hand: Array,
+  "hand.$": Object,
+  "hand.$.name": String,
+  "hand.$.points": Number,
+  "hand.$.safe": String,
+  "hand.$.path": String,
+
+  team: {
+    type: String
   }
 });
 
 Schemas.Celebrity = new SimpleSchema({
-  team1: Array,
-  "team1.$": PlayerInfoSchema,
+  team1players: Array,
+  "team1players.$": PlayerInfoSchema,
 
-  team2: Array,
-  "team2.$": PlayerInfoSchema,
+  team2players: Array,
+  "team2players.$": PlayerInfoSchema,
+
+  team1score: {
+    type: Number
+  },
+
+  team2score: {
+    type: Number
+  }
 });
 
 Celebrity.attachSchema(Schemas.Celebrity);

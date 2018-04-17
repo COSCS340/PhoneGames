@@ -2,6 +2,7 @@ import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 import "../lib/collections.js";
 import "../imports/games/TTT/TTTserver.js";
+import "../imports/games/Celebrity/CelebrityServer.js";
 import {
   msgCodes,
   errCodes,
@@ -29,6 +30,10 @@ Meteor.startup(() => {
 
     Meteor.publish("ttt", function() {
       return TTT.find();
+    });
+
+    Meteor.publish("celebrity", function() {
+      return Celebrity.find();
     });
   });
 

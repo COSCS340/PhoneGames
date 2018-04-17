@@ -19,6 +19,7 @@ Meteor.startup(() => {
   Meteor.subscribe("lobbies");
   Meteor.subscribe("games");
   Meteor.subscribe("ttt");
+  Meteor.subscribe("celebrity");
   //	Tracker.autorun(function() {
   if (!Meteor.user()) {
     AccountsAnonymous.login();
@@ -119,9 +120,9 @@ Template.newGame.events({
     if (!event.target.value || event.target.value.length > 15) {
       $("#textbox-name").css("border-color", "#e52213");
       if (event.target.value.length > 15) {
-          $("#errName").html("names must be less than 15 characters");
+        $("#errName").html("names must be less than 15 characters");
       } else {
-          $("#errName").html("names must be more than 0 characters");
+        $("#errName").html("names must be more than 0 characters");
       }
     } else {
       $("#textbox-name").css("border-color", "#e3e3e3");
@@ -232,11 +233,12 @@ Template.lobby.onCreated(function() {
     "players.userId": Meteor.userId()
   }).observeChanges({
     changed: function(id, fields) {
+      console.log(fields);
       var lobby = Lobbies.find({
         "players.userId": Meteor.userId()
       }).fetch();
       if (lobby[0].started == true) {
-        Session.set("currentView", "TTT");
+        Session.set("currentView", Session.get("whatGame"));
       } else {
         console.log(lobby);
         console.log(lobby[0].started);
