@@ -5,11 +5,9 @@ import { ReactiveVar } from "meteor/reactive-var";
 import "../imports/games/Hangman/Hangman.js";
 import "../imports/startup/accounts-config.js";
 import "../imports/games/TTT/TTTclient.js";
+import "../imports/games/Celebrity/CelebrityClient.js";
 import "../lib/collections.js";
 import { msgCodes, errCodes } from "../lib/codes.js";
-var cnt = 0;
-var CelebrityData = require("../imports/games/Celebrity/cards.json");
-var CelebrityCards = CelebrityData.cards;
 
 Meteor.startup(() => {
   Session.set("docTitle", "Phone Games");
@@ -69,14 +67,15 @@ Template.gameSelect.events({
     if (!Meteor.user().username) {
       Session.set("currentView", "newGame");
     } else {
-      Meteor.call("createLobby", Session.get("whatGame"));
-      Session.set("currentView", "lobby");
+      Meteor.call("createLobby", Session.get("whatGame"), function() {
+        Session.set("currentView", "lobby");
+      });
     }
   },
 
   "click .btn-game-3": function() {
     Session.set("whatGame", "Celebrity");
-    Session.set("currentView", "celebrityTest");
+    Session.set("currentView", "celebrityLobbyOptions");
     /*		if (!Meteor.user().username) {
     			Session.set("currentView", "newGame");
     		} else {
@@ -116,20 +115,17 @@ Template.newGame.helpers({
 });
 
 Template.newGame.events({
-  /* TODO */
   'blur input[name = "username"]': function(event, template) {
     if (!event.target.value || event.target.value.length > 15) {
-      document.getElementById("textbox-name").style.borderColor = "#e52213";
+      $("#textbox-name").css("border-color", "#e52213");
       if (event.target.value.length > 15) {
-        document.getElementById("errName").innerHTML =
-          "names must be less than 15 characters";
+          $("#errName").html("names must be less than 15 characters");
       } else {
-        document.getElementById("errName").innerHTML =
-          "names must be more than 0 characters";
+          $("#errName").html("names must be more than 0 characters");
       }
     } else {
-      document.getElementById("textbox-name").style.borderColor = "#e3e3e3";
-      document.getElementById("errName").innerHTML = "";
+      $("#textbox-name").css("border-color", "#e3e3e3");
+      $("#errName").html("");
     }
   },
 
@@ -137,14 +133,24 @@ Template.newGame.events({
     event.preventDefault();
     var name = document.getElementById("textbox-name").value;
     if (name && name.length > 0 && name.length < 15) {
-      Meteor.call("changeUsername", name);
-      Meteor.call("createLobby", Session.get("whatGame"));
-      Session.set("currentView", "lobby");
-    } else {
+      Meteor.call("changeUsername", name, function(error, result) {
+        if (result == errCodes["userTaken"]) {
+          $("#errName").html(result);
+          $("#textbox-name").css("border-color", "#e52213");
+          return;
+        } else {
+          Meteor.call("createLobby", Session.get("whatGame"), function() {
+            Session.set("currentView", "lobby");
+          });
+        }
+      });
+    } else if (name) {
       if (name.length == 0) {
-        document.getElementById("errName").innerHTML =
-          "names must be more than 0 characters";
-        document.getElementById("textbox-name").style.borderColor = "#e52213";
+        $("#errName").html("names must be more than 0 characters");
+        $("#textbox-name").css("border-color", "#e52213");
+      } else if (name.length >= 15) {
+        $("#errName").html("names must be less than 15 characters");
+        $("#textbox-name").css("border-color", "#e52213");
       }
     }
   },
@@ -158,17 +164,15 @@ Template.joinGame.events({
   'blur input[name = "username"]': function(event, template) {
     var tVal = event.target.value;
     if (!tVal || tVal.length > 15) {
-      document.getElementById("textbox-name").style.borderColor = "#e52213";
+      $("#textbox-name").css("border-color", "#e52213");
       if (tVal.length > 15) {
-        document.getElementById("errName").innerHTML =
-          "names must be less than 15 characters";
+        $("#errName").html("names must be less than 15 characters");
       } else {
-        document.getElementById("errName").innerHTML =
-          "names must be more than 0 characters";
+        $("#errName").html("names must be more than 0 characters");
       }
     } else {
-      document.getElementById("textbox-name").style.borderColor = "#e3e3e3";
-      document.getElementById("errName").innerHTML = "";
+      $("#textbox-name").css("border-color", "#e3e3e3");
+      $("#errName").html("");
     }
   },
 
@@ -176,12 +180,11 @@ Template.joinGame.events({
   'blur input[name = "lobbyID"]': function(event, template) {
     var tVal = event.target.value;
     if (!tVal) {
-      document.getElementById("textbox-lobby").style.borderColor = "#e52213";
-      document.getElementById("errLobby").innerHTML =
-        "lobby ids must be exactly x characters";
+      $("#textbox-lobby").css("border-color", "#e52213");
+      $("#errLobby").html("lobby ids must be exactly 4 characters");
     } else {
-      document.getElementById("textbox-lobby").style.borderColor = "#e3e3e3";
-      document.getElementById("errLobby").innerHTML = "";
+      $("#textbox-lobby").css("border-color", "#e3e3e3");
+      $("#errLobby").html("");
     }
   },
 
@@ -192,33 +195,30 @@ Template.joinGame.events({
     }
     var lobbyId = document.getElementById("textbox-lobby").value;
     if (name && name.length > 0 && name.length < 15) {
-      Meteor.call("changeUsername", name);
-      //			Session.set("currentView", "lobby");
+      Meteor.call("changeUsername", name, function(error, result) {
+        if (result == errCodes["userTaken"]) {
+          $("#errName").html(result);
+          $("#textbox-name").css("border-color", "#e52213");
+          return;
+        }
+      });
     } else if (name) {
       if (name.length == 0) {
-        document.getElementById("errName").innerHTML =
-          "names must be more than 0 characters";
-        document.getElementById("textbox-name").style.borderColor = "#e52213";
+        $("#errName").html("names must be more than 0 characters");
+        $("#textbox-name").css("border-color", "#e52213");
       } else {
-        document.getElementById("errName").innerHTML =
-          "names must be less than 15 characters";
-        document.getElementById("textbox-name").style.borderColor = "#e52213";
+        $("#errName").html("names must be less than 15 characters");
+        $("#textbox-name").css("border-color", "#e52213");
       }
     }
     Meteor.call("joinGame", lobbyId, function(error, result) {
-      if (result == errCodes.invalidLobbyCode) {
-        $("#errLobby").html(result);
-        $("#textbox-lobby").css("border-color", "#e52213");
-      } else if (result == errCodes.fullLobby) {
+      if (result == errCodes.invalidLobbyCode || result == errCodes.fullLobby) {
         $("#errLobby").html(result);
         $("#textbox-lobby").css("border-color", "#e52213");
       } else {
-        console.log("returning true");
         Session.set("currentView", "lobby");
       }
     });
-
-    //		Session.set("currentView", "forTesting");
   },
 
   "click .btn-back": function(event) {
@@ -386,28 +386,6 @@ Template.adminInfoErrCodes.helpers({
 Template.adminInfoErrCodes.events({
   "click .btn-back": function() {
     Session.set("currentView", "adminInfo");
-  }
-});
-
-Template.celebrityTest.helpers({
-  card: function() {
-    return Session.get("currentCard");
-  }
-});
-
-Template.celebrityTest.events({
-  "click .btn-next": function() {
-    cnt += 1;
-    Session.set("currentCard", CelebrityCards[cnt - 1].path);
-  },
-  "click .btn-list": function() {
-    Session.set("currentView", "celebrityCardList");
-  }
-});
-
-Template.celebrityCardList.helpers({
-  CelebrityCards: function() {
-    return CelebrityCards;
   }
 });
 

@@ -144,14 +144,3 @@
 	{{/each}}
 	<button class = "btn-back">Back</button>
 </template>
-
-<template name="celebrityTest">
-  <img src="{{card}}"><button class = "btn-next">Next Card</button><button class = "btn-list">List Cards</button>
-  <p> {{card}} </p>
-</template>
-
-<template name="celebrityCardList">
-  {{#each CelebrityCards}}
-    {{this.name}}: {{this.points}}, {{this.safe}}, {{this.path}}<br>
-  {{/each}}
-</template>

@@ -38,16 +38,20 @@ Meteor.startup(() => {
     },
 
     changeUsername: function(userName) {
-      Meteor.users.update(
-        {
-          _id: Meteor.user()._id
-        },
-        {
-          $set: {
-            username: userName
+      if (Meteor.users.find({ username: userName }).fetch().length == 0) {
+        Meteor.users.update(
+          {
+            _id: Meteor.user()._id
+          },
+          {
+            $set: {
+              username: userName
+            }
           }
-        }
-      );
+        );
+      } else {
+        return errCodes["userTaken"];
+      }
     },
 
     removeLobby: function(lobbyId) {
