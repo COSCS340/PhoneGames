@@ -8,10 +8,6 @@ Template.Spyfall.onCreated(function() {
   this.ready = new ReactiveVar(0);
 
     this.observe = SpyfallGames.find({'players.userId': Meteor.userId()}).observeChanges({
-      added: function (id, message) {
-        console.log("added: " + id);
-      },
-
       changed: function(id, fields) {
         console.log("changed: " + id);
         var game = SpyfallGames.findOne(id);
