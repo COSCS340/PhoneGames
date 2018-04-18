@@ -44,6 +44,6 @@ Template.Spyfall.events({
     if (event.currentTarget.innerHTML[0] == '<')
       event.currentTarget.innerHTML = event.currentTarget.id;
     else
-      event.currentTarget.innerHTML = '<del>' + event.currentTarget.id + '</del>';
+      event.currentTarget.innerHTML = event.currentTarget.id.strike();
   }
 });
