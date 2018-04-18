@@ -59,6 +59,24 @@ Meteor.startup(() => {
       }
     },
 
+    removePlayer: function() {
+      var lobby = Lobbies.findOne({
+        "players.userId": this.userId
+      });
+      if (lobby.players.length > 1) {
+        Lobbies.update(
+          {_id: lobby._id},
+          { $set: { createdById: lobby.players[1].userId, createdByUser: lobby.players[1].name }}
+        );
+        Lobbies.update(
+          {_id: lobby._id},
+          { $pull: { "players": { userId: this.userId }}}
+        );
+      } else {
+        Lobbies.remove({ _id: lobby._id });
+      }
+    },
+
     removeLobby: function(lobbyId) {
       if (!lobbyId) {
         throw new Meteor.Error("lobby-invalid", errCodes[0]);
