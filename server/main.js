@@ -2,6 +2,7 @@ import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 import "../lib/collections.js";
 import "../imports/games/TTT/TTTserver.js";
+import "../imports/games/Spyfall/SpyfallServer.js";
 import "../imports/games/Celebrity/CelebrityServer.js";
 import {
   msgCodes,
@@ -14,13 +15,14 @@ Meteor.startup(() => {
   Lobbies.remove({});
   // Games.remove({});
   TTT.remove({});
+  SpyfallGames.remove({});
 
   Tracker.autorun(function() {
     Meteor.publish("lobbies", function() {
       return Lobbies.find(/*{"createdBy": this.userId}*/);
     });
 
-    Meteor.publish("allUsers", function() {
+    Meteor.publish("allUsers", function() { 
       return Meteor.users.find();
     });
 
@@ -35,6 +37,11 @@ Meteor.startup(() => {
     Meteor.publish("celebrity", function() {
       return Celebrity.find();
     });
+
+    Meteor.publish("SpyfallGames", function() {
+      return SpyfallGames.find();
+    });
+
   });
 
   Meteor.methods({
@@ -56,6 +63,24 @@ Meteor.startup(() => {
         );
       } else {
         return errCodes["userTaken"];
+      }
+    },
+
+    removePlayer: function() {
+      var lobby = Lobbies.findOne({
+        "players.userId": this.userId
+      });
+      if (lobby.players.length > 1) {
+        Lobbies.update(
+          {_id: lobby._id},
+          { $set: { createdById: lobby.players[1].userId, createdByUser: lobby.players[1].name }}
+        );
+        Lobbies.update(
+          {_id: lobby._id},
+          { $pull: { "players": { userId: this.userId }}}
+        );
+      } else {
+        Lobbies.remove({ _id: lobby._id });
       }
     },
 
