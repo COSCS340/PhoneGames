@@ -41,13 +41,9 @@ Template.Spyfall.events({
   },
 
   "click .grid-item"(event, instance) {
-    var gameID = instance.gameID.get();
-    var userId = instance.userId;
-    if (gameID && userId && event.currentTarget.id) {
-      return Meteor.call("makeMove", gameID, userId, event.currentTarget.id);
-    } else {
-      console.log(gameID);
-      console.log(userId);
-    }
+    if (event.currentTarget.innerHTML[0] == '<')
+      event.currentTarget.innerHTML = event.currentTarget.id;
+    else
+      event.currentTarget.innerHTML = '<del>' + event.currentTarget.id + '</del>';
   }
 });
