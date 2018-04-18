@@ -1,7 +1,7 @@
 import SimpleSchema from "simpl-schema";
 
 SpyfallGames = new Mongo.Collection("SpyfallGames");
-const Schemas = {};
+/*const Schemas = {};
 
 Schemas.SpyfallGames = new SimpleSchema({
   player1: {
@@ -21,4 +21,4 @@ Schemas.SpyfallGames = new SimpleSchema({
   }
 });
 
-SpyfallGames.attachSchema(Schemas.SpyfallGames);
+SpyfallGames.attachSchema(Schemas.SpyfallGames);*/

@@ -22,7 +22,7 @@ Meteor.startup(() => {
       return Lobbies.find(/*{"createdBy": this.userId}*/);
     });
 
-    Meteor.publish("allUsers", function() { 
+    Meteor.publish("allUsers", function() {
       return Meteor.users.find();
     });
 
@@ -184,7 +184,7 @@ Meteor.startup(() => {
         }
       );
     },
-
+    
     leaveGame(gameId) {}
   });
 

@@ -1,56 +1,28 @@
 import "./SpyfallUI.html";
 
 Template.Spyfall.onCreated(function() {
-  this.winner = new ReactiveVar("");
+  this.role = new ReactiveVar("You have not yet been assigned a role");
   this.userId = Meteor.userId();
   this.gameID = new ReactiveVar(-1);
   this.currentBoard = new ReactiveVar("---------");
   this.ready = new ReactiveVar(0);
 
-  this.observe = SpyfallGames.find({
-    $or: [
-      {
-        player1: Meteor.userId()
+    this.observe = SpyfallGames.find({'players.userId': Meteor.userId()}).observeChanges({
+      added: function (id, message) {
+        console.log("added: " + id);
       },
-      {
-        player2: Meteor.userId()
+
+      changed: function(id, fields) {
+        console.log("changed: " + id);
+        var game = SpyfallGames.findOne(id);
       }
-    ]
-  }).observeChanges({
-    changed: function(id, fields) {
-      console.log("changed");
-      var game = SpyfallGames.findOne({
-        $or: [
-          {
-            player1: Meteor.userId()
-          },
-          {
-            player2: Meteor.userId()
-          }
-        ]
-      });
+    });
 
-      //check if board has changed
-      if (game.board != this.currentBoard) {
-        console.log("board has changed");
-        this.currentBoard = game.board;
-
-        for (var i = 0; i <= 8; i++) {
-          document.getElementById(i).innerText = game.board[i];
-        }
-
-        if (game.win > 0) {
-          if (game.win == this.userId) this.winner = "You Win!";
-          else this.winner = "You Lost";
-        }
-      }
-    }
-  });
 });
 
 Template.Spyfall.helpers({
-  winner: function() {
-    return Template.instance().winner.get();
+  role: function() {
+    return Template.instance().role.get();
   },
   ID: function() {
     return Template.instance().userId;

@@ -1,14 +1,26 @@
+import { Random } from "meteor/random";
+
 Meteor.methods({
-  makeSpyfall: function(p1ID, p2ID) {
+  makeSpyfall: function(pls) {
     SpyfallGames.insert({
-      player1: p1ID, //X
-      player2: p2ID, //O
-      turn: p1ID,
-      board: "---------",
-      win: 0
+      players: pls,
+      spy: determineSpy(pls),
+      time: 600,
+      win: 0,
     });
-    return SpyfallGames.findOne({
-      player1: p1ID
-    })._id;
+    console.log(SpyfallGames.findOne({players: pls}));
+    return SpyfallGames.findOne({players: pls})._id;
   },
+  /*isSpy: function(player) {
+    return !(SpyfallGames.findOne({spy: player}) == NULL);
+  },*/
 });
+
+function determineSpy(players){
+
+  //setTimeout(function(){
+    //SpyfallGames.findOne({})
+  //}, 2000);
+
+  return players[Math.floor(Math.random() * players.length)];
+}

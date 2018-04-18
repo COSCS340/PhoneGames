@@ -21,6 +21,7 @@ Meteor.startup(() => {
   Meteor.subscribe("games");
   Meteor.subscribe("ttt");
   Meteor.subscribe("celebrity");
+  Meteor.subscribe("SpyfallGames");
   //	Tracker.autorun(function() {
   if (!Meteor.user()) {
     AccountsAnonymous.login();
@@ -408,12 +409,10 @@ function makeGame(gameName) {
   }
   else if (gameName == "Spyfall") {
     console.log("making game");
+    console.log(Lobbies.findOne({createdBy: this.userId}).players);
     Meteor.call(
       "makeSpyfall",
-      Meteor.userId(),
-      Lobbies.find({
-        createdBy: this.userId
-      }).fetch()[0].players[1].userId
+      Lobbies.findOne({createdBy: this.userId}).players
     );
   }
   else {
