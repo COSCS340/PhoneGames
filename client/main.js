@@ -242,7 +242,8 @@ Template.lobby.onCreated(function() {
         "players.userId": Meteor.userId()
       }).fetch();
       if (lobby[0].started == true) {
-        Session.set("currentView", Session.get("whatGame"));
+        Session.set("whatGame", lobby[0].gameName);
+        Session.set("currentView", lobby[0].gameName);
       } else {
         console.log(lobby);
         console.log(lobby[0].started);
