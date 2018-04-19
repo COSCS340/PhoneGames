@@ -20,6 +20,10 @@ const PlayerInfoSchema = new SimpleSchema({
 
   team: {
     type: String
+  },
+
+  ready: {
+    type: Boolean
   }
 });
 
