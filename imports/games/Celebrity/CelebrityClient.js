@@ -52,6 +52,25 @@ Template.celebrity.helpers({
   }
 });
 
+Template.celebrity.events({
+  'click .btn-select': function() {
+      let checkboxes = document.getElementsByClassName("cardSelect");
+      let cnt = 0;
+      for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+          cnt++;
+        }
+      }
+      if (cnt == (checkboxes.length / 2)) {
+        $("#errCards").html("You're good to go.");
+      } else if (cnt > (checkboxes.length / 2)) {
+        $("#errCards").html("You've selected more than " + checkboxes.length/2 + " cards.");
+      } else {
+        $("#errCards").html("You've selected less than " + checkboxes.length/2 + " cards.");
+      }
+  }
+});
+
 Template.celebrityTest.helpers({
   card: function() {
     return Session.get("currentCard");

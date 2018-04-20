@@ -16,9 +16,11 @@
 <template name="celebrity">
   {{#unless selected}}
     {{#each hand}}
-      <input type="checkbox" id="{{this.name}}">
-      <label for="{{this.name}}">{{this.name}}</label>
+      <input type="checkbox" id="{{this.name}}" class="cardSelect">
+      <label for="{{this.name}}">{{this.name}}</label><br>
     {{/each}}
+    <button class = "btn-select">Select Cards</button><br>
+    <span id = "errCards"></span>
   {{else}}
     <p> cards have been selected </p>
   {{/unless}}
