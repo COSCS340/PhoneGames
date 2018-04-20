@@ -51,7 +51,11 @@ Schemas.Celebrity = new SimpleSchema({
   "deck.$.name": String,
   "deck.$.points": Number,
   "deck.$.safe": String,
-  "deck.$.path": String
+  "deck.$.path": String,
+
+  ready: {
+    type: Number
+  }
 });
 
 Celebrity.attachSchema(Schemas.Celebrity);

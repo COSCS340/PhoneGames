@@ -72,10 +72,11 @@ Meteor.methods({
       team1score: 0,
       team2score: 0,
       round: 1,
-      deck: deck
+      ready: 0,
+      deck: []
     });
 
-/*    console.log(
+    /*    console.log(
       Celebrity.find({
         $or: [
           {
@@ -88,6 +89,35 @@ Meteor.methods({
       }).fetch()
     );
     */
+  },
+
+  selectCards: function(addCards) {
+    let celeb = Celebrity.findOne({
+      $or: [
+        {
+          "team1players.userId": this.userId
+        },
+        {
+          "team2players.userId": this.userId
+        }
+      ]
+    });
+
+    Celebrity.update(
+      { _id: celeb._id },
+      { $addToSet: { deck: { $each: addCards } } }
+    );
+
+    Celebrity.update(
+      { _id: celeb._id },
+      { $set: { ready: celeb.ready + 1 } }
+    );
+  }
+});
+
+Celebrity.allow({
+  update(userId, doc, fieldNames, modifier) {
+    return true;
   }
 });
 

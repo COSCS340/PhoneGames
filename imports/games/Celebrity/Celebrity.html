@@ -22,7 +22,11 @@
     <button class = "btn-select">Select Cards</button><br>
     <span id = "errCards"></span>
   {{else}}
-    <p> cards have been selected </p>
+    {{#unless ready}}
+      <p>Wait for everyone to select their cards.</p>
+    {{else}}
+      <p>Everyone is ready</p>
+    {{/unless}}
   {{/unless}}
 </template>
 
