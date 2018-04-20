@@ -90,6 +90,7 @@ Template.gameSelect.events({
 
   "click .btn-game-4": function() {
     Session.set("whatGame", "Spyfall");
+    Session.set("docTitle", "Spyfall");
     if (!Meteor.user().username) {
       Session.set("currentView", "newGame");
     } else {
