@@ -4,22 +4,10 @@ import { Session } from 'meteor/session'
 Template.Spyfall.onCreated(function() {
   Session.set("docTitle", "Spyfall");
   this.role = new ReactiveVar("You have not yet been assigned a role");
-  this.userId = Meteor.userId();
-  this.gameID = new ReactiveVar(-1);
   this.ready = new ReactiveVar(0);
   this.timeLeft = new ReactiveVar("clock not yet started");
 
   Meteor.setTimeout(function(){ //wait to make sure database is ready
-
-      this.observe = SpyfallGames.find({'players.userId': Meteor.userId()}).observeChanges({
-        added: function(id, fields) {
-          //console.log("added: " + id);
-        },
-        changed: function(id, fields) {
-          //console.log("changed: " + id);
-          //var game = SpyfallGames.findOne(id);
-        }
-      });
 
       Session.set('endTime', SpyfallGames.findOne({'players.userId': Meteor.userId()}).endTime);
 
@@ -34,19 +22,20 @@ Template.Spyfall.onCreated(function() {
         console.log(Session.get('timeLeft'));
       }, 1000);
 
-  }, 500);
+      //get role/location
+      Meteor.call("getRoleData", Meteor.userId(), function(error, result){
+        if (result == "spy")
+          Session.set('role', "You are the Spy!");
+        else
+          Session.set('role', "You are at a " + result + "!");
+      });
 
+  }, 500);
 });
 
 Template.Spyfall.helpers({
   role: function() {
-    return Template.instance().role.get();
-  },
-  ID: function() {
-    return Template.instance().userId;
-  },
-  gameID: function() {
-    return Template.instance().gameID.get();
+    return Session.get("role");
   },
   timeLeft: function() {
     return Session.get("timeLeft");

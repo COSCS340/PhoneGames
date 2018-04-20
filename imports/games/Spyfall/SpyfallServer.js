@@ -7,12 +7,17 @@ Meteor.methods({
       players: pls,
       spy: pickSpy(pls),
       location: pickLocation(),
-      endTime: (new Date().getTime()+10*60*1000), //end time (unix time)
-      win: 0,
+      endTime: (new Date().getTime()+10*60*1000)
     });
     console.log(SpyfallGames.findOne({players: pls}));
-    return SpyfallGames.findOne({players: pls})._id;
   },
+  getRoleData: function(userID){
+    var game = SpyfallGames.findOne({'players.userId': userID});
+    if (game.spy.userId == userID)
+      return "spy";
+    else
+      return game.location;
+  }
 });
 
 function pickSpy(players){
