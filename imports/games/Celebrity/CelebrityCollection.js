@@ -40,7 +40,18 @@ Schemas.Celebrity = new SimpleSchema({
 
   team2score: {
     type: Number
-  }
+  },
+
+  round: {
+    type: Number
+  },
+
+  deck: Array,
+  "deck.$": Object,
+  "deck.$.name": String,
+  "deck.$.points": Number,
+  "deck.$.safe": String,
+  "deck.$.path": String
 });
 
 Celebrity.attachSchema(Schemas.Celebrity);

@@ -14,6 +14,7 @@ Meteor.startup(() => {
   Lobbies.remove({});
   // Games.remove({});
   TTT.remove({});
+  Celebrity.remove({});
 
   Tracker.autorun(function() {
     Meteor.publish("lobbies", function() {

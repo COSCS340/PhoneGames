@@ -75,7 +75,13 @@ Template.gameSelect.events({
 
   "click .btn-game-3": function() {
     Session.set("whatGame", "Celebrity");
-    Session.set("currentView", "celebrityLobbyOptions");
+    if (!Meteor.user().username) {
+      Session.set("currentView", "newGame");
+    } else {
+      Meteor.call("createLobby", Session.get("whatGame"), function() {
+        Session.set("currentView", "lobby");
+      });
+    }
     /*		if (!Meteor.user().username) {
     			Session.set("currentView", "newGame");
     		} else {
@@ -255,8 +261,6 @@ Template.lobby.onDestroyed(function() {
 Template.lobby.events({
   "click .btn-start": function() {
     makeGame(Session.get("whatGame"));
-    Session.set("currentView", Session.get("whatGame"));
-    Meteor.call("startLobby");
   },
 
   "click .btn-back": function() {
@@ -405,8 +409,11 @@ function makeGame(gameName) {
         createdBy: this.userId
       }).fetch()[0].players[1].userId
     );
+    Session.set("currentView", Session.get("whatGame"));
+    Meteor.call("startLobby");
   } else if (gameName == "Celebrity") {
-    Meteor.call("makeCelebrity");
+    Session.set("whatGame", "celebrityLobbyOptions");
+    Session.set("currentView", Session.get("whatGame"));
   } else {
     console.log("the game name is undefined: " + gameName);
   }
