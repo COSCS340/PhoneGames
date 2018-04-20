@@ -33,20 +33,18 @@ Template.celebrity.helpers({
       ]
     }).fetch();
     if (typeof(celeb[0].team1players) != "undefined") {
-      celeb[0].team1players.forEach(function(player) {
+      return celeb[0].team1players.map(function(player) {
         if (player.userId == Meteor.userId()) {
-          console.log(player.hand[0].path);
-          return player.hand[0].path;
+          return player.hand;
         }
-      });
+      })[0];
     }
     if (typeof(celeb[0].team2players) != "undefined") {
-      celeb[0].team2players.forEach(function(player) {
+      return celeb[0].team2players.map(function(player) {
         if (player.userId == Meteor.userId()) {
-          console.log(player.hand);
-          return player.hand[0];
+          return player.hand;
         }
-      });
+      })[0];
     }
   },
   selected: function() {

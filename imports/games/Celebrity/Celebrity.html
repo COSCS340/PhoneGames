@@ -14,16 +14,14 @@
 </template>
 
 <template name="celebrity">
-
-    <p>t - {{hand}}</p>
-<!--    {{#each hand}}
-      <p> 1 </p>
-      <input type="checkbox"><img src="{{this.path}}"><br>
+  {{#unless selected}}
+    {{#each hand}}
+      <input type="checkbox" id="{{this.name}}">
+      <label for="{{this.name}}">{{this.name}}</label>
     {{/each}}
--->
-    <p> selected </p>
-
-  <p> testing </p>
+  {{else}}
+    <p> cards have been selected </p>
+  {{/unless}}
 </template>
 
 <template name="celebrityTest">
