@@ -121,7 +121,8 @@ Meteor.methods({
       },
       {
         $set: {
-          started: true
+          started: true,
+          "turn.hand": deck
         }
       }
     );

@@ -34,9 +34,11 @@ Template.Celebrity.helpers({
         if (player.userId == Meteor.userId()) {
           return player.hand;
         }
-      })[0];
-      if (typeof playerHand != "undefined") {
-        return playerHand;
+      });
+      for (let i = 0; i < playerHand.length; i++) {
+        if (typeof playerHand[i] != "undefined") {
+          return playerHand[i];
+        }
       }
     }
   },
