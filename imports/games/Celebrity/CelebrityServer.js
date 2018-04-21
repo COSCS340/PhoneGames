@@ -52,7 +52,7 @@ Meteor.methods({
         team[index] = Object.assign(
           {
             hand: tmpdeck.splice(0, numCards * 2),
-            team: "team1",
+            team: "Team 1",
             ready: false
           },
           player
@@ -61,7 +61,7 @@ Meteor.methods({
         team[index] = Object.assign(
           {
             hand: tmpdeck.splice(0, numCards * 2),
-            team: "team2",
+            team: "Team 2",
             ready: false
           },
           player
@@ -111,7 +111,6 @@ Meteor.methods({
   },
 
   startCelebrity: function(celeb) {
-    //    let startplayer = celeb.team1players[0];
     let deck = celeb.deck;
     shuffle(deck);
 
@@ -130,10 +129,6 @@ Meteor.methods({
 });
 
 Celebrity.allow({
-  insert() {
-    return true;
-  },
-
   update(userId, doc, fieldNames, modifier) {
     return true;
   }

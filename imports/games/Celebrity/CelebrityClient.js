@@ -100,6 +100,27 @@ Template.Celebrity.events({
   }
 });
 
+Template.celebrityPlay.helpers({
+  myTurn: function () {
+    let celeb = Celebrity.find({"players.userId": Meteor.userId()}).fetch()[0];
+    return (celeb.turn && celeb.turn.userId == Meteor.userId());
+  },
+
+  cardPath: function() {
+    let celeb = Celebrity.find({"players.userId": Meteor.userId()}).fetch()[0];
+    if (celeb && celeb.turn && celeb.turn.hand && celeb.turn.hand[0].path) {
+      return celeb.turn.hand[0].path;
+    }
+  },
+
+  currentTeam: function() {
+    let celeb = Celebrity.find({"players.userId": Meteor.userId()}).fetch()[0];
+    if (celeb && celeb.turn && celeb.turn.team) {
+      return celeb.turn.team;
+    }
+  }
+});
+
 Template.celebrityTest.helpers({
   card: function() {
     return Session.get("currentCard");
