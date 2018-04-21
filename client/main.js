@@ -236,7 +236,6 @@ Template.lobby.onCreated(function() {
     "players.userId": Meteor.userId()
   }).observeChanges({
     changed: function(id, fields) {
-      console.log(fields);
       var lobby = Lobbies.find({
         "players.userId": Meteor.userId()
       }).fetch();

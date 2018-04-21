@@ -13,21 +13,25 @@
   <button class = "btn-start">Start Lobby</button>
 </template>
 
-<template name="celebrity">
+<template name="Celebrity">
   {{#unless selected}}
-    {{#each hand}}
+    {{#each card}}
       <input type="checkbox" id="{{this.name}}" class="cardSelect">
       <label for="{{this.name}}">{{this.name}}</label><br>
     {{/each}}
     <button class = "btn-select">Select Cards</button><br>
     <span id = "errCards"></span>
   {{else}}
-    {{#unless ready}}
+    {{#unless started}}
       <p>Wait for everyone to select their cards.</p>
     {{else}}
-      <p>Everyone is ready</p>
+      {{> celebrityPlay }}
     {{/unless}}
   {{/unless}}
+</template>
+
+<template name="celebrityPlay">
+  <p> Everyone has selected. </p>
 </template>
 
 <template name="celebrityTest">

@@ -28,11 +28,8 @@ const PlayerInfoSchema = new SimpleSchema({
 });
 
 Schemas.Celebrity = new SimpleSchema({
-  team1players: Array,
-  "team1players.$": PlayerInfoSchema,
-
-  team2players: Array,
-  "team2players.$": PlayerInfoSchema,
+  players: Array,
+  "players.$": PlayerInfoSchema,
 
   team1score: {
     type: Number
@@ -55,6 +52,14 @@ Schemas.Celebrity = new SimpleSchema({
 
   ready: {
     type: Number
+  },
+
+  started: {
+    type: Boolean
+  },
+
+  turn: {
+    type: PlayerInfoSchema
   }
 });
 

@@ -12,71 +12,55 @@ Template.celebrityLobbyOptions.events({
     safe = cardSafety[$("#cardSafety :selected").text()];
     length = gameLength[$("#gameLength :selected").text()];
     Meteor.call("makeCelebrity", safe, length, function() {
-      Session.set("whatGame", "celebrity");
+      Session.set("whatGame", "Celebrity");
       Meteor.call("startLobby", function() {
-        Session.set("currentView", "celebrity");
+        Session.set("currentView", "Celebrity");
       });
     });
   }
 });
 
-Template.celebrity.onCreated(function() {
+Template.Celebrity.onCreated(function() {
   Session.set("selected", false);
 });
 
-Template.celebrity.helpers({
-  hand: function() {
+Template.Celebrity.helpers({
+  card: function() {
     let celeb = Celebrity.find({
-      $or: [
-        {
-          "team1players.userId": Meteor.userId()
-        },
-        {
-          "team2players.userId": Meteor.userId()
-        }
-      ]
+      "players.userId": Meteor.userId()
     }).fetch();
-    if (typeof celeb[0].team1players != "undefined") {
-      return celeb[0].team1players.map(function(player) {
+    if (typeof celeb[0].players != "undefined") {
+      var playerHand = celeb[0].players.map(function(player) {
         if (player.userId == Meteor.userId()) {
           return player.hand;
         }
       })[0];
-    }
-    if (typeof celeb[0].team2players != "undefined") {
-      return celeb[0].team2players.map(function(player) {
-        if (player.userId == Meteor.userId()) {
-          return player.hand;
-        }
-      })[0];
+      if (typeof playerHand != "undefined") {
+        return playerHand;
+      }
     }
   },
   selected: function() {
     return Session.get("selected");
   },
-  ready: function () {
+  started: function() {
     let celeb = Celebrity.findOne({
-      $or: [
-        {
-          "team1players.userId": Meteor.userId()
-        },
-        {
-          "team2players.userId": Meteor.userId()
-        }
-      ]
+      "players.userId": Meteor.userId()
     });
-    let cnt = 0;
-    if (typeof(celeb.team1players) != 'undefined') {
-      cnt += celeb.team1players.length;
+
+    if (typeof celeb.started != "undefined") {
+      return celeb.started;
     }
-    if (typeof(celeb.team2players) != 'undefined') {
-      cnt += celeb.team2players.length;
-    }
-    return (celeb.ready >= cnt);
+    return false;
+  },
+  hand: function() {
+    let celeb = Celebrity.findOne({
+      "players.userId": Meteor.userId()
+    });
   }
 });
 
-Template.celebrity.events({
+Template.Celebrity.events({
   "click .btn-select": function() {
     let checkboxes = document.getElementsByClassName("cardSelect");
     let cnt = 0;
@@ -98,6 +82,7 @@ Template.celebrity.events({
       }
       Meteor.call("selectCards", addCards, function() {
         Session.set("selected", true);
+        Meteor.call("checkReady");
       });
 
       $("#errCards").html("You're good to go.");

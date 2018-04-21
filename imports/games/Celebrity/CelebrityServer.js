@@ -1,26 +1,28 @@
 // import "./CelebrityCollection.js";
 
-var CelebrityData = require("./CelebrityCards.json");
-var CelebrityCards = CelebrityData.cards;
+let CelebrityData = require("./CelebrityCards.json");
+let CelebrityCards = CelebrityData.cards;
 
 Meteor.methods({
+  checkReady: function() {
+    let celeb = Celebrity.find({
+      "players.userId": this.userId
+    }).fetch()[0];
+    if (typeof celeb.players != "undefined") {
+      if (celeb.ready >= celeb.players.length) {
+        Meteor.call("startCelebrity", celeb);
+      }
+    }
+  },
+
   makeCelebrity: function(cardSafety, gameLength) {
-    var listOfPlayers = Lobbies.findOne({ createdById: this.userId }).players;
+    let listOfPlayers = Lobbies.findOne({ createdById: this.userId }).players;
     if (
       typeof listOfPlayers == "undefined" ||
       typeof listOfPlayers.length == "undefined"
     ) {
       console.log(listOfPlayers);
       return console.log("Something went wrong");
-    }
-    var team1 = [],
-      team2 = [];
-    for (let i = 0; i < listOfPlayers.length; i++) {
-      if (!(i % 2)) {
-        team1.push(listOfPlayers[i]);
-      } else {
-        team2.push(listOfPlayers[i]);
-      }
     }
 
     let deck;
@@ -43,79 +45,94 @@ Meteor.methods({
 
     let tmpdeck = shuffle(deck);
     let numCards = 5;
+    let team = [];
 
-    team1.forEach(function(player, index, team) {
-      team[index] = Object.assign(
-        {
-          hand: tmpdeck.splice(0, numCards * 2),
-          team: "team1",
-          ready: false
-        },
-        player
-      );
-    });
-
-    team2.forEach(function(player, index, team) {
-      team[index] = Object.assign(
-        {
-          hand: tmpdeck.splice(0, numCards * 2),
-          team: "team2",
-          ready: false
-        },
-        player
-      );
+    listOfPlayers.forEach(function(player, index, team) {
+      if (!(index % 2)) {
+        team[index] = Object.assign(
+          {
+            hand: tmpdeck.splice(0, numCards * 2),
+            team: "team1",
+            ready: false
+          },
+          player
+        );
+      } else {
+        team[index] = Object.assign(
+          {
+            hand: tmpdeck.splice(0, numCards * 2),
+            team: "team2",
+            ready: false
+          },
+          player
+        );
+      }
     });
 
     Celebrity.insert({
-      team1players: team1,
-      team2players: team2,
+      players: listOfPlayers,
       team1score: 0,
       team2score: 0,
       round: 1,
+      deck: [],
       ready: 0,
-      deck: []
+      started: false,
+      turn: listOfPlayers[0]
     });
-
-    /*    console.log(
-      Celebrity.find({
-        $or: [
-          {
-            "team1players.userId": this.userId
-          },
-          {
-            "team2players.userId": this.userId
-          }
-        ]
-      }).fetch()
-    );
-    */
   },
 
   selectCards: function(addCards) {
-    let celeb = Celebrity.findOne({
-      $or: [
-        {
-          "team1players.userId": this.userId
-        },
-        {
-          "team2players.userId": this.userId
-        }
-      ]
-    });
-
     Celebrity.update(
-      { _id: celeb._id },
-      { $addToSet: { deck: { $each: addCards } } }
+      {
+        "players.userId": this.userId
+      },
+      {
+        $addToSet: {
+          deck: {
+            $each: addCards
+          }
+        },
+        $inc: {
+          ready: 1
+        }
+      }
     );
 
     Celebrity.update(
-      { _id: celeb._id },
-      { $set: { ready: celeb.ready + 1 } }
+      {
+        "players.userId": this.userId
+      },
+      {
+        $set: {
+          "players.$.hand": []
+        }
+      }
+    );
+  },
+
+  startCelebrity: function(celeb) {
+    //    let startplayer = celeb.team1players[0];
+    let deck = celeb.deck;
+    shuffle(deck);
+
+    Celebrity.update(
+      {
+        _id: celeb._id
+      },
+      {
+        $set: {
+          started: true
+        }
+      }
     );
   }
 });
 
 Celebrity.allow({
+  insert() {
+    return true;
+  },
+
   update(userId, doc, fieldNames, modifier) {
     return true;
   }
