@@ -1,16 +1,13 @@
 import "./Celebrity.html";
 import { gameLength, cardSafety } from "./config.js";
 
-var cnt = 0;
 var CelebrityData = require("./CelebrityCards.json");
 var CelebrityCards = CelebrityData.cards;
-var safe;
-var length;
 
 Template.celebrityLobbyOptions.events({
   "click .btn-start": function() {
-    safe = cardSafety[$("#cardSafety :selected").text()];
-    length = gameLength[$("#gameLength :selected").text()];
+    let safe = cardSafety[$("#cardSafety :selected").text()];
+    let length = gameLength[$("#gameLength :selected").text()];
     Meteor.call("makeCelebrity", safe, length, function() {
       Session.set("whatGame", "Celebrity");
       Meteor.call("startLobby", function() {
@@ -49,8 +46,11 @@ Template.Celebrity.helpers({
     let celeb = Celebrity.findOne({
       "players.userId": Meteor.userId()
     });
+    if (!celeb) {
+      return true;
+    }
 
-    if (typeof celeb.started != "undefined") {
+    if (celeb && celeb.started) {
       return celeb.started;
     }
     return false;
@@ -106,6 +106,11 @@ Template.celebrityPlay.events({
   },
   "click .btn-got": function() {
     Meteor.call("scoreCard");
+  },
+  "click .btn-start": function() {
+    Meteor.call("timer", function() {
+      Session.set("ready", true);
+    });
   }
 });
 
@@ -114,7 +119,12 @@ Template.celebrityPlay.helpers({
     let celeb = Celebrity.find({
       "players.userId": Meteor.userId()
     }).fetch()[0];
-    return celeb.turn && celeb.turn.userId == Meteor.userId();
+    if (celeb.turn && celeb.turn.userId == Meteor.userId()) {
+      return true;
+    } else {
+      Session.set("ready", false);
+      return false;
+    }
   },
 
   cardPath: function() {
@@ -131,8 +141,20 @@ Template.celebrityPlay.helpers({
       "players.userId": Meteor.userId()
     }).fetch()[0];
     if (celeb && celeb.turn && celeb.turn.team) {
-      return celeb.turn.team;
+      for (let i = 0; i < celeb.players.length; i++) {
+        if (celeb.players[i].userId == Meteor.userId()) {
+          if (celeb.turn.team == celeb.players[i].team) {
+            return "your";
+          } else {
+            return "the other";
+          }
+        }
+      }
     }
+  },
+
+  ready: function() {
+    return Session.get("ready");
   },
 
   round: function() {
@@ -142,27 +164,52 @@ Template.celebrityPlay.helpers({
     if (celeb && celeb.round) {
       return celeb.round;
     }
-  }
-});
-
-Template.celebrityTest.helpers({
-  card: function() {
-    return Session.get("currentCard");
-  }
-});
-
-Template.celebrityTest.events({
-  "click .btn-next": function() {
-    cnt += 1;
-    Session.set("currentCard", CelebrityCards[cnt - 1].path);
   },
-  "click .btn-list": function() {
-    Session.set("currentView", "celebrityCardList");
+
+  time: function() {
+    let celeb = Celebrity.find({
+      "players.userId": Meteor.userId()
+    }).fetch()[0];
+    if (celeb && celeb.time) {
+      let time = new Date(60000 - celeb.time);
+      if (time < 10000) {
+        return time.getUTCMinutes() + ':0' + time.getUTCSeconds();
+      }
+      return time.getUTCMinutes() + ':' + time.getUTCSeconds();
+    } else {
+      return '1:00';
+    }
+  },
+  endStr: function() {
+    let celeb = Celebrity.find({
+      "players.userId": Meteor.userId()
+    }).fetch()[0];
+    if (celeb) {
+      if (celeb.team1score > celeb.team2score) {
+        return "Team 1 won with a score of " + celeb.team1score + "<br>Team 2 lost with a score of " + celeb.team2score;
+      } else if (celeb.team1score < celeb.team2score) {
+        return "Team 2 won with a score of " + celeb.team2score + "<br>Team 1 lost with a score of " + celeb.team1score;
+      } else if (celeb.team1score == celeb.team2score) {
+        return "Both teams tied with a score of " + celeb.team1score;
+      }
+    } else {
+      return "This game has been deleted.";
+    }
+  },
+  gameEnded: function() {
+    let celeb = Celebrity.find({
+      "players.userId": Meteor.userId()
+    }).fetch()[0];
+    if (!celeb) {
+      return true;
+    }
+    if (celeb && celeb.finished) {
+      return celeb.finished;
+    }
   }
+
 });
 
-Template.celebrityCardList.helpers({
-  CelebrityCards: function() {
-    return CelebrityCards;
-  }
+Template.celebrityPlay.onCreated(function(){
+  Session.set("ready", false);
 });

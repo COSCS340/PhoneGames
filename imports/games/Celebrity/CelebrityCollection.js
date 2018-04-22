@@ -22,8 +22,8 @@ const PlayerInfoSchema = new SimpleSchema({
     type: String
   },
 
-  ready: {
-    type: Boolean
+  order: {
+    type: Number
   }
 });
 
@@ -58,8 +58,16 @@ Schemas.Celebrity = new SimpleSchema({
     type: Boolean
   },
 
+  finished: {
+    type: Boolean
+  },
+
   turn: {
     type: PlayerInfoSchema
+  },
+
+  time: {
+    type: Number
   }
 });
 

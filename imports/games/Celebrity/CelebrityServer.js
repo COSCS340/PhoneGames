@@ -1,7 +1,6 @@
-// import "./CelebrityCollection.js";
-
 let CelebrityData = require("./CelebrityCards.json");
 let CelebrityCards = CelebrityData.cards;
+let Timers = {};
 
 Meteor.methods({
   checkReady: function() {
@@ -13,6 +12,22 @@ Meteor.methods({
         Meteor.call("startCelebrity", celeb);
       }
     }
+  },
+
+  endGame: function (userId) {
+    Celebrity.update(
+      {
+        "players.userId": userId
+      },
+      {
+        $set: {
+          finished: true
+        }
+      }
+    );
+    Meteor.setTimeout(function() {
+      Celebrity.remove({"players.userId": userId});
+    }, 10000);
   },
 
   makeCelebrity: function(cardSafety, gameLength) {
@@ -53,7 +68,7 @@ Meteor.methods({
           {
             hand: tmpdeck.splice(0, numCards * 2),
             team: "Team 1",
-            ready: false
+            order: index
           },
           player
         );
@@ -62,7 +77,7 @@ Meteor.methods({
           {
             hand: tmpdeck.splice(0, numCards * 2),
             team: "Team 2",
-            ready: false
+            order: index
           },
           player
         );
@@ -77,7 +92,9 @@ Meteor.methods({
       deck: [],
       ready: 0,
       started: false,
-      turn: listOfPlayers[0]
+      finished: false,
+      turn: listOfPlayers[0],
+      time: 0
     });
   },
 
@@ -96,7 +113,37 @@ Meteor.methods({
     );
   },
 
-  nextRound: function() {
+  nextTurn: function(userId) {
+    let celeb = Celebrity.findOne({ "players.userId": userId });
+    let hand = celeb.turn.hand;
+    let next = ((celeb.turn.order + 1) % celeb.players.length);
+    let player = celeb.players[next];
+    player.hand = hand;
+
+    Celebrity.update(
+      {
+        _id: celeb._id
+      },
+      {
+        $set: {
+          turn: player,
+          time: 0
+        }
+      }
+    )
+  },
+
+  nextRound: function(userId) {
+    let celeb = Celebrity.findOne({ "players.userId": userId});
+    Meteor.clearInterval(Timers[celeb._id]);
+    if (celeb.round >= 3) {
+      return Meteor.call("endGame", userId);
+    }
+    let deck = shuffle(celeb.deck);
+    let next = ((celeb.turn.order + 1) % celeb.players.length);
+    let player = celeb.players[next];
+    player.hand = deck;
+
     Celebrity.update(
       {
         "players.userId": this.userId
@@ -104,6 +151,10 @@ Meteor.methods({
       {
         $inc: {
           round: 1
+        },
+        $set: {
+          turn: player,
+          time: 0
         }
       }
     );
@@ -113,8 +164,17 @@ Meteor.methods({
     let turn = Celebrity.findOne({ "players.userId": this.userId }).turn;
     score = turn.hand.shift().points;
     if (turn.hand.length == 0) {
-      Meteor.call("nextRound");
-      return;
+      Celebrity.update(
+        {
+          "players.userId": this.userId
+        },
+        {
+          $inc: {
+            team1score: score
+          }
+        }
+      );
+      return Meteor.call("nextRound", this.userId);
     }
     if (turn.team == "Team 1") {
       Celebrity.update(
@@ -137,7 +197,7 @@ Meteor.methods({
         },
         {
           $set: {
-            "turn.hand": turn.hand,
+            "turn.hand": turn.hand
           },
           $inc: {
             team2score: score
@@ -191,6 +251,29 @@ Meteor.methods({
         }
       }
     );
+  },
+
+  timer: function() {
+    let start = Date.parse(new Date());
+    let celeb = Celebrity.findOne({"players.userId": this.userId});
+    let id = Meteor.setInterval(function() {
+      if ((Date.parse(new Date()) - start) <= 60000) {
+        Celebrity.update(
+          {
+            _id: celeb._id
+          },
+          {
+            $set: {
+              time: Date.parse(new Date()) - start
+            }
+          }
+        )
+      } else {
+        Meteor.clearInterval(id);
+        Meteor.call("nextTurn", this.userId);
+      }
+    }, 1000);
+    Timers[celeb._id] = id;
   }
 });
 

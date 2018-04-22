@@ -31,21 +31,20 @@
 </template>
 
 <template name="celebrityPlay">
-  {{#if myTurn}}
-    <img src="{{cardPath}}" height="200" width="100"><br>
-    <button class = "btn-got">Got it</button><button class = "btn-pass">Pass</button>
+  {{#unless gameEnded}}
+    {{#if myTurn}}
+      {{#if ready}}
+        <p>Time left: {{time}}</p>
+        <img src="{{cardPath}}" height="500" width="250"><br>
+        <button class = "btn-got">Got it</button><button class = "btn-pass">Pass</button>
+      {{else}}
+        <button class = "btn-start">Start</button>
+      {{/if}}
+    {{else}}
+      <p>It's round {{round}} and {{currentTeam}} team is up.</p>
+      <p>They have {{time}} left before your team is up.</p>
+    {{/if}}
   {{else}}
-    <p>It's round {{round}} and it's {{currentTeam}}'s turn. You'll have to wait.</p>
-  {{/if}}
-</template>
-
-<template name="celebrityTest">
-  <img src="{{card}}"><button class = "btn-next">Next Card</button><button class = "btn-list">List Cards</button>
-  <p> {{card}} </p>
-</template>
-
-<template name="celebrityCardList">
-  {{#each CelebrityCards}}
-    {{this.name}}: {{this.points}}, {{this.safe}}, {{this.path}}<br>
-  {{/each}}
+    <p>{{{endStr}}}</p>
+  {{/unless}}
 </template>
