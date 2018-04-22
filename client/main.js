@@ -14,7 +14,6 @@ Meteor.startup(() => {
   Session.set("currentView", "homepage");
   Session.set("whatGame", "none");
   Session.set("mainDivClass", "center-center-container");
-  Session.set("currentCard", "/Celebrity/Blacula.png");
   Meteor.subscribe("allUsers");
   Meteor.subscribe("lobbies");
   Meteor.subscribe("games");
@@ -76,7 +75,13 @@ Template.gameSelect.events({
 
   "click .btn-game-3": function() {
     Session.set("whatGame", "Celebrity");
-    Session.set("currentView", "celebrityLobbyOptions");
+    if (!Meteor.user().username) {
+      Session.set("currentView", "newGame");
+    } else {
+      Meteor.call("createLobby", Session.get("whatGame"), function() {
+        Session.set("currentView", "lobby");
+      });
+    }
     /*		if (!Meteor.user().username) {
     			Session.set("currentView", "newGame");
     		} else {
@@ -177,10 +182,8 @@ Template.joinGame.events({
     }
   },
 
-  /* change to event.target.length != # of chars lobby strings are later when lobbies are implemented */
   'blur input[name = "lobbyID"]': function(event, template) {
-    var tVal = event.target.value;
-    if (!tVal) {
+    if (event.target.value.length != 4) {
       $("#textbox-lobby").css("border-color", "#e52213");
       $("#errLobby").html("lobby ids must be exactly 4 characters");
     } else {
@@ -194,7 +197,7 @@ Template.joinGame.events({
     if (document.getElementById("textbox-name")) {
       name = document.getElementById("textbox-name").value;
     }
-    var lobbyId = document.getElementById("textbox-lobby").value;
+    var lobbyId = document.getElementById("textbox-lobby").value.toUpperCase();
     if (name && name.length > 0 && name.length < 15) {
       Meteor.call("changeUsername", name, function(error, result) {
         if (result == errCodes["userTaken"]) {
@@ -233,7 +236,6 @@ Template.lobby.onCreated(function() {
     "players.userId": Meteor.userId()
   }).observeChanges({
     changed: function(id, fields) {
-      console.log(fields);
       var lobby = Lobbies.find({
         "players.userId": Meteor.userId()
       }).fetch();
@@ -258,8 +260,6 @@ Template.lobby.onDestroyed(function() {
 Template.lobby.events({
   "click .btn-start": function() {
     makeGame(Session.get("whatGame"));
-    Session.set("currentView", Session.get("whatGame"));
-    Meteor.call("startLobby");
   },
 
   "click .btn-back": function() {
@@ -290,7 +290,7 @@ Template.lobby.helpers({
     return this.name;
   },
 
-  playerCount: function() {
+  playerCountMet: function() {
     var lobby = Lobbies.find({}).fetch();
     if (lobby && lobby[0] && lobby[0].players) {
       return (
@@ -408,6 +408,11 @@ function makeGame(gameName) {
         createdBy: this.userId
       }).fetch()[0].players[1].userId
     );
+    Session.set("currentView", Session.get("whatGame"));
+    Meteor.call("startLobby");
+  } else if (gameName == "Celebrity") {
+    Session.set("whatGame", "celebrityLobbyOptions");
+    Session.set("currentView", Session.get("whatGame"));
   } else {
     console.log("the game name is undefined: " + gameName);
   }

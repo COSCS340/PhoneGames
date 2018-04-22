@@ -54,7 +54,7 @@
 			<input type = "text" name = "username" id = "textbox-name" placeholder = "Name">
 			<span id = "errName"></span><br>
 		{{/unless}}
-		<input type = "text" name = "lobbyID" id = "textbox-lobby" placeholder = "Lobby ID">
+		<input type = "text" name = "lobbyID" id = "textbox-lobby" placeholder = "Lobby ID" style = "text-transform: uppercase">
 		<span id = "errLobby"></span><br>
 		<button type = "submit" class = "btn-join-game">Join</button> <button class = "btn-back">Back</button>
 	</form>
@@ -88,7 +88,7 @@
 	{{#each users}}
 		{{this.name}}<br>
 	{{/each}}
-  {{#if playerCount}}
+  {{#if playerCountMet}}
     <button class = "btn-start">Start</button>
   {{/if}}
 	<button class = "btn-back">Back</button>
