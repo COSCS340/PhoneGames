@@ -100,23 +100,47 @@ Template.Celebrity.events({
   }
 });
 
+Template.celebrityPlay.events({
+  "click .btn-pass": function() {
+    Meteor.call("nextCard");
+  },
+  "click .btn-got": function() {
+    Meteor.call("scoreCard");
+  }
+});
+
 Template.celebrityPlay.helpers({
-  myTurn: function () {
-    let celeb = Celebrity.find({"players.userId": Meteor.userId()}).fetch()[0];
-    return (celeb.turn && celeb.turn.userId == Meteor.userId());
+  myTurn: function() {
+    let celeb = Celebrity.find({
+      "players.userId": Meteor.userId()
+    }).fetch()[0];
+    return celeb.turn && celeb.turn.userId == Meteor.userId();
   },
 
   cardPath: function() {
-    let celeb = Celebrity.find({"players.userId": Meteor.userId()}).fetch()[0];
+    let celeb = Celebrity.find({
+      "players.userId": Meteor.userId()
+    }).fetch()[0];
     if (celeb && celeb.turn && celeb.turn.hand && celeb.turn.hand[0].path) {
       return celeb.turn.hand[0].path;
     }
   },
 
   currentTeam: function() {
-    let celeb = Celebrity.find({"players.userId": Meteor.userId()}).fetch()[0];
+    let celeb = Celebrity.find({
+      "players.userId": Meteor.userId()
+    }).fetch()[0];
     if (celeb && celeb.turn && celeb.turn.team) {
       return celeb.turn.team;
+    }
+  },
+
+  round: function() {
+    let celeb = Celebrity.find({
+      "players.userId": Meteor.userId()
+    }).fetch()[0];
+    if (celeb && celeb.round) {
+      return celeb.round;
     }
   }
 });

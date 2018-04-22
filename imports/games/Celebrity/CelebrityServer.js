@@ -81,6 +81,72 @@ Meteor.methods({
     });
   },
 
+  nextCard: function() {
+    let hand = Celebrity.findOne({ "players.userId": this.userId }).turn.hand;
+    hand[hand.length - 1] = hand.shift();
+    Celebrity.update(
+      {
+        "players.userId": this.userId
+      },
+      {
+        $set: {
+          "turn.hand": hand
+        }
+      }
+    );
+  },
+
+  nextRound: function() {
+    Celebrity.update(
+      {
+        "players.userId": this.userId
+      },
+      {
+        $inc: {
+          round: 1
+        }
+      }
+    );
+  },
+
+  scoreCard: function() {
+    let turn = Celebrity.findOne({ "players.userId": this.userId }).turn;
+    score = turn.hand.shift().points;
+    if (turn.hand.length == 0) {
+      Meteor.call("nextRound");
+      return;
+    }
+    if (turn.team == "Team 1") {
+      Celebrity.update(
+        {
+          "players.userId": this.userId
+        },
+        {
+          $set: {
+            "turn.hand": turn.hand
+          },
+          $inc: {
+            team1score: score
+          }
+        }
+      );
+    } else {
+      Celebrity.update(
+        {
+          "players.userId": this.userId
+        },
+        {
+          $set: {
+            "turn.hand": turn.hand,
+          },
+          $inc: {
+            team2score: score
+          }
+        }
+      );
+    }
+  },
+
   selectCards: function(addCards) {
     Celebrity.update(
       {
