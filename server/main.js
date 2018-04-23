@@ -2,6 +2,7 @@ import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 import "../lib/collections.js";
 import "../imports/games/TTT/TTTserver.js";
+import "../imports/games/Spyfall/SpyfallServer.js";
 import "../imports/games/Celebrity/CelebrityServer.js";
 import {
   msgCodes,
@@ -14,6 +15,7 @@ Meteor.startup(() => {
   Lobbies.remove({});
   // Games.remove({});
   TTT.remove({});
+  SpyfallGames.remove({});
   Celebrity.remove({});
 
   Tracker.autorun(function() {
@@ -36,6 +38,11 @@ Meteor.startup(() => {
     Meteor.publish("celebrity", function() {
       return Celebrity.find();
     });
+
+    Meteor.publish("SpyfallGames", function() {
+      return SpyfallGames.find();
+    });
+
   });
 
   Meteor.methods({
@@ -178,7 +185,7 @@ Meteor.startup(() => {
         }
       );
     },
-
+    
     leaveGame(gameId) {}
   });
 

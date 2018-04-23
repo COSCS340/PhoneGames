@@ -5,6 +5,7 @@ import { ReactiveVar } from "meteor/reactive-var";
 import "../imports/games/Hangman/Hangman.js";
 import "../imports/startup/accounts-config.js";
 import "../imports/games/TTT/TTTclient.js";
+import "../imports/games/Spyfall/SpyfallClient.js";
 import "../imports/games/Celebrity/CelebrityClient.js";
 import "../lib/collections.js";
 import { msgCodes, errCodes } from "../lib/codes.js";
@@ -19,6 +20,7 @@ Meteor.startup(() => {
   Meteor.subscribe("games");
   Meteor.subscribe("ttt");
   Meteor.subscribe("celebrity");
+  Meteor.subscribe("SpyfallGames");
   //	Tracker.autorun(function() {
   if (!Meteor.user()) {
     AccountsAnonymous.login();
@@ -56,22 +58,23 @@ Template.header.events({
 });
 
 Template.gameSelect.events({
-  "click .btn-game-1": function() {
-    Session.set("currentView", "gameHangmanUI");
-    Session.set("docTitle", "Hangman");
-  },
 
-  "click .btn-game-2": function() {
-    Session.set("docTitle", "Tic-Tac-Toe");
-    Session.set("whatGame", "TTT");
-    if (!Meteor.user().username) {
-      Session.set("currentView", "newGame");
-    } else {
-      Meteor.call("createLobby", Session.get("whatGame"), function() {
+	'click .btn-game-1': function () {
+		Session.set("currentView", "gameHangmanUI");
+		Session.set("docTitle", "Hangman");
+	},
+
+	'click .btn-game-2': function () {
+		Session.set("docTitle", "Tic-Tac-Toe");
+		Session.set("whatGame", "TTT");
+		if (!Meteor.user().username) {
+			Session.set("currentView", "newGame");
+		} else {
+			Meteor.call('createLobby', Session.get("whatGame"), function() {
         Session.set("currentView", "lobby");
       });
-    }
-  },
+		}
+	},
 
   "click .btn-game-3": function() {
     Session.set("whatGame", "Celebrity");
@@ -92,11 +95,14 @@ Template.gameSelect.events({
   },
 
   "click .btn-game-4": function() {
-    Session.set("whatGame", "game4");
+    Session.set("whatGame", "Spyfall");
+    Session.set("docTitle", "Spyfall");
     if (!Meteor.user().username) {
       Session.set("currentView", "newGame");
     } else {
-      Session.set("currentView", "lobby");
+      Meteor.call("createLobby", Session.get("whatGame"), function() {
+        Session.set("currentView", "lobby");
+      });
     }
   },
 
@@ -112,6 +118,7 @@ Template.gameSelect.events({
   "click .btn-back": function() {
     Session.set("currentView", "homepage");
   }
+
 });
 
 Template.newGame.helpers({
@@ -260,6 +267,9 @@ Template.lobby.onDestroyed(function() {
 Template.lobby.events({
   "click .btn-start": function() {
     makeGame(Session.get("whatGame"));
+    Meteor.call("startLobby", function() {
+      Session.set("currentView", Session.get("whatGame"));
+    });
   },
 
   "click .btn-back": function() {
@@ -408,8 +418,15 @@ function makeGame(gameName) {
         createdBy: this.userId
       }).fetch()[0].players[1].userId
     );
-    Session.set("currentView", Session.get("whatGame"));
-    Meteor.call("startLobby");
+    Meteor.call("startLobby", function() {
+      Session.set("currentView", Session.get("whatGame"));
+    });
+  }
+  else if (gameName == "Spyfall") {
+    let players = Lobbies.findOne({createdBy: this.userId}).players;
+    if (players) {
+      Meteor.call("makeSpyfall", players);
+    }
   } else if (gameName == "Celebrity") {
     Session.set("whatGame", "celebrityLobbyOptions");
     Session.set("currentView", Session.get("whatGame"));
