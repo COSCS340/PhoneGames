@@ -239,7 +239,6 @@ Template.lobby.onCreated(function() {
     "players.userId": Meteor.userId()
   }).observeChanges({
     changed: function(id, fields) {
-      console.log(fields);
       var lobby = Lobbies.find({
         "players.userId": Meteor.userId()
       }).fetch();
@@ -257,8 +256,9 @@ Template.lobby.onCreated(function() {
 Template.lobby.events({
   "click .btn-start": function() {
     makeGame(Session.get("whatGame"));
-    Session.set("currentView", Session.get("whatGame"));
-    Meteor.call("startLobby");
+    Meteor.call("startLobby", function() {
+      Session.set("currentView", Session.get("whatGame"));
+    });
   },
 
   "click .btn-back": function() {
@@ -409,12 +409,13 @@ function makeGame(gameName) {
     );
   }
   else if (gameName == "Spyfall") {
-    console.log("making game");
-    console.log(Lobbies.findOne({createdBy: this.userId}).players);
-    Meteor.call(
-      "makeSpyfall",
-      Lobbies.findOne({createdBy: this.userId}).players
-    );
+    let players = Lobbies.findOne({createdBy: this.userId}).players;
+    if (players) {
+      Meteor.call(
+        "makeSpyfall",
+        players
+      );
+    }
   }
   else {
     console.log("the game name is undefined: " + gameName);

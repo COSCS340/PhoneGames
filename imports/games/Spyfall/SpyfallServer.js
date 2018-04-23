@@ -3,27 +3,37 @@ import { locations } from "./SpyfallLocations.js";
 
 Meteor.methods({
   makeSpyfall: function(pls) {
+    let local = pickLocation();
+    let roles = local.roles;
+
+    pls.forEach(function(player, index, pls) {
+      pls[index] = Object.assign(
+        {
+          role: roles.splice(Math.floor(Math.random() * roles.length), 1)[0]
+        },
+        player
+      );
+    });
+    pls[Math.floor(Math.random() * pls.length)].role = "Spy";
     SpyfallGames.insert({
       players: pls,
-      spy: pickSpy(pls),
-      location: pickLocation(),
-      endTime: (new Date().getTime()+10*60*1000)
+      location: local.name,
+      endTime: new Date().getTime() + 10 * 60 * 1000
     });
-    console.log(SpyfallGames.findOne({players: pls}));
   },
-  getRoleData: function(userID){
-    var game = SpyfallGames.findOne({'players.userId': userID});
-    if (game.spy.userId == userID)
-      return "spy";
-    else
-      return game.location;
+  getRole: function() {
+    let game = SpyfallGames.findOne({ "players.userId": this.userId });
+    let userId = this.userId;
+    return game.players.find(function(player) {
+      return (player.userId == userId);
+    }).role;
+  },
+  getLocation: function() {
+    let game = SpyfallGames.findOne({ "players.userId": this.userId });
+    return game.location;
   }
 });
 
-function pickSpy(players){
-  return players[Math.floor(Math.random() * players.length)];
-}
-
-function pickLocation(){
+function pickLocation() {
   return locations[Math.floor(Math.random() * locations.length)];
 }

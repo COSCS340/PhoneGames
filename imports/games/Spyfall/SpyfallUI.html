@@ -2,6 +2,9 @@
 
   <h1>Spyfall!</h1>
   <p><h1>{{timeLeft}}</h1></p>
+  {{#unless isSpy}}
+    <p><h1>{{location}}</h1></p>
+  {{/unless}}
   <p><h1>{{role}}</h1></p>
 
   <div class="grid-container">

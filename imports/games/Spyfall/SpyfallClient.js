@@ -6,31 +6,29 @@ Template.Spyfall.onCreated(function() {
   this.role = new ReactiveVar("You have not yet been assigned a role");
   this.ready = new ReactiveVar(0);
   this.timeLeft = new ReactiveVar("clock not yet started");
+  Session.set('endTime', SpyfallGames.findOne({'players.userId': Meteor.userId()}).endTime);
 
-  Meteor.setTimeout(function(){ //wait to make sure database is ready
+  Meteor.setInterval(function() {
+    var left = (Session.get('endTime') - new Date().getTime())/1000;
+    var min = Math.floor(left / 60);
+    var sec = Math.floor(left % 60);
+    if (sec < 10) {
+      sec = "0" + sec;
+    }
+    Session.set('timeLeft', min + ":" + sec);
+  }, 1000);
 
-      Session.set('endTime', SpyfallGames.findOne({'players.userId': Meteor.userId()}).endTime);
+  Meteor.call("getLocation", function(error, result){
+    Session.set("location", "Your location: " + result);
+  });
 
-      //Update time remaining on screen every second
-      Meteor.setInterval(function() {
-        var left = (Session.get('endTime') - new Date().getTime())/1000;
-        var min = Math.floor(left/60);
-        var sec = Math.floor(left%60);
-        if (sec<10)
-          sec = "0" + sec;
-        Session.set('timeLeft', min + ":" + sec);
-        console.log(Session.get('timeLeft'));
-      }, 1000);
-
-      //get role/location
-      Meteor.call("getRoleData", Meteor.userId(), function(error, result){
-        if (result == "spy")
-          Session.set('role', "You are the Spy!");
-        else
-          Session.set('role', "You are at a " + result + "!");
-      });
-
-  }, 500);
+  Meteor.call("getRole", function(error, result){
+    if (result == "Spy") {
+      Session.set('role', "You are the Spy!");
+    } else {
+      Session.set('role', "Your role: " + result);
+    }
+  });
 });
 
 Template.Spyfall.helpers({
@@ -45,6 +43,15 @@ Template.Spyfall.helpers({
   },
   ready: function() {
     return Template.instance().ready.get();
+  },
+  isSpy: function() {
+    if (Session.get("role") == "You are the Spy!") {
+      return true;
+    }
+    return false;
+  },
+  location: function() {
+    return Session.get("location");
   }
 });
 

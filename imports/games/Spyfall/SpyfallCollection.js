@@ -1,24 +1,34 @@
 import SimpleSchema from "simpl-schema";
 
 SpyfallGames = new Mongo.Collection("SpyfallGames");
-/*const Schemas = {};
+const Schemas = {};
 
-Schemas.SpyfallGames = new SimpleSchema({
-  player1: {
+const PlayerInfoSchema = new SimpleSchema({
+  name: {
     type: String
   },
-  player2: {
-    type: String
+  userId: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id
   },
-  turn: {
+  role: {
     type: String
-  },
-  board: {
-    type: String
-  },
-  win: {
-    type: Number
   }
 });
 
-SpyfallGames.attachSchema(Schemas.SpyfallGames);*/
+Schemas.SpyfallGames = new SimpleSchema({
+
+  players: Array,
+  "players.$": PlayerInfoSchema,
+
+  location: {
+    type: String
+  },
+
+  endTime: {
+    type: Number
+  }
+
+});
+
+SpyfallGames.attachSchema(Schemas.SpyfallGames);
