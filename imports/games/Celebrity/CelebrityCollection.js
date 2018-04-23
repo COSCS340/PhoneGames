@@ -20,21 +20,53 @@ const PlayerInfoSchema = new SimpleSchema({
 
   team: {
     type: String
+  },
+
+  order: {
+    type: Number
   }
 });
 
 Schemas.Celebrity = new SimpleSchema({
-  team1players: Array,
-  "team1players.$": PlayerInfoSchema,
-
-  team2players: Array,
-  "team2players.$": PlayerInfoSchema,
+  players: Array,
+  "players.$": PlayerInfoSchema,
 
   team1score: {
     type: Number
   },
 
   team2score: {
+    type: Number
+  },
+
+  round: {
+    type: Number
+  },
+
+  deck: Array,
+  "deck.$": Object,
+  "deck.$.name": String,
+  "deck.$.points": Number,
+  "deck.$.safe": String,
+  "deck.$.path": String,
+
+  ready: {
+    type: Number
+  },
+
+  started: {
+    type: Boolean
+  },
+
+  finished: {
+    type: Boolean
+  },
+
+  turn: {
+    type: PlayerInfoSchema
+  },
+
+  time: {
     type: Number
   }
 });

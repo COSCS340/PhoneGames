@@ -16,6 +16,7 @@ Meteor.startup(() => {
   // Games.remove({});
   TTT.remove({});
   SpyfallGames.remove({});
+  Celebrity.remove({});
 
   Tracker.autorun(function() {
     Meteor.publish("lobbies", function() {
