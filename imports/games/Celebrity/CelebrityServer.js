@@ -163,19 +163,6 @@ Meteor.methods({
   scoreCard: function() {
     let turn = Celebrity.findOne({ "players.userId": this.userId }).turn;
     score = turn.hand.shift().points;
-    if (turn.hand.length == 0) {
-      Celebrity.update(
-        {
-          "players.userId": this.userId
-        },
-        {
-          $inc: {
-            team1score: score
-          }
-        }
-      );
-      return Meteor.call("nextRound", this.userId);
-    }
     if (turn.team == "Team 1") {
       Celebrity.update(
         {
@@ -204,6 +191,9 @@ Meteor.methods({
           }
         }
       );
+    }
+    if (turn.hand.length == 0) {
+      return Meteor.call("nextRound", this.userId);
     }
   },
 
