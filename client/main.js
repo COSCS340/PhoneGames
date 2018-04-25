@@ -141,7 +141,7 @@ Template.newGame.events({
     }
   },
 
-  "click .btn-new-game": function(event, template) {
+  "submit .userInfo": function(event, template) {
     event.preventDefault();
     var name = document.getElementById("textbox-name").value;
     if (name && name.length > 0 && name.length < 15) {
@@ -167,7 +167,8 @@ Template.newGame.events({
     }
   },
 
-  "click .btn-back": function() {
+  "click .btn-back": function(event) {
+    event.preventDefault();
     Session.set("currentView", "gameSelect");
   }
 });
@@ -435,6 +436,6 @@ function makeGame(gameName) {
 
 $(document).keypress(function(event) {
   if (event.which == "13") {
-    event.preventDefault();
+//    event.preventDefault();
   }
 });
