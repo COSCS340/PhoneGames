@@ -111,7 +111,8 @@
 	<button class = "btn-users">Users</button>
 	<button class = "btn-lobbies">Lobbies</button><br>
 	<button class = "btn-msgcodes">Msg Codes</button>
-	<button class = "btn-errcodes">Err Codes</button>
+	<button class = "btn-errcodes">Err Codes</button><br>
+  <button class = "btn-celeb">Celeb</button>
 </template>
 
 <template name="adminInfoUsers">
@@ -133,6 +134,18 @@
 		<br>
 	{{/each}}
 	<button class = "btn-back">Back</button>
+</template>
+
+<template name="adminInfoCelebrity">
+  {{#each celeb}}
+    _id: {{_id}}<br>
+    {{#each players}}
+      {{userId}};
+    {{/each}}
+    <button class = "btn-remove-celeb">Remove</button>
+    <br>
+  {{/each}}
+  <button class = "btn-back">Back</button>
 </template>
 
 <template name="adminInfoMsgCodes">

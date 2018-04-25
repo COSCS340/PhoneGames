@@ -85,13 +85,6 @@ Template.gameSelect.events({
         Session.set("currentView", "lobby");
       });
     }
-    /*		if (!Meteor.user().username) {
-    			Session.set("currentView", "newGame");
-    		} else {
-    			Meteor.call('createLobby', Session.get("whatGame"));
-    			Session.set("currentView", "lobby");
-    		}
-    */
   },
 
   "click .btn-game-4": function() {
@@ -266,10 +259,8 @@ Template.lobby.onDestroyed(function() {
 
 Template.lobby.events({
   "click .btn-start": function() {
+    console.log(Session.get("whatGame"));
     makeGame(Session.get("whatGame"));
-    Meteor.call("startLobby", function() {
-      Session.set("currentView", Session.get("whatGame"));
-    });
   },
 
   "click .btn-back": function() {
@@ -350,6 +341,10 @@ Template.adminInfo.events({
 
   "click .btn-errcodes": function() {
     Session.set("currentView", "adminInfoErrCodes");
+  },
+
+  "click .btn-celeb": function() {
+    Session.set("currentView", "adminInfoCelebrity");
   }
 });
 
@@ -378,6 +373,22 @@ Template.adminInfoLobbies.helpers({
 Template.adminInfoLobbies.events({
   "click .btn-remove-lobby": function() {
     Meteor.call("removeLobby", this.lobbyId);
+  },
+
+  "click .btn-back": function() {
+    Session.set("currentView", "adminInfo");
+  }
+});
+
+Template.adminInfoCelebrity.helpers({
+  celeb: function() {
+    return Celebrity.find().fetch();
+  }
+});
+
+Template.adminInfoCelebrity.events({
+  "click .btn-remove-celeb": function() {
+    Meteor.call("removeCelebrity", this._id);
   },
 
   "click .btn-back": function() {

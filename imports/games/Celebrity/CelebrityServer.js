@@ -4,10 +4,10 @@ let Timers = {};
 
 Meteor.methods({
   checkReady: function() {
-    let celeb = Celebrity.find({
+    let celeb = Celebrity.findOne({
       "players.userId": this.userId
-    }).fetch()[0];
-    if (typeof celeb.players != "undefined") {
+    });
+    if (celeb && celeb.players) {
       if (celeb.ready >= celeb.players.length) {
         Meteor.call("startCelebrity", celeb);
       }
