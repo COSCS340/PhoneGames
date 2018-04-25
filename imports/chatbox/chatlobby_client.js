@@ -17,7 +17,8 @@ scrollToBottom = function scrollToBottom (duration) {
 
     Meteor.subscribe('messages', {
 	onReady: function () {
-	    scrollToBottom();
+
+      scrollToBottom();
 	    autoScrollingIsActive = false;
 	}
     });
@@ -25,25 +26,27 @@ scrollToBottom = function scrollToBottom (duration) {
     Template.chatterBox.helpers({
 
 	'recentMessages': function(){
-	    if(limitToLobbyChat.get() == false){
-		return MessagesList.find({chatScope: "global"},{sort: {timeSent: 1}});
+
+      if(limitToLobbyChat.get() == false){
+		       return MessagesList.find({chatScope: "global"},{sort: {timeSent: 1}});
 	    }else{
 		//return MessagesList.find()
-		var lobbyName = Lobbies.findOne({"players.userId":Meteor.userId()}).lobbyId;
-		//if(!lobbyName) return;
-		return MessagesList.find({
-		    chatScope: Lobbies.findOne({"players.userId":Meteor.userId()}).lobbyId
-		},{ 
-		    sort: {timeSent: 1}});
-	    }
+    		var lobbyName = Lobbies.findOne({"players.userId":Meteor.userId()}).lobbyId;
+    		//if(!lobbyName) return;
+    		return MessagesList.find({
+    		    chatScope: Lobbies.findOne({"players.userId":Meteor.userId()}).lobbyId
+    		    },{
+    		    sort: {timeSent: 1}
+        });
+    	}
 	},
 
 	unreadMessages: function () {
-	    
+
 	    return unreadMessages.get();
 	},
 	limitToLobbyChat: function (){
-	    
+
 	    return limitToLobbyChat.get();
 	}
     });
@@ -55,19 +58,21 @@ scrollToBottom = function scrollToBottom (duration) {
 	    event.preventDefault();
 	    var messageField = event.target.message.value;
 	    if(limitToLobbyChat.get() == false){
-		Meteor.call('sendMessage', messageField, "global");
+		      Meteor.call('sendMessage', messageField, "global");
 	    }else{
-		//test
-		var lobbyName = Lobbies.findOne({"players.userId":Meteor.userId()}).lobbyId;
-		//if(!lobbyName) return;
-		Meteor.call('sendMessage', messageField, lobbyName);
-		console.log(lobbyName);
+      		//test
+      		var lobbyName = Lobbies.findOne({"players.userId":Meteor.userId()}).lobbyId;
+      		//if(!lobbyName) return;
+      		Meteor.call('sendMessage', messageField, lobbyName);
+      		console.log(lobbyName);
 	    }
 	    event.target.message.value = "";
 	    scrollToBottom(500);
 	},
+
 	'scroll .message-window-container': function () {
-	    var howClose = 80;  // # pixels leeway to be considered "at Bottom"
+
+      var howClose = 80;  // # pixels leeway to be considered "at Bottom"
 	    var mWindowContainer = $(".message-window-container");
 	    var scrollHeight = mWindowContainer.prop("scrollHeight");
 	    var scrollBottom = mWindowContainer.prop("scrollTop") + mWindowContainer.height();
@@ -77,34 +82,39 @@ scrollToBottom = function scrollToBottom (duration) {
 		unreadMessages.set(false);
 	    }
 	},
+
 	'click .more-messages': function(){
 
 	    scrollToBottom(250);
 	    unreadMessages.set(false);
 	},
+
 	'click .no-more-messages': function(){
 
 	    scrollToBottom(250);
 	    unreadMessages.set(false);
 	},
+
 	'click .global-chat': function (){
-	
+
 	    limitToLobbyChat.set(false);
 	},
+
 	'click .lobby-chat': function (){
-	
+
 	    limitToLobbyChat.set(true);
 	}
     });
 
     Template.message.onRendered(
 	function() {
-	    if(autoScrollingIsActive){
-		scrollToBottom(250);
+
+      if(autoScrollingIsActive){
+		       scrollToBottom(250);
 	    }else {
-		if (Meteor.user() && this.data.username !== Meteor.user().username) {
-		    unreadMessages.set(true);
-		}
+		      if (Meteor.user() && this.data.username !== Meteor.user().username) {
+		          unreadMessages.set(true);
+		      }
 	    }
 	}
     );
