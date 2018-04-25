@@ -17,6 +17,12 @@ Template.celebrityLobbyOptions.events({
   }
 });
 
+Template.celebrityLobbyOptions.onDestroyed(function() {
+  if (Session.get("currentView") != "Celebrity") {
+    Meteor.call("removePlayer");
+  }
+});
+
 Template.Celebrity.onCreated(function() {
   Session.set("selected", false);
 });
@@ -98,6 +104,11 @@ Template.Celebrity.events({
       );
     }
   }
+});
+
+Template.Celebrity.onDestroyed(function() {
+  Meteor.call("removePlayer");
+  Meteor.call("removeCelebPlayer");
 });
 
 Template.celebrityPlay.events({

@@ -21,7 +21,7 @@ Meteor.startup(() => {
 
   Tracker.autorun(function() {
     Meteor.publish("lobbies", function() {
-      return Lobbies.find(/*{"createdBy": this.userId}*/);
+      return Lobbies.find();
     });
 
     Meteor.publish("allUsers", function() {

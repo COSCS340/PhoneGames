@@ -22,11 +22,11 @@ Meteor.startup(() => {
   Meteor.subscribe("ttt");
   Meteor.subscribe("celebrity");
   Meteor.subscribe("SpyfallGames");
-  //	Tracker.autorun(function() {
-  if (!Meteor.user()) {
-    AccountsAnonymous.login();
-  }
-  //	});
+  Tracker.autorun(function() {
+    if (!Meteor.user()) {
+      AccountsAnonymous.login();
+    }
+  });
 });
 
 Deps.autorun(function() {
@@ -274,14 +274,14 @@ Template.lobby.helpers({
   },
 
   lobbyId: function() {
-    var lobby = Lobbies.find({}).fetch();
+    var lobby = Lobbies.find({"players.userId": Meteor.userId()}).fetch();
     if (lobby && lobby[0] && lobby[0].lobbyId) {
       return lobby[0].lobbyId;
     }
   },
 
   users: function() {
-    var lobby = Lobbies.find({}).fetch();
+    var lobby = Lobbies.find({"players.userId": Meteor.userId()}).fetch();
     if (lobby && lobby[0] && lobby[0].players) {
       return lobby[0].players;
     }
@@ -292,7 +292,7 @@ Template.lobby.helpers({
   },
 
   playerCountMet: function() {
-    var lobby = Lobbies.find({}).fetch();
+    var lobby = Lobbies.find({"players.userId": Meteor.userId()}).fetch();
     if (lobby && lobby[0] && lobby[0].players) {
       return (
         lobby[0].players.length >= lobby[0].minPlayers &&
@@ -437,6 +437,7 @@ function makeGame(gameName) {
     if (players) {
       Meteor.call("makeSpyfall", players);
     }
+    Meteor.call("startLobby");
   } else if (gameName == "Celebrity") {
     Session.set("whatGame", "celebrityLobbyOptions");
     Session.set("currentView", Session.get("whatGame"));
@@ -444,9 +445,3 @@ function makeGame(gameName) {
     console.log("the game name is undefined: " + gameName);
   }
 }
-
-$(document).keypress(function(event) {
-  if (event.which == "13") {
-//    event.preventDefault();
-  }
-});

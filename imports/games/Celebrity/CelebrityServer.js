@@ -160,6 +160,24 @@ Meteor.methods({
     );
   },
 
+  removeCelebPlayer: function() {
+    var celeb = Celebrity.findOne({
+      "players.userId": this.userId
+    });
+
+    if (celeb.players.length > 1) {
+      if (celeb.turn.userId == this.userId) {
+          Meteor.call("nextTurn");
+      }
+      Lobbies.update(
+        { _id: celeb._id },
+        { $pull: { players: { userId: this.userId } } }
+      );
+    } else {
+      Celebrity.remove({ _id: celeb._id });
+    }
+  },
+
   scoreCard: function() {
     let turn = Celebrity.findOne({ "players.userId": this.userId }).turn;
     score = turn.hand.shift().points;

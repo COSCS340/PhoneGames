@@ -68,3 +68,7 @@ Template.Spyfall.events({
       event.currentTarget.innerHTML = event.currentTarget.id.strike();
   }
 });
+
+Template.Spyfall.onDestroyed(function() {
+  Meteor.call("removePlayer");
+});

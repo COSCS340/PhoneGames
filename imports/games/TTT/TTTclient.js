@@ -83,3 +83,7 @@ Template.TTT.events({
     }
   }
 });
+
+Template.TTT.onDestroyed(function() {
+  Meteor.call("removePlayer");
+});
