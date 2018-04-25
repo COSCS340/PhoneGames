@@ -1,0 +1,47 @@
+<template name="message">
+
+    <li class="message">
+	<div class="message-text">{{createdBy}}: {{messageText}}</div>
+    </li>
+</template>
+
+<template name="chatterBox">
+
+    <div class="container-pane">
+	<body>
+	    <!-- <h3 align="center">PhoneGames Chat</h3> -->
+	    {{#if currentUser}}
+	    <div class="top-chat-bar">
+		<!-- display channel buttons here (lobby, global, private) -->
+		<ul class = "chat-selectors" align="left">
+		    <li><button class="global-chat">Global</button></li>
+		    <li><button class="lobby-chat">Lobby</button></li>
+		</ul>
+	    </div>
+	    {{/if}}
+	    <div class = "message-window-container">	
+		<!-- chat messages from selected channel here -->    
+		<ul class="message-window">
+		    {{#each recentMessages}}
+		    {{> message}}
+		    {{/each}}
+		</ul>
+	    </div>
+
+	</body>
+	<footer>
+	    <div class = "unread-indicator">
+		{{#if unreadMessages}}
+		<button class="more-messages">&#x21D3;</button>
+		{{else}}
+		<button class="no-more-messages">&#x2313;</button>
+		{{/if}}
+	    </div>
+	    {{#if currentUser}}
+	    <form class="new-message">
+		<input type="text" name="message" placeholder="Add a message" autocomplete="off"/>
+	    </form>
+	    {{/if}}
+	</footer>
+    </div>
+</template>
