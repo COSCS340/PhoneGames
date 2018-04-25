@@ -191,7 +191,14 @@ Meteor.startup(() => {
       );
     },
 
-    leaveGame(gameId) {}
+    removeCelebrity: function(celebId) {
+      if (!celebId) {
+        throw new Meteor.Error("celeb-invalid", errCodes[0]);
+      }
+      return Celebrity.remove({
+        _id: celebId
+      });
+    },
   });
 
   Lobbies.allow({
