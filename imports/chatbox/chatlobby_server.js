@@ -2,6 +2,7 @@ MessagesList = new Mongo.Collection('messages');
 
 var autoScrollingIsActive = false;
 unreadMessages = new ReactiveVar(false);
+limitToLobbyChat = new ReactiveVar(false);
 scrollToBottom = function scrollToBottom (duration) {
     var messageWindow = $(".message-window-container");
     var scrollHeight = messageWindow.prop("scrollHeight");
@@ -10,7 +11,7 @@ scrollToBottom = function scrollToBottom (duration) {
 
 Meteor.methods({
 
-    'sendMessage': function(messageText){
+    'sendMessage': function(messageText, chatSelection){
 
 	if(!Meteor.userId()) {return}
 	if(messageText == "") {return}
@@ -18,6 +19,7 @@ Meteor.methods({
 
 	    createdBy: Meteor.user().username,
 	    timeSent: new Date(),
+	    chatScope: chatSelection, 
 	    messageText: messageText
 	});
     }

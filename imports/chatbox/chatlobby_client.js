@@ -1,9 +1,12 @@
 import './chat.html'
+import '../../client/main.js'
+import '../../lib/collection.js'
 
 MessagesList = new Mongo.Collection('messages');
 
 var autoScrollingIsActive = false;
 unreadMessages = new ReactiveVar(false);
+limitToLobbyChat = new ReactiveVar(false);
 scrollToBottom = function scrollToBottom (duration) {
     var messageWindow = $(".message-window-container");
     var scrollHeight = messageWindow.prop("scrollHeight");
@@ -22,12 +25,26 @@ scrollToBottom = function scrollToBottom (duration) {
     Template.chatterBox.helpers({
 
 	'recentMessages': function(){
-
-	    return MessagesList.find({},{sort: {timeSent: 1}});
+	    if(limitToLobbyChat.get() == false){
+		return MessagesList.find({chatScope: "global"},{sort: {timeSent: 1}});
+	    }else{
+		//return MessagesList.find()
+		var lobbyName = Lobbies.findOne({"players.userId":Meteor.userId()}).lobbyId;
+		//if(!lobbyName) return;
+		return MessagesList.find({
+		    chatScope: Lobbies.findOne({"players.userId":Meteor.userId()}).lobbyId
+		},{ 
+		    sort: {timeSent: 1}});
+	    }
 	},
 
 	unreadMessages: function () {
+	    
 	    return unreadMessages.get();
+	},
+	limitToLobbyChat: function (){
+	    
+	    return limitToLobbyChat.get();
 	}
     });
 
@@ -37,11 +54,18 @@ scrollToBottom = function scrollToBottom (duration) {
 
 	    event.preventDefault();
 	    var messageField = event.target.message.value;
-	    Meteor.call('sendMessage', messageField);
+	    if(limitToLobbyChat.get() == false){
+		Meteor.call('sendMessage', messageField, "global");
+	    }else{
+		//test
+		var lobbyName = Lobbies.findOne({"players.userId":Meteor.userId()}).lobbyId;
+		//if(!lobbyName) return;
+		Meteor.call('sendMessage', messageField, lobbyName);
+		console.log(lobbyName);
+	    }
 	    event.target.message.value = "";
 	    scrollToBottom(500);
 	},
-
 	'scroll .message-window-container': function () {
 	    var howClose = 80;  // # pixels leeway to be considered "at Bottom"
 	    var mWindowContainer = $(".message-window-container");
@@ -62,6 +86,14 @@ scrollToBottom = function scrollToBottom (duration) {
 
 	    scrollToBottom(250);
 	    unreadMessages.set(false);
+	},
+	'click .global-chat': function (){
+	
+	    limitToLobbyChat.set(false);
+	},
+	'click .lobby-chat': function (){
+	
+	    limitToLobbyChat.set(true);
 	}
     });
 
