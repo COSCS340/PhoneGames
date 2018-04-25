@@ -49,6 +49,10 @@ Template.header.events({
     Session.set("docTitle", "Phone Games");
   },
 
+  "click .btn-session": function() {
+    console.log(Session.get("currentView"));
+  },
+
   "click .btn-login": function() {
     Session.set("currentView", "loginPage");
   },
@@ -231,8 +235,9 @@ Template.joinGame.events({
   }
 });
 
+var lobbyObserve;
 Template.lobby.onCreated(function() {
-  var test = Lobbies.find({
+  lobbyObserve = Lobbies.find({
     "players.userId": Meteor.userId()
   }).observeChanges({
     changed: function(id, fields) {
@@ -251,8 +256,8 @@ Template.lobby.onCreated(function() {
 });
 
 Template.lobby.onDestroyed(function() {
+  lobbyObserve.stop();
   if (Session.get("whatGame") != Session.get("currentView")) {
-    console.log("You left the lobby page.");
     Meteor.call("removePlayer");
   }
 });

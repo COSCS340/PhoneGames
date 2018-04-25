@@ -1,6 +1,5 @@
 import "./Celebrity.html";
 import { gameLength, cardSafety } from "./config.js";
-
 var CelebrityData = require("./CelebrityCards.json");
 var CelebrityCards = CelebrityData.cards;
 
@@ -29,11 +28,11 @@ Template.Celebrity.onCreated(function() {
 
 Template.Celebrity.helpers({
   card: function() {
-    let celeb = Celebrity.find({
+    let celeb = Celebrity.findOne({
       "players.userId": Meteor.userId()
-    }).fetch();
-    if (typeof celeb[0].players != "undefined") {
-      var playerHand = celeb[0].players.map(function(player) {
+    });
+    if (celeb && celeb.players) {
+      var playerHand = celeb.players.map(function(player) {
         if (player.userId == Meteor.userId()) {
           return player.hand;
         }
@@ -151,7 +150,7 @@ Template.celebrityPlay.helpers({
     let celeb = Celebrity.find({
       "players.userId": Meteor.userId()
     }).fetch()[0];
-    if (celeb && celeb.turn && celeb.turn.team) {
+    if (celeb && celeb.turn && celeb.turn.team && celeb.players) {
       for (let i = 0; i < celeb.players.length; i++) {
         if (celeb.players[i].userId == Meteor.userId()) {
           if (celeb.turn.team == celeb.players[i].team) {

@@ -161,15 +161,16 @@ Meteor.methods({
   },
 
   removeCelebPlayer: function() {
-    var celeb = Celebrity.findOne({
+    let celeb = Celebrity.findOne({
       "players.userId": this.userId
     });
+    Meteor.clearInterval(Timers[celeb._id]);
 
     if (celeb.players.length > 1) {
       if (celeb.turn.userId == this.userId) {
           Meteor.call("nextTurn");
       }
-      Lobbies.update(
+      Celebrity.update(
         { _id: celeb._id },
         { $pull: { players: { userId: this.userId } } }
       );
