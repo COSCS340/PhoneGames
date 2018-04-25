@@ -76,7 +76,6 @@
 
 <template name="header">
 	<button class = "btn-home" style = "float: left;">Home</button>
-  <button class = "btn-session">Session</button>
 	{{#if currentUser.username}}
 		<button style = "float: right;">{{> loginButtons align="right" }}</button>
 		<button class = "btn-user-profile" style = "float: right;">{{currentUser.username}}</button>

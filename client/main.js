@@ -49,10 +49,6 @@ Template.header.events({
     Session.set("docTitle", "Phone Games");
   },
 
-  "click .btn-session": function() {
-    console.log(Session.get("currentView"));
-  },
-
   "click .btn-login": function() {
     Session.set("currentView", "loginPage");
   },
