@@ -1,3 +1,164 @@
+@import url ("/../imports/chatbox/chat.css");
+
+.container-pane {
+  width: 100%;
+}
+
+.top-chat-bar {
+  left: 0px;
+  width: 100%;
+}
+
+.chat-selectors {
+  margin: 3px;
+  width: 100%;
+  list-style: none;
+  padding-left: 0;
+  padding-bottom: 0;
+  box-sizing: border-box;
+}
+
+.global-chat {
+  margin: 1px;
+  position: relative;
+  width: 100%;
+}
+
+.lobby-chat {
+  margin: 1px;
+  position: relative;
+  width: 100%;
+}
+
+.private-chat {
+  margin: 1px;
+  position: relative;
+  width: 100%;
+}
+
+.more-messages {
+  background-color: #00cdcf;
+  position: relative;
+  margin: 3px;
+  width: 100%;
+  z-index: 10000;
+}
+
+.no-more-messages {
+  position: relative;
+  margin: 3px;
+  width: 100%;
+  z-index: 10000;
+}
+
+.new-message {
+  margin: 3px;
+  width: 100%;
+}
+
+.message-window-container {
+  position: relative;
+  overflow: scroll;
+  height: 250px;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-width: 1px;
+  width: 100%;
+  left: 0px;
+  margin-left: 2px;
+}
+
+.message-window {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  word-wrap: break-word;
+  list-style: none;
+  text-align: left;
+}
+
+.chat-selectors {
+  list-style: none;
+  padding: 2px 15px;
+  padding-left: 0;
+  padding-bottom: 0;
+}
+
+/* Placement for a side bar, where the chat lobby will reside*/
+#side-bar {
+  position: fixed;
+  text-align: left;
+  /*overflow: scroll;*/
+  left: 0;
+  top: 17%;
+  width: 20%;
+  border: solid 1px;
+  border-top: 0px;
+  border-left: 0px;
+  border-bottom: 0px;
+  padding: 8px 8px 8px 8px;
+}
+
+/* This will override the accounts-ui's butt-ugly styling and conform it to our own */
+
+#login-buttons .login-button,
+.accounts-dialog .login-button {
+  background: inherit;
+  background-color: #eaeaea;
+  border-outline: 4px;
+  border-radius: 0px;
+  border: inherit;
+  padding: inherit;
+  outline: inherit;
+  color: inherit;
+  box-sizing: inherit;
+}
+
+#login-buttons .login-button:hover,
+.accounts-dialog .login-button:hover {
+  background: inherit;
+  border-outline: 4px;
+  border-radius: 0px;
+  border: inherit;
+  padding: inherit;
+  outline: inherit;
+  color: inherit;
+  box-sizing: inherit;
+}
+
+#login-buttons .login-button:active,
+.accounts-dialog .login-button:active {
+  background: inherit;
+  border-outline: 4px;
+  border-radius: 0px;
+  border: inherit;
+  padding: inherit;
+  outline: inherit;
+  color: inherit;
+  box-sizing: inherit;
+  box-shadow: inherit;
+}
+
+.accounts-dialog {
+  /*border: inherit;*/
+  border-outline: 4px;
+  border-radius: 0px;
+  outline: inherit;
+  box-shadow: inherit;
+}
+/* this will change the input focus (the outline of currently selected item) to match our theme */
+
+*:focus {
+  color: inherit;
+  outline: inherit;
+}
+
+.form-control:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
 /*
 	Typify by TEMPLATED
 	templated.co @templatedco

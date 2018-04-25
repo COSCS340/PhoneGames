@@ -10,6 +10,7 @@ import {
   minimumPlayers,
   maximumPlayers
 } from "../lib/codes.js";
+import "../imports/chatbox/chatlobby_server.js";
 
 Meteor.startup(() => {
   Lobbies.remove({});
@@ -42,7 +43,6 @@ Meteor.startup(() => {
     Meteor.publish("SpyfallGames", function() {
       return SpyfallGames.find();
     });
-
   });
 
   Meteor.methods({
@@ -73,12 +73,17 @@ Meteor.startup(() => {
       });
       if (lobby.players.length > 1) {
         Lobbies.update(
-          {_id: lobby._id},
-          { $set: { createdById: lobby.players[1].userId, createdByUser: lobby.players[1].name }}
+          { _id: lobby._id },
+          {
+            $set: {
+              createdById: lobby.players[1].userId,
+              createdByUser: lobby.players[1].name
+            }
+          }
         );
         Lobbies.update(
-          {_id: lobby._id},
-          { $pull: { "players": { userId: this.userId }}}
+          { _id: lobby._id },
+          { $pull: { players: { userId: this.userId } } }
         );
       } else {
         Lobbies.remove({ _id: lobby._id });
@@ -185,7 +190,7 @@ Meteor.startup(() => {
         }
       );
     },
-    
+
     leaveGame(gameId) {}
   });
 

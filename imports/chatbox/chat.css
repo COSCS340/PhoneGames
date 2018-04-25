@@ -1,0 +1,75 @@
+.top-chat-bar {
+  width: 100%;
+}
+
+.chat-selectors {
+  margin: 3px;
+  width: 100%;
+  list-style: none;
+  padding-left: 0;
+  padding-bottom: 0;
+  box-sizing: border-box;
+}
+
+.global-chat {
+  margin: 1px;
+  position: relative;
+  width: 100%;
+}
+
+.lobby-chat {
+  margin: 1px;
+  position: relative;
+  width: 100%;
+}
+
+.private-chat {
+  margin: 1px;
+  position: relative;
+  width: 100%;
+}
+
+.more-messages {
+  position: relative;
+  margin: 3px;
+  width: 100%;
+  z-index: 10000;
+}
+
+.no-more-messages {
+  position: relative;
+  margin: 3px;
+  width: 100%;
+  z-index: 10000;
+}
+
+.new-message {
+  margin: 3px;
+  width: 100%;
+}
+
+.message-window-container {
+  position: relative;
+  overflow: scroll;
+  height: 250px;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-width: 1px;
+  width: 100%;
+  margin-left: 8px;
+}
+
+.message-window {
+  position: relative;
+  height: 100%;
+  text-align: left;
+  width: 100%;
+  left: 0;
+  list-style: none;
+}
+
+.chat-selectors {
+  list-style: none;
+  padding-left: 0;
+  padding-bottom: 0;
+}

@@ -13,6 +13,10 @@
 		{{> header }}
 	</div>
 
+	<div id = "side-bar">
+		{{> chatterBox}}
+	</div>
+
 	<div class = "{{mainDivClass}}" id = "main-screen">
 		{{> Template.dynamic template=currentView }}
 	</div>
@@ -39,8 +43,8 @@
 	<form class = "userInfo">
 		<input type = "text" name = "username" id = "textbox-name" placeholder = "Name">
 		<span id = "errName"></span><br>
-	</form>
-	<button class = "btn-new-game">Create</button> <button class = "btn-back">Back</button>
+	  <button class = "btn-new-game">Create</button> <button class = "btn-back">Back</button>
+  </form>
 </template>
 
 <template name="joinGame">

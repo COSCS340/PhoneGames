@@ -9,6 +9,7 @@ import "../imports/games/Spyfall/SpyfallClient.js";
 import "../imports/games/Celebrity/CelebrityClient.js";
 import "../lib/collections.js";
 import { msgCodes, errCodes } from "../lib/codes.js";
+import "../imports/chatbox/chatlobby_client.js";
 
 Meteor.startup(() => {
   Session.set("docTitle", "Phone Games");
@@ -58,23 +59,22 @@ Template.header.events({
 });
 
 Template.gameSelect.events({
+  "click .btn-game-1": function() {
+    Session.set("currentView", "gameHangmanUI");
+    Session.set("docTitle", "Hangman");
+  },
 
-	'click .btn-game-1': function () {
-		Session.set("currentView", "gameHangmanUI");
-		Session.set("docTitle", "Hangman");
-	},
-
-	'click .btn-game-2': function () {
-		Session.set("docTitle", "Tic-Tac-Toe");
-		Session.set("whatGame", "TTT");
-		if (!Meteor.user().username) {
-			Session.set("currentView", "newGame");
-		} else {
-			Meteor.call('createLobby', Session.get("whatGame"), function() {
+  "click .btn-game-2": function() {
+    Session.set("docTitle", "Tic-Tac-Toe");
+    Session.set("whatGame", "TTT");
+    if (!Meteor.user().username) {
+      Session.set("currentView", "newGame");
+    } else {
+      Meteor.call("createLobby", Session.get("whatGame"), function() {
         Session.set("currentView", "lobby");
       });
-		}
-	},
+    }
+  },
 
   "click .btn-game-3": function() {
     Session.set("whatGame", "Celebrity");
@@ -118,7 +118,6 @@ Template.gameSelect.events({
   "click .btn-back": function() {
     Session.set("currentView", "homepage");
   }
-
 });
 
 Template.newGame.helpers({
@@ -142,7 +141,7 @@ Template.newGame.events({
     }
   },
 
-  "click .btn-new-game": function(event, template) {
+  "submit .userInfo": function(event, template) {
     event.preventDefault();
     var name = document.getElementById("textbox-name").value;
     if (name && name.length > 0 && name.length < 15) {
@@ -168,7 +167,8 @@ Template.newGame.events({
     }
   },
 
-  "click .btn-back": function() {
+  "click .btn-back": function(event) {
+    event.preventDefault();
     Session.set("currentView", "gameSelect");
   }
 });
@@ -421,9 +421,8 @@ function makeGame(gameName) {
     Meteor.call("startLobby", function() {
       Session.set("currentView", Session.get("whatGame"));
     });
-  }
-  else if (gameName == "Spyfall") {
-    let players = Lobbies.findOne({createdBy: this.userId}).players;
+  } else if (gameName == "Spyfall") {
+    let players = Lobbies.findOne({ createdBy: this.userId }).players;
     if (players) {
       Meteor.call("makeSpyfall", players);
     }
@@ -437,6 +436,6 @@ function makeGame(gameName) {
 
 $(document).keypress(function(event) {
   if (event.which == "13") {
-    event.preventDefault();
+//    event.preventDefault();
   }
 });
