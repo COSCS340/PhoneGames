@@ -6,9 +6,16 @@ Template.Spyfall.onCreated(function() {
   this.role = new ReactiveVar("You have not yet been assigned a role");
   this.ready = new ReactiveVar(0);
   this.timeLeft = new ReactiveVar("clock not yet started");
-  Session.set('endTime', SpyfallGames.findOne({'players.userId': Meteor.userId()}).endTime);
+  console.log("starting spyfall");
+  var g = SpyfallGames.findOne({'players.userId': Meteor.userId()});
+  console.log("g = ");
+  console.log(g);
+  Session.set('endTime', g.endTime);
 
-  Meteor.setInterval(function() {
+  this.timer = Meteor.setInterval(function() {
+
+    console.log("interval");
+
     var left = (Session.get('endTime') - new Date().getTime())/1000;
     var min = Math.floor(left / 60);
     var sec = Math.floor(left % 60);
@@ -70,5 +77,7 @@ Template.Spyfall.events({
 });
 
 Template.Spyfall.onDestroyed(function() {
+  clearInterval(this.timer);
+  Meteor.call("removeSpyfallPlayer");
   Meteor.call("removePlayer");
 });
