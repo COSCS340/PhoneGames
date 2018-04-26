@@ -18,7 +18,6 @@ Meteor.startup(() => {
   Session.set("mainDivClass", "center-center-container");
   Meteor.subscribe("allUsers");
   Meteor.subscribe("lobbies");
-  Meteor.subscribe("games");
   Meteor.subscribe("ttt");
   Meteor.subscribe("celebrity");
   Meteor.subscribe("SpyfallGames");
@@ -29,7 +28,7 @@ Meteor.startup(() => {
   });
 });
 
-Deps.autorun(function() {
+Tracker.autorun(function() {
   document.title = Session.get("docTitle");
 });
 
@@ -59,12 +58,12 @@ Template.header.events({
 });
 
 Template.gameSelect.events({
-  "click .btn-game-1": function() {
+  "click .btn-hangman": function() {
     Session.set("currentView", "gameHangmanUI");
     Session.set("docTitle", "Hangman");
   },
 
-  "click .btn-game-2": function() {
+  "click .btn-ttt": function() {
     Session.set("docTitle", "Tic-Tac-Toe");
     Session.set("whatGame", "TTT");
     if (!Meteor.user().username) {
@@ -76,7 +75,8 @@ Template.gameSelect.events({
     }
   },
 
-  "click .btn-game-3": function() {
+  "click .btn-celebrity": function() {
+    Session.set("docTitle", "Celebrity");
     Session.set("whatGame", "Celebrity");
     if (!Meteor.user().username) {
       Session.set("currentView", "newGame");
@@ -87,7 +87,7 @@ Template.gameSelect.events({
     }
   },
 
-  "click .btn-game-4": function() {
+  "click .btn-spyfall": function() {
     Session.set("whatGame", "Spyfall");
     Session.set("docTitle", "Spyfall");
     if (!Meteor.user().username) {
@@ -96,15 +96,6 @@ Template.gameSelect.events({
       Meteor.call("createLobby", Session.get("whatGame"), function() {
         Session.set("currentView", "lobby");
       });
-    }
-  },
-
-  "click .btn-game-5": function() {
-    Session.set("whatGame", "game5");
-    if (!Meteor.user().username) {
-      Session.set("currentView", "newGame");
-    } else {
-      Session.set("currentView", "lobby");
     }
   },
 
@@ -210,19 +201,21 @@ Template.joinGame.events({
       if (name.length == 0) {
         $("#errName").html("names must be more than 0 characters");
         $("#textbox-name").css("border-color", "#e52213");
-      } else {
+      } else if (name.length >= 15) {
         $("#errName").html("names must be less than 15 characters");
         $("#textbox-name").css("border-color", "#e52213");
+      } else {
+        Meteor.call("joinGame", lobbyId, function(error, result) {
+          if (result == errCodes.invalidLobbyCode || result == errCodes.fullLobby) {
+            $("#errLobby").html(result);
+            $("#textbox-lobby").css("border-color", "#e52213");
+          } else {
+            Session.set("docTitle", result);
+            Session.set("currentView", "lobby");
+          }
+        });
       }
     }
-    Meteor.call("joinGame", lobbyId, function(error, result) {
-      if (result == errCodes.invalidLobbyCode || result == errCodes.fullLobby) {
-        $("#errLobby").html(result);
-        $("#textbox-lobby").css("border-color", "#e52213");
-      } else {
-        Session.set("currentView", "lobby");
-      }
-    });
   },
 
   "click .btn-back": function(event) {
@@ -249,6 +242,10 @@ Template.lobby.onCreated(function() {
       }
     }
   });
+  lobby = Lobbies.findOne({
+    "players.userId": Meteor.userId()
+  });
+  Session.set("whatGame", lobby.gameName);
 });
 
 Template.lobby.onDestroyed(function() {
@@ -266,12 +263,17 @@ Template.lobby.events({
 
   "click .btn-back": function() {
     Session.set("currentView", "gameSelect");
+    Session.set("docTitle", "Phone Games");
   }
 });
 
 Template.lobby.helpers({
   whatGame: function() {
-    return Session.get("whatGame");
+    let game = Session.get("whatGame");
+    if (game == "TTT") {
+      return "Tic-Tac-Toe";
+    }
+    return game;
   },
 
   lobbyId: function() {

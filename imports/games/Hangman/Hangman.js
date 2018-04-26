@@ -58,7 +58,7 @@ Template.gameHangman.helpers({
 Template.gameHangman.events({
   "click .btn-back": function() {
     Session.set("currentView", "gameSelect");
-    return;
+    Session.set("docTitle", "Phone Games");
   },
 
   "click button"(event, instance) {

@@ -14,7 +14,6 @@ import "../imports/chatbox/chatlobby_server.js";
 
 Meteor.startup(() => {
   Lobbies.remove({});
-  // Games.remove({});
   TTT.remove({});
   SpyfallGames.remove({});
   Celebrity.remove({});
@@ -26,10 +25,6 @@ Meteor.startup(() => {
 
     Meteor.publish("allUsers", function() {
       return Meteor.users.find();
-    });
-
-    Meteor.publish("games", function() {
-      return Games.find();
     });
 
     Meteor.publish("ttt", function() {
@@ -116,6 +111,9 @@ Meteor.startup(() => {
 
       var min = minimumPlayers[whatGame];
       var max = maximumPlayers[whatGame];
+      if (whatGame == "TTT") {
+        whatGame = "Tic-Tac-Toe";
+      }
 
       const newGame = {
         lobbyId: Random.id(4).toUpperCase(),
@@ -152,19 +150,19 @@ Meteor.startup(() => {
         );
       }
 
-      const game = Lobbies.findOne({
+      const lobby = Lobbies.findOne({
         lobbyId: gameId
       });
-      if (typeof game == "undefined") {
+      if (typeof lobby == "undefined") {
         return errCodes.invalidLobbyCode;
       }
 
-      if (game.players.length + 1 > game.maxPlayers) {
+      if (lobby.players.length + 1 > lobby.maxPlayers) {
         return errCodes.fullLobby;
       }
 
       if (
-        !!_.findWhere(game.players, {
+        !!_.findWhere(lobby.players, {
           userId: Meteor.userId()
         })
       ) {
@@ -179,7 +177,7 @@ Meteor.startup(() => {
         name: __guard__(Meteor.user(), x => x.username)
       };
 
-      return Lobbies.update(
+      Lobbies.update(
         {
           lobbyId: gameId
         },
@@ -189,6 +187,7 @@ Meteor.startup(() => {
           }
         }
       );
+      return lobby.gameName;
     },
 
     removeCelebrity: function(celebId) {

@@ -1,5 +1,5 @@
 <head>
-  <title>{{title}}</title>
+  <title>Phone Games</title>
 </head>
 
 <body>
@@ -33,9 +33,9 @@
 </template>
 
 <template name="gameSelect">
-	<button class = "btn-game-1">Hangman</button> <button class = "btn-game-2">Tic-Tac-Toe</button><br>
-	<button class = "btn-game-3">Celebrity</button> <button class = "btn-game-4">Spyfall</button><br>
-	<button class = "btn-game-5">Test Game 5</button> <button class = "btn-back">Back</button>
+	<button class = "btn-hangman">Hangman</button> <button class = "btn-ttt">Tic-Tac-Toe</button><br>
+	<button class = "btn-celebrity">Celebrity</button> <button class = "btn-spyfall">Spyfall</button><br>
+	<button class = "btn-back">Back</button>
 </template>
 
 <template name="newGame">
@@ -88,7 +88,8 @@
 </template>
 
 <template name="lobby">
-	<h1> this is the lobby page for {{whatGame}} and the lobby id is {{lobbyId}}</h1>
+  <h1 style="font-size: xx-large"> {{whatGame}} </h1>
+	<h1> Lobby ID: {{lobbyId}}</h1>
 	{{#each users}}
 		{{this.name}}<br>
 	{{/each}}
