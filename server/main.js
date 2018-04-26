@@ -71,8 +71,6 @@ Meteor.startup(() => {
       var lobby = Lobbies.findOne({
         "players.userId": this.userId
       });
-      console.log("");
-      console.log(lobby);
       if (lobby.players.length > 1) {
         Lobbies.update(
           { _id: lobby._id },
@@ -90,8 +88,6 @@ Meteor.startup(() => {
       } else {
         Lobbies.remove({ _id: lobby._id });
       }
-
-      console.log("removing: " + this.userId);
     },
 
     removeLobby: function(lobbyId) {
