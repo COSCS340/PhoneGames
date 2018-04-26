@@ -10,11 +10,17 @@ Template.Spyfall.onCreated(function() {
 
   this.timer = Meteor.setInterval(function() {
     var left = (Session.get('endTime') - new Date().getTime())/1000;
-    var min = Math.floor(left / 60);
-    var sec = Math.floor(left % 60);
-    if (sec < 10)
-      sec = "0" + sec;
-    Session.set('timeLeft', min + ":" + sec);
+    if (left <= 0){
+      Session.set('timeLeft', "Time's up, make your choice!");
+      return;
+    }
+    else{
+      var min = Math.floor(left / 60);
+      var sec = Math.floor(left % 60);
+      if (sec < 10)
+        sec = "0" + sec;
+      Session.set('timeLeft', min + ":" + sec);
+    }
   }, 1000);
 
   Meteor.call("getLocation", function(error, result){
