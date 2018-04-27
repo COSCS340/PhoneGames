@@ -77,7 +77,6 @@ Template.gameHangman.events({
 
       /* if guessed letter is not in the word */
       if (word.indexOf(letter) == -1) {
-        //console.log("sorry, " + letter + " is not in " + word);
         if (instance.numGuesses.get() > 0) {
           instance.numGuesses.set(instance.numGuesses.get() - 1);
         }
@@ -88,7 +87,6 @@ Template.gameHangman.events({
         }
       } else {
         /* if it is in the word */
-        //console.log("correct, " + letter + " is in " + word);
         var newBlanks = "";
         for (var i = 0; i < word.length; i++) {
           if (word.charAt(i) == letter) {

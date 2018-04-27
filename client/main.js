@@ -266,7 +266,6 @@ Template.lobby.onDestroyed(function() {
 
 Template.lobby.events({
   "click .btn-start": function() {
-    console.log(Session.get("whatGame"));
     makeGame(Session.get("whatGame"));
   },
 

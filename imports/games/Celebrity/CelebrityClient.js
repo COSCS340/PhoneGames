@@ -110,7 +110,6 @@ Template.Celebrity.onDestroyed(function() {
     Meteor.call("removePlayer", Meteor.userId());
   }
   if (Celebrity.findOne({"players.userId": Meteor.userId()})) {
-    console.log("here");
     Meteor.call("removeCelebPlayer");
   }
 });

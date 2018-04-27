@@ -27,7 +27,6 @@ Meteor.methods({
       return;
     }
 
-    //console.log(game);
     if (game.turn === userID) {
       var brd = game.board;
 
@@ -51,7 +50,6 @@ Meteor.methods({
         }
       }
       //update board and turn
-      console.log(brd);
       TTT.update(
         {
           $or: [
@@ -71,8 +69,6 @@ Meteor.methods({
           }
         }
       );
-    } else {
-      console.log("not your turn: " + userID);
     }
   }
 });
