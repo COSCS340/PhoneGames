@@ -80,7 +80,8 @@
 
 <template name="lobby">
   <h1 style="font-size: xx-large"> {{whatGame}} </h1>
-	<h1> Lobby ID: {{lobbyId}}</h1>
+	<h1 style="font-size: x-large"> Lobby ID: {{lobbyId}}</h1>
+  <h4>Minimum Players: {{min}}<br>Maximum Players: {{max}}</h4>
 	{{#each users}}
 		{{this.name}}<br>
 	{{/each}}
