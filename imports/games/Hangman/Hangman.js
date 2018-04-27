@@ -62,12 +62,11 @@ Template.gameHangman.events({
   },
 
   "click button"(event, instance) {
-    if (instance.numGuesses.get() == 0 || instance.done.get()) {
+    if (instance.numGuesses.get() == 0 || instance.done.get() || event.target.innerText == "BACK") {
       return;
     }
 
     var letter = event.target.innerText;
-
     /* if button is not opaque -> clicked */
     if (document.getElementById(event.target.innerText).style.opacity != 0.5) {
       /* make button opaque to indicate it is unable to be clicked again */

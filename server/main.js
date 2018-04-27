@@ -17,6 +17,7 @@ Meteor.startup(() => {
   TTT.remove({});
   SpyfallGames.remove({});
   Celebrity.remove({});
+  MessagesList.remove({});
 
   Tracker.autorun(function() {
     Meteor.publish("lobbies", function() {
@@ -109,11 +110,12 @@ Meteor.startup(() => {
         userId: this.userId
       };
 
-      var min = minimumPlayers[whatGame];
-      var max = maximumPlayers[whatGame];
       if (whatGame == "TTT") {
         whatGame = "Tic-Tac-Toe";
       }
+      var min = minimumPlayers[whatGame];
+      var max = maximumPlayers[whatGame];
+
 
       const newGame = {
         lobbyId: Random.id(4).toUpperCase(),
@@ -196,6 +198,24 @@ Meteor.startup(() => {
       }
       return Celebrity.remove({
         _id: celebId
+      });
+    },
+
+    removeTTT: function(tttId) {
+      if (!tttId) {
+        throw new Meteor.Error("ttt-invalid", errCodes[0]);
+      }
+      return TTT.remove({
+        _id: tttId
+      });
+    },
+
+    removeSpyfall: function(spyfallId) {
+      if (!spyfallId) {
+        throw new Meteor.Error("spyfall-invalid", errCodes[0]);
+      }
+      return SpyfallGames.remove({
+        _id: spyfallId
       });
     }
   });

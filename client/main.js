@@ -15,7 +15,6 @@ Meteor.startup(() => {
   Session.set("docTitle", "Phone Games");
   Session.set("currentView", "homepage");
   Session.set("whatGame", "none");
-  Session.set("mainDivClass", "center-center-container");
   Meteor.subscribe("allUsers");
   Meteor.subscribe("lobbies");
   Meteor.subscribe("ttt");
@@ -246,8 +245,12 @@ Template.lobby.onCreated(function() {
         "players.userId": Meteor.userId()
       }).fetch();
       if (lobby[0].started == true) {
-        Session.set("whatGame", lobby[0].gameName);
-        Session.set("currentView", lobby[0].gameName);
+        if (lobby[0].gameName != "Tic-Tac-Toe") {
+          Session.set("whatGame", lobby[0].gameName);
+          Session.set("currentView", lobby[0].gameName);
+        } else {
+          Session.set("currentView", "TTT");
+        }
       }
     }
   });
@@ -323,10 +326,6 @@ Template.lobby.helpers({
 Template.main.helpers({
   currentView: function() {
     return Session.get("currentView");
-  },
-
-  mainDivClass: function() {
-    return Session.get("mainDivClass");
   }
 });
 
@@ -373,6 +372,14 @@ Template.adminInfo.events({
 
   "click .btn-celeb": function() {
     Session.set("currentView", "adminInfoCelebrity");
+  },
+
+  "click .btn-ttt": function() {
+    Session.set("currentView", "adminInfoTTT");
+  },
+
+  "click .btn-spyfall": function() {
+    Session.set("currentView", "adminInfoSpyfall");
   }
 });
 
@@ -424,6 +431,38 @@ Template.adminInfoCelebrity.events({
   }
 });
 
+Template.adminInfoTTT.helpers({
+  TTT: function() {
+    return TTT.find().fetch();
+  }
+});
+
+Template.adminInfoTTT.events({
+  "click .btn-remove-ttt": function() {
+    Meteor.call("removeTTT", this._id);
+  },
+
+  "click .btn-back": function() {
+    Session.set("currentView", "adminInfo");
+  }
+});
+
+Template.adminInfoSpyfall.helpers({
+  spyfall: function() {
+    return SpyfallGames.find().fetch();
+  }
+});
+
+Template.adminInfoSpyfall.events({
+  "click .btn-remove-spyfall": function() {
+    Meteor.call("removeSpyfall", this._id);
+  },
+
+  "click .btn-back": function() {
+    Session.set("currentView", "adminInfo");
+  }
+});
+
 Template.adminInfoMsgCodes.helpers({
   msgcode: function() {
     return msgCodes;
@@ -449,7 +488,7 @@ Template.adminInfoErrCodes.events({
 });
 
 function makeGame(gameName) {
-  if (gameName == "TTT") {
+  if (gameName == "Tic-Tac-Toe") {
     Meteor.call(
       "makeTTT",
       Meteor.userId(),
@@ -458,7 +497,7 @@ function makeGame(gameName) {
       }).fetch()[0].players[1].userId
     );
     Meteor.call("startLobby", function() {
-      Session.set("currentView", Session.get("whatGame"));
+      Session.set("currentView", "TTT");
     });
   } else if (gameName == "Spyfall") {
     let players = Lobbies.findOne({ createdBy: this.userId }).players;

@@ -14,11 +14,11 @@
 		{{> header }}
 	</div>
 
-	<div id = "side-bar">
-		{{> chatterBox}}
-	</div>
+  <div id = "side-bar">
+  	{{> chatterBox}}
+  </div>
 
-	<div class = "{{mainDivClass}} center-center-container" style="text-align:center;" id = "main-screen">
+	<div class = "center-center-container" style="text-align:center;" id = "main-screen">
 		{{> Template.dynamic template=currentView }}
 	</div>
 
@@ -68,13 +68,7 @@
 <template name="header">
 	<button class = "btn-home" style = "float: left;">Home</button>
 	{{#if currentUser.username}}
-<!--		<button style = "float: right;">{{> loginButtons align="right" }}</button> -->
 		<button style = "float: right;">{{currentUser.username}}</button>
-<!--	{{else}}
-		<div style = "float: right;">
-			{{> loginButtons align="right"}}
-		</div>
-	<button class = "btn-login" style = "float: right;">Login</button> -->
 	{{/if}}
 </template>
 
@@ -108,6 +102,8 @@
 	<button class = "btn-msgcodes">Msg Codes</button>
 	<button class = "btn-errcodes">Err Codes</button><br>
   <button class = "btn-celeb">Celeb</button>
+  <button class = "btn-ttt">TTT</button>
+  <button class = "btn-spyfall">Spyfall</button>
 </template>
 
 <template name="adminInfoUsers">
@@ -138,6 +134,30 @@
       {{userId}};
     {{/each}}
     <button class = "btn-remove-celeb">Remove</button>
+    <br>
+  {{/each}}
+  <button class = "btn-back">Back</button>
+</template>
+
+<template name="adminInfoTTT">
+  {{#each TTT}}
+    _id: {{_id}}<br>
+    {{#each players}}
+      {{userId}};
+    {{/each}}
+    <button class = "btn-remove-ttt">Remove</button>
+    <br>
+  {{/each}}
+  <button class = "btn-back">Back</button>
+</template>
+
+<template name="adminInfoSpyfall">
+  {{#each spyfall}}
+    _id: {{_id}}<br>
+    {{#each players}}
+      {{userId}};
+    {{/each}}
+    <button class = "btn-remove-spyfall">Remove</button>
     <br>
   {{/each}}
   <button class = "btn-back">Back</button>
