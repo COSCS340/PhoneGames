@@ -66,20 +66,26 @@ Meteor.startup(() => {
       var lobby = Lobbies.findOne({
         "players.userId": this.userId
       });
+      console.log(lobby);
       if (lobby.players.length > 1) {
-        Lobbies.update(
-          { _id: lobby._id },
-          {
-            $set: {
-              createdById: lobby.players[1].userId,
-              createdByUser: lobby.players[1].name
-            }
-          }
-        );
+
         Lobbies.update(
           { _id: lobby._id },
           { $pull: { players: { userId: this.userId } } }
         );
+        for (let i = 0; i < lobby.players.length; i++){
+          if (lobby.players[i].userId != this.userId){
+            return Lobbies.update(
+              { _id: lobby._id },
+              {
+                $set: {
+                  createdById: lobby.players[i].userId,
+                  createdByUser: lobby.players[i].name
+                }
+              }
+            );
+          }
+        }
       } else {
         Lobbies.remove({ _id: lobby._id });
       }

@@ -8,14 +8,19 @@ Template.Spyfall.onCreated(function() {
   this.timeLeft = new ReactiveVar("clock not yet started");
   Session.set('endTime', SpyfallGames.findOne({'players.userId': Meteor.userId()}).endTime);
 
-  Meteor.setInterval(function() {
+  this.timer = Meteor.setInterval(function() {
     var left = (Session.get('endTime') - new Date().getTime())/1000;
-    var min = Math.floor(left / 60);
-    var sec = Math.floor(left % 60);
-    if (sec < 10) {
-      sec = "0" + sec;
+    if (left <= 0){
+      Session.set('timeLeft', "Time's up, make your choice!");
+      return;
     }
-    Session.set('timeLeft', min + ":" + sec);
+    else{
+      var min = Math.floor(left / 60);
+      var sec = Math.floor(left % 60);
+      if (sec < 10)
+        sec = "0" + sec;
+      Session.set('timeLeft', min + ":" + sec);
+    }
   }, 1000);
 
   Meteor.call("getLocation", function(error, result){
@@ -70,5 +75,7 @@ Template.Spyfall.events({
 });
 
 Template.Spyfall.onDestroyed(function() {
+  clearInterval(this.timer);
+  Meteor.call("removeSpyfallPlayer");
   Meteor.call("removePlayer");
 });
