@@ -62,30 +62,24 @@ Meteor.startup(() => {
       }
     },
 
-    removePlayer: function() {
+    removePlayer: function(userId) {
       var lobby = Lobbies.findOne({
-        "players.userId": this.userId
+        "players.userId": userId
       });
-      console.log(lobby);
       if (lobby.players.length > 1) {
-
         Lobbies.update(
           { _id: lobby._id },
-          { $pull: { players: { userId: this.userId } } }
+          { $pull: { players: { userId: userId } } }
         );
-        for (let i = 0; i < lobby.players.length; i++){
-          if (lobby.players[i].userId != this.userId){
-            return Lobbies.update(
-              { _id: lobby._id },
-              {
-                $set: {
-                  createdById: lobby.players[i].userId,
-                  createdByUser: lobby.players[i].name
-                }
-              }
-            );
+        return Lobbies.update(
+          { _id: lobby._id },
+          {
+            $set: {
+              createdById: lobby.players[0].userId,
+              createdByUser: lobby.players[0].name
+            }
           }
-        }
+        );
       } else {
         Lobbies.remove({ _id: lobby._id });
       }
@@ -203,7 +197,7 @@ Meteor.startup(() => {
       return Celebrity.remove({
         _id: celebId
       });
-    },
+    }
   });
 
   Lobbies.allow({

@@ -18,7 +18,7 @@ Template.celebrityLobbyOptions.events({
 
 Template.celebrityLobbyOptions.onDestroyed(function() {
   if (Session.get("currentView") != "Celebrity") {
-    Meteor.call("removePlayer");
+    Meteor.call("removePlayer", Meteor.userId());
   }
 });
 
@@ -107,9 +107,10 @@ Template.Celebrity.events({
 
 Template.Celebrity.onDestroyed(function() {
   if (Lobbies.findOne({"players.userId": Meteor.userId()})) {
-    Meteor.call("removePlayer");
+    Meteor.call("removePlayer", Meteor.userId());
   }
   if (Celebrity.findOne({"players.userId": Meteor.userId()})) {
+    console.log("here");
     Meteor.call("removeCelebPlayer");
   }
 });

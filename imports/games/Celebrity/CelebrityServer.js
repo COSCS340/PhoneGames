@@ -166,15 +166,48 @@ Meteor.methods({
       "players.userId": this.userId
     });
     Meteor.clearInterval(Timers[celeb._id]);
+    let x;
 
     if (celeb.players.length > 1) {
-      if (celeb.turn.userId == this.userId) {
-          Meteor.call("nextTurn");
+      for (let i = 0; i < celeb.players.length; i++) {
+        if (celeb.players[i].userId == this.userId) {
+          x = i;
+        }
       }
+      for (let i = x + 1; i < celeb.players.length; i++) {
+        let userId = celeb.players[i].userId;
+        Celebrity.update(
+          { "players.userId": userId },
+          { $inc: { "players.$.order": -1 } }
+        );
+      }
+
+      if (celeb.turn.userId == this.userId) {
+        let hand = celeb.turn.hand;
+        let next = (celeb.turn.order + 1) % celeb.players.length;
+        let player = celeb.players[next];
+        player.hand = hand;
+        player.order = player.order - 1;
+
+
+        Celebrity.update(
+          {
+            _id: celeb._id
+          },
+          {
+            $set: {
+              turn: player,
+              time: 0
+            }
+          }
+        )
+      }
+
       Celebrity.update(
         { _id: celeb._id },
         { $pull: { players: { userId: this.userId } } }
       );
+
     } else {
       Celebrity.remove({ _id: celeb._id });
     }
