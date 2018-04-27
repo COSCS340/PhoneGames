@@ -62,12 +62,11 @@ Template.gameHangman.events({
   },
 
   "click button"(event, instance) {
-    if (instance.numGuesses.get() == 0 || instance.done.get()) {
+    if (instance.numGuesses.get() == 0 || instance.done.get() || event.target.innerText == "BACK") {
       return;
     }
 
     var letter = event.target.innerText;
-
     /* if button is not opaque -> clicked */
     if (document.getElementById(event.target.innerText).style.opacity != 0.5) {
       /* make button opaque to indicate it is unable to be clicked again */
@@ -77,7 +76,6 @@ Template.gameHangman.events({
 
       /* if guessed letter is not in the word */
       if (word.indexOf(letter) == -1) {
-        //console.log("sorry, " + letter + " is not in " + word);
         if (instance.numGuesses.get() > 0) {
           instance.numGuesses.set(instance.numGuesses.get() - 1);
         }
@@ -88,7 +86,6 @@ Template.gameHangman.events({
         }
       } else {
         /* if it is in the word */
-        //console.log("correct, " + letter + " is in " + word);
         var newBlanks = "";
         for (var i = 0; i < word.length; i++) {
           if (word.charAt(i) == letter) {

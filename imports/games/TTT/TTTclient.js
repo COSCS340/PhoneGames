@@ -18,7 +18,6 @@ Template.TTT.onCreated(function() {
     ]
   }).observeChanges({
     changed: function(id, fields) {
-      console.log("changed");
       var game = TTT.findOne({
         $or: [
           {
@@ -32,7 +31,6 @@ Template.TTT.onCreated(function() {
 
       //check if board has changed
       if (game.board != this.currentBoard) {
-        console.log("board has changed");
         this.currentBoard = game.board;
 
         for (var i = 0; i <= 8; i++) {
@@ -85,5 +83,5 @@ Template.TTT.events({
 });
 
 Template.TTT.onDestroyed(function() {
-  Meteor.call("removePlayer");
+  Meteor.call("removePlayer", Meteor.userId());
 });

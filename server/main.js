@@ -17,6 +17,7 @@ Meteor.startup(() => {
   TTT.remove({});
   SpyfallGames.remove({});
   Celebrity.remove({});
+  MessagesList.remove({});
 
   Tracker.autorun(function() {
     Meteor.publish("lobbies", function() {
@@ -62,30 +63,24 @@ Meteor.startup(() => {
       }
     },
 
-    removePlayer: function() {
+    removePlayer: function(userId) {
       var lobby = Lobbies.findOne({
-        "players.userId": this.userId
+        "players.userId": userId
       });
-      console.log(lobby);
       if (lobby.players.length > 1) {
-
         Lobbies.update(
           { _id: lobby._id },
-          { $pull: { players: { userId: this.userId } } }
+          { $pull: { players: { userId: userId } } }
         );
-        for (let i = 0; i < lobby.players.length; i++){
-          if (lobby.players[i].userId != this.userId){
-            return Lobbies.update(
-              { _id: lobby._id },
-              {
-                $set: {
-                  createdById: lobby.players[i].userId,
-                  createdByUser: lobby.players[i].name
-                }
-              }
-            );
+        return Lobbies.update(
+          { _id: lobby._id },
+          {
+            $set: {
+              createdById: lobby.players[0].userId,
+              createdByUser: lobby.players[0].name
+            }
           }
-        }
+        );
       } else {
         Lobbies.remove({ _id: lobby._id });
       }
@@ -115,11 +110,12 @@ Meteor.startup(() => {
         userId: this.userId
       };
 
-      var min = minimumPlayers[whatGame];
-      var max = maximumPlayers[whatGame];
       if (whatGame == "TTT") {
         whatGame = "Tic-Tac-Toe";
       }
+      var min = minimumPlayers[whatGame];
+      var max = maximumPlayers[whatGame];
+
 
       const newGame = {
         lobbyId: Random.id(4).toUpperCase(),
@@ -204,6 +200,24 @@ Meteor.startup(() => {
         _id: celebId
       });
     },
+
+    removeTTT: function(tttId) {
+      if (!tttId) {
+        throw new Meteor.Error("ttt-invalid", errCodes[0]);
+      }
+      return TTT.remove({
+        _id: tttId
+      });
+    },
+
+    removeSpyfall: function(spyfallId) {
+      if (!spyfallId) {
+        throw new Meteor.Error("spyfall-invalid", errCodes[0]);
+      }
+      return SpyfallGames.remove({
+        _id: spyfallId
+      });
+    }
   });
 
   Lobbies.allow({

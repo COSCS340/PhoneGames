@@ -1,4 +1,5 @@
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Phone Games</title>
 </head>
 
@@ -13,11 +14,11 @@
 		{{> header }}
 	</div>
 
-	<div id = "side-bar">
-		{{> chatterBox}}
-	</div>
+  <div id = "side-bar">
+  	{{> chatterBox}}
+  </div>
 
-	<div class = "{{mainDivClass}}" id = "main-screen">
+	<div class = "center-center-container" style="text-align:center;" id = "main-screen">
 		{{> Template.dynamic template=currentView }}
 	</div>
 
@@ -29,7 +30,7 @@
 <template name="homepage">
 	<h1>Welcome to Phone Games!</h1>
 
-	<button class = "btn-new-game">New Game</button> <button class = "btn-join-game">Join Game</button>
+	<button class = "btn-new-game btn-gradient">New Game</button> <button class = "btn-join-game btn-gradient">Join Game</button>
 </template>
 
 <template name="gameSelect">
@@ -64,32 +65,17 @@
 	</form>
 </template>
 
-<template name="userPage">
-	<h1> this is an example user page - for testing atm - user name is: {{currentUser.username}}</h1>
-</template>
-
-<template name="forTesting">
-	<h1>This is for testing. Hit back to go to the homepage.</h1>
-
-	<button class = "btn-for-testing">Back</button>
-</template>
-
 <template name="header">
 	<button class = "btn-home" style = "float: left;">Home</button>
 	{{#if currentUser.username}}
-		<button style = "float: right;">{{> loginButtons align="right" }}</button>
-		<button class = "btn-user-profile" style = "float: right;">{{currentUser.username}}</button>
-	{{else}}
-		<div style = "float: right;">
-			{{> loginButtons align="right"}}
-		</div>
-	<!--	<button class = "btn-login" style = "float: right;">Login</button> -->
+		<button style = "float: right;">{{currentUser.username}}</button>
 	{{/if}}
 </template>
 
 <template name="lobby">
   <h1 style="font-size: xx-large"> {{whatGame}} </h1>
-	<h1> Lobby ID: {{lobbyId}}</h1>
+	<h1 style="font-size: x-large"> Lobby ID: {{lobbyId}}</h1>
+  <h4>Minimum Players: {{min}}<br>Maximum Players: {{max}}</h4>
 	{{#each users}}
 		{{this.name}}<br>
 	{{/each}}
@@ -100,7 +86,9 @@
 </template>
 
 <template name="footer">
-  <button class = "btn-admin-info">Adm info</button>
+  {{#if isAdmin}}
+    <button class = "btn-admin-info">Adm info</button>
+  {{/if}}
   <h6>Learn More About Us!</h6>
   <a href="https://github.com/COSCS340/PhoneGames" target="_blank">See the code</a>
   <a href="http://guide.meteor.com" target="_blank">Learn about the Framework supporting this</a>
@@ -114,6 +102,8 @@
 	<button class = "btn-msgcodes">Msg Codes</button>
 	<button class = "btn-errcodes">Err Codes</button><br>
   <button class = "btn-celeb">Celeb</button>
+  <button class = "btn-ttt">TTT</button>
+  <button class = "btn-spyfall">Spyfall</button>
 </template>
 
 <template name="adminInfoUsers">
@@ -144,6 +134,30 @@
       {{userId}};
     {{/each}}
     <button class = "btn-remove-celeb">Remove</button>
+    <br>
+  {{/each}}
+  <button class = "btn-back">Back</button>
+</template>
+
+<template name="adminInfoTTT">
+  {{#each TTT}}
+    _id: {{_id}}<br>
+    {{#each players}}
+      {{userId}};
+    {{/each}}
+    <button class = "btn-remove-ttt">Remove</button>
+    <br>
+  {{/each}}
+  <button class = "btn-back">Back</button>
+</template>
+
+<template name="adminInfoSpyfall">
+  {{#each spyfall}}
+    _id: {{_id}}<br>
+    {{#each players}}
+      {{userId}};
+    {{/each}}
+    <button class = "btn-remove-spyfall">Remove</button>
     <br>
   {{/each}}
   <button class = "btn-back">Back</button>

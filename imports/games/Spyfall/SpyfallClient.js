@@ -77,5 +77,5 @@ Template.Spyfall.events({
 Template.Spyfall.onDestroyed(function() {
   clearInterval(this.timer);
   Meteor.call("removeSpyfallPlayer");
-  Meteor.call("removePlayer");
+  Meteor.call("removePlayer", Meteor.userId());
 });

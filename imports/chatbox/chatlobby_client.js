@@ -28,7 +28,6 @@ Template.chatterBox.helpers({
         { sort: { timeSent: 1 } }
       );
     } else {
-      //return MessagesList.find()
       var lobbyName = Lobbies.findOne({ "players.userId": Meteor.userId() });
       if (lobbyName && lobbyName.lobbyId) {
         return MessagesList.find(
@@ -46,6 +45,13 @@ Template.chatterBox.helpers({
 
   unreadMessages: function() {
     return unreadMessages.get();
+  },
+  username: function() {
+    let user = Meteor.users.findOne({_id: Meteor.userId()});
+    if (user && user.username) {
+      return true;
+    }
+    return false;
   },
   limitToLobbyChat: function() {
     return limitToLobbyChat.get();

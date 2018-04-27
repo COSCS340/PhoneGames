@@ -8,14 +8,13 @@ import "../imports/games/TTT/TTTclient.js";
 import "../imports/games/Spyfall/SpyfallClient.js";
 import "../imports/games/Celebrity/CelebrityClient.js";
 import "../lib/collections.js";
-import { msgCodes, errCodes } from "../lib/codes.js";
+import { msgCodes, errCodes, minimumPlayers, maximumPlayers } from "../lib/codes.js";
 import "../imports/chatbox/chatlobby_client.js";
 
 Meteor.startup(() => {
   Session.set("docTitle", "Phone Games");
   Session.set("currentView", "homepage");
   Session.set("whatGame", "none");
-  Session.set("mainDivClass", "center-center-container");
   Meteor.subscribe("allUsers");
   Meteor.subscribe("lobbies");
   Meteor.subscribe("ttt");
@@ -50,10 +49,6 @@ Template.header.events({
 
   "click .btn-login": function() {
     Session.set("currentView", "loginPage");
-  },
-
-  "click .btn-user-profile": function() {
-    Session.set("currentView", "userPage");
   }
 });
 
@@ -163,9 +158,9 @@ Template.joinGame.events({
     if (!tVal || tVal.length > 15) {
       $("#textbox-name").css("border-color", "#e52213");
       if (tVal.length > 15) {
-        $("#errName").html("names must be less than 15 characters");
+        $("#errName").html(errCodes.nameTooLong);
       } else {
-        $("#errName").html("names must be more than 0 characters");
+        $("#errName").html(errCodes.nameTooShort);
       }
     } else {
       $("#textbox-name").css("border-color", "#e3e3e3");
@@ -176,7 +171,7 @@ Template.joinGame.events({
   'blur input[name = "lobbyID"]': function(event, template) {
     if (event.target.value.length != 4) {
       $("#textbox-lobby").css("border-color", "#e52213");
-      $("#errLobby").html("lobby ids must be exactly 4 characters");
+      $("#errLobby").html(errCodes.lobbyIdLen);
     } else {
       $("#textbox-lobby").css("border-color", "#e3e3e3");
       $("#errLobby").html("");
@@ -185,36 +180,52 @@ Template.joinGame.events({
 
   "submit .userInfo": function(event, template) {
     event.preventDefault();
+    var lobbyId = document.getElementById("textbox-lobby").value.toUpperCase();
     if (document.getElementById("textbox-name")) {
       name = document.getElementById("textbox-name").value;
-    }
-    var lobbyId = document.getElementById("textbox-lobby").value.toUpperCase();
-    if (name && name.length > 0 && name.length < 15) {
-      Meteor.call("changeUsername", name, function(error, result) {
-        if (result == errCodes["userTaken"]) {
-          $("#errName").html(result);
-          $("#textbox-name").css("border-color", "#e52213");
-          return;
-        }
-      });
-    } else if (name) {
-      if (name.length == 0) {
-        $("#errName").html("names must be more than 0 characters");
-        $("#textbox-name").css("border-color", "#e52213");
-      } else if (name.length >= 15) {
-        $("#errName").html("names must be less than 15 characters");
-        $("#textbox-name").css("border-color", "#e52213");
-      } else {
-        Meteor.call("joinGame", lobbyId, function(error, result) {
-          if (result == errCodes.invalidLobbyCode || result == errCodes.fullLobby) {
-            $("#errLobby").html(result);
-            $("#textbox-lobby").css("border-color", "#e52213");
-          } else {
-            Session.set("docTitle", result);
-            Session.set("currentView", "lobby");
+      if (name && name.length > 0 && name.length < 15) {
+        Meteor.call("changeUsername", name, function(error, result) {
+          if (result == errCodes.userTaken) {
+            $("#errName").html(result);
+            $("#textbox-name").css("border-color", "#e52213");
+            return;
           }
         });
+      } else if (name) {
+        if (name.length == 0) {
+          $("#errName").html(errCodes.nameTooShort);
+          $("#textbox-name").css("border-color", "#e52213");
+        } else if (name.length >= 15) {
+          $("#errName").html(errCodes.nameTooLong);
+          $("#textbox-name").css("border-color", "#e52213");
+        } else {
+          Meteor.call("joinGame", lobbyId, function(error, result) {
+            if (
+              result == errCodes.invalidLobbyCode ||
+              result == errCodes.fullLobby
+            ) {
+              $("#errLobby").html(result);
+              $("#textbox-lobby").css("border-color", "#e52213");
+            } else {
+              Session.set("docTitle", result);
+              Session.set("currentView", "lobby");
+            }
+          });
+        }
       }
+    } else {
+      Meteor.call("joinGame", lobbyId, function(error, result) {
+        if (
+          result == errCodes.invalidLobbyCode ||
+          result == errCodes.fullLobby
+        ) {
+          $("#errLobby").html(result);
+          $("#textbox-lobby").css("border-color", "#e52213");
+        } else {
+          Session.set("docTitle", result);
+          Session.set("currentView", "lobby");
+        }
+      });
     }
   },
 
@@ -234,11 +245,12 @@ Template.lobby.onCreated(function() {
         "players.userId": Meteor.userId()
       }).fetch();
       if (lobby[0].started == true) {
-        Session.set("whatGame", lobby[0].gameName);
-        Session.set("currentView", lobby[0].gameName);
-      } else {
-        console.log(lobby);
-        console.log(lobby[0].started);
+        if (lobby[0].gameName != "Tic-Tac-Toe") {
+          Session.set("whatGame", lobby[0].gameName);
+          Session.set("currentView", lobby[0].gameName);
+        } else {
+          Session.set("currentView", "TTT");
+        }
       }
     }
   });
@@ -251,13 +263,12 @@ Template.lobby.onCreated(function() {
 Template.lobby.onDestroyed(function() {
   lobbyObserve.stop();
   if (Session.get("whatGame") != Session.get("currentView")) {
-    Meteor.call("removePlayer");
+    Meteor.call("removePlayer", Meteor.userId());
   }
 });
 
 Template.lobby.events({
   "click .btn-start": function() {
-    console.log(Session.get("whatGame"));
     makeGame(Session.get("whatGame"));
   },
 
@@ -277,14 +288,14 @@ Template.lobby.helpers({
   },
 
   lobbyId: function() {
-    var lobby = Lobbies.find({"players.userId": Meteor.userId()}).fetch();
+    var lobby = Lobbies.find({ "players.userId": Meteor.userId() }).fetch();
     if (lobby && lobby[0] && lobby[0].lobbyId) {
       return lobby[0].lobbyId;
     }
   },
 
   users: function() {
-    var lobby = Lobbies.find({"players.userId": Meteor.userId()}).fetch();
+    var lobby = Lobbies.find({ "players.userId": Meteor.userId() }).fetch();
     if (lobby && lobby[0] && lobby[0].players) {
       return lobby[0].players;
     }
@@ -295,7 +306,7 @@ Template.lobby.helpers({
   },
 
   playerCountMet: function() {
-    var lobby = Lobbies.find({"players.userId": Meteor.userId()}).fetch();
+    var lobby = Lobbies.find({ "players.userId": Meteor.userId() }).fetch();
     if (lobby && lobby[0] && lobby[0].players) {
       return (
         lobby[0].players.length >= lobby[0].minPlayers &&
@@ -303,29 +314,42 @@ Template.lobby.helpers({
         lobby[0].createdById == Meteor.user()._id
       );
     }
-  }
-});
-
-/* this is used for testing so you can get back to the homepage after testing buttons or forms */
-Template.forTesting.events({
-  "click .btn-for-testing": function() {
-    Session.set("currentView", "homepage");
+  },
+  min: function() {
+    return minimumPlayers[Session.get("whatGame")];
+  },
+  max: function() {
+    return maximumPlayers[Session.get("whatGame")];
   }
 });
 
 Template.main.helpers({
   currentView: function() {
     return Session.get("currentView");
-  },
-
-  mainDivClass: function() {
-    return Session.get("mainDivClass");
   }
 });
 
 Template.footer.events({
   "click .btn-admin-info": function() {
     Session.set("currentView", "adminInfo");
+  }
+});
+
+Template.footer.helpers({
+  isAdmin: function() {
+    let user = Meteor.users.findOne({ _id: Meteor.userId() });
+    if (user) {
+      let name = user.username;
+      if (
+        name == "Jerry" ||
+        name == "Preston" ||
+        name == "Cameron" ||
+        name == "Howard"
+      ) {
+        return true;
+      }
+      return false;
+    }
   }
 });
 
@@ -348,6 +372,14 @@ Template.adminInfo.events({
 
   "click .btn-celeb": function() {
     Session.set("currentView", "adminInfoCelebrity");
+  },
+
+  "click .btn-ttt": function() {
+    Session.set("currentView", "adminInfoTTT");
+  },
+
+  "click .btn-spyfall": function() {
+    Session.set("currentView", "adminInfoSpyfall");
   }
 });
 
@@ -399,6 +431,38 @@ Template.adminInfoCelebrity.events({
   }
 });
 
+Template.adminInfoTTT.helpers({
+  TTT: function() {
+    return TTT.find().fetch();
+  }
+});
+
+Template.adminInfoTTT.events({
+  "click .btn-remove-ttt": function() {
+    Meteor.call("removeTTT", this._id);
+  },
+
+  "click .btn-back": function() {
+    Session.set("currentView", "adminInfo");
+  }
+});
+
+Template.adminInfoSpyfall.helpers({
+  spyfall: function() {
+    return SpyfallGames.find().fetch();
+  }
+});
+
+Template.adminInfoSpyfall.events({
+  "click .btn-remove-spyfall": function() {
+    Meteor.call("removeSpyfall", this._id);
+  },
+
+  "click .btn-back": function() {
+    Session.set("currentView", "adminInfo");
+  }
+});
+
 Template.adminInfoMsgCodes.helpers({
   msgcode: function() {
     return msgCodes;
@@ -424,7 +488,7 @@ Template.adminInfoErrCodes.events({
 });
 
 function makeGame(gameName) {
-  if (gameName == "TTT") {
+  if (gameName == "Tic-Tac-Toe") {
     Meteor.call(
       "makeTTT",
       Meteor.userId(),
@@ -433,7 +497,7 @@ function makeGame(gameName) {
       }).fetch()[0].players[1].userId
     );
     Meteor.call("startLobby", function() {
-      Session.set("currentView", Session.get("whatGame"));
+      Session.set("currentView", "TTT");
     });
   } else if (gameName == "Spyfall") {
     let players = Lobbies.findOne({ createdBy: this.userId }).players;
