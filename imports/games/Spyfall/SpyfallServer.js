@@ -18,7 +18,7 @@ Meteor.methods({
     SpyfallGames.insert({
       players: pls,
       location: local.name,
-      endTime: new Date().getTime() + 10 * 60 * 1000
+      endTime: new Date().getTime() + 8 * 60 * 1000 //8 minutes
     });
   },
   getRole: function() {
@@ -31,6 +31,19 @@ Meteor.methods({
   getLocation: function() {
     let game = SpyfallGames.findOne({ "players.userId": this.userId });
     return game.location;
+  },
+  removeSpyfallPlayer: function() {
+    let game = SpyfallGames.findOne({ "players.userId": this.userId });
+    if (game.players.length > 1) {
+      //check if spy maybe
+
+      SpyfallGames.update(
+        { _id: game._id },
+        { $pull: { players: { userId: this.userId } } }
+      );
+    } else {
+      SpyfallGames.remove({ _id: game._id });
+    }
   }
 });
 
