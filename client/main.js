@@ -8,7 +8,7 @@ import "../imports/games/TTT/TTTclient.js";
 import "../imports/games/Spyfall/SpyfallClient.js";
 import "../imports/games/Celebrity/CelebrityClient.js";
 import "../lib/collections.js";
-import { msgCodes, errCodes } from "../lib/codes.js";
+import { msgCodes, errCodes, minimumPlayers, maximumPlayers } from "../lib/codes.js";
 import "../imports/chatbox/chatlobby_client.js";
 
 Meteor.startup(() => {
@@ -312,6 +312,12 @@ Template.lobby.helpers({
         lobby[0].createdById == Meteor.user()._id
       );
     }
+  },
+  min: function() {
+    return minimumPlayers[Session.get("whatGame")];
+  },
+  max: function() {
+    return maximumPlayers[Session.get("whatGame")];
   }
 });
 
