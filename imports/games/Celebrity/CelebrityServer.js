@@ -60,7 +60,7 @@ Meteor.methods({
     }
 
     let tmpdeck = shuffle(deck);
-    let numCards = 5;
+    let numCards = 2;
     let team = [];
 
     listOfPlayers.forEach(function(player, index, team) {
