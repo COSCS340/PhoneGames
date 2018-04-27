@@ -1,5 +1,27 @@
 @import url ("/../imports/chatbox/chat.css");
 
+@media only screen and (max-width: 600px) {
+  [class*="side-bar"] {
+    position: absolute;
+    text-align: left;
+    /*overflow: scroll;*/
+    left: 50%;
+    width: 20%;
+    bottom: 0px;
+    border: solid 1px;
+    border-top: 0px;
+    border-left: 0px;
+    border-bottom: 0px;
+    padding: 0px 0px 0px 0px;
+    }
+    img {
+        max-width: 70%;
+        height: auto;
+    }
+  #footer { display: none
+  }
+}
+
 img {
     max-width: 70%;
     height: auto;
@@ -91,17 +113,10 @@ img {
 
 /* Placement for a side bar, where the chat lobby will reside*/
 #side-bar {
-  position: fixed;
-  text-align: left;
-  /*overflow: scroll;*/
-  left: 0;
-  top: 17%;
-  width: 20%;
-  border: solid 1px;
-  border-top: 0px;
-  border-left: 0px;
-  border-bottom: 0px;
-  padding: 8px 8px 8px 8px;
+  position: absolute;
+   bottom: 0;
+   width: 20%;
+   height: 20%;
 }
 
 /* This will override the accounts-ui's butt-ugly styling and conform it to our own */
