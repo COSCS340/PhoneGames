@@ -91,8 +91,6 @@ Template.Celebrity.events({
         Session.set("selected", true);
         Meteor.call("checkReady");
       });
-
-      $("#errCards").html("You're good to go.");
     } else if (cnt > checkboxes.length / 2) {
       $("#errCards").html(
         "You've selected more than " + checkboxes.length / 2 + " cards."
@@ -121,6 +119,14 @@ Template.celebrityPlay.events({
   "click .btn-got": function() {
     Meteor.call("scoreCard");
   },
+
+  "click .btn-show": function() {
+    if (Session.get("showScores") == true) {
+      return Session.set("showScores", false);
+    }
+    return Session.set("showScores", true);
+  },
+
   "click .btn-start": function() {
     Meteor.call("timer", function() {
       Session.set("ready", true);
@@ -196,6 +202,46 @@ Template.celebrityPlay.helpers({
       return '1:00';
     }
   },
+
+  str: function() {
+    let celeb = Celebrity.find({
+      "players.userId": Meteor.userId()
+    }).fetch()[0];
+    let timestr;
+    if (celeb && celeb.time) {
+      let time = new Date(60000 - celeb.time);
+      if (time < 10000) {
+        timestr = time.getUTCMinutes() + ':0' + time.getUTCSeconds();
+      }
+      timestr = time.getUTCMinutes() + ':' + time.getUTCSeconds();
+    } else {
+      timestr = '1:00';
+    }
+
+    if (celeb && celeb.turn && celeb.turn.team) {
+      for (let i = 0; i < celeb.players.length; i++) {
+        if (celeb.players[i].userId == Meteor.userId()) {
+          if (celeb.turn.team == celeb.players[i].team) {
+            return "You have " + timestr + "left before your team's turn is over.";
+          } else {
+            return "They have " + timestr + " left before your team is up.";
+          }
+        }
+      }
+    }
+  },
+
+  show: function() {
+    if (Session.get("showScores") == true) {
+      return "Hide";
+    }
+    return "Show";
+  },
+
+  showScores: function() {
+    return Session.get("showScores");
+  },
+
   endStr: function() {
     let celeb = Celebrity.find({
       "players.userId": Meteor.userId()
@@ -222,10 +268,45 @@ Template.celebrityPlay.helpers({
     if (celeb && celeb.finished) {
       return celeb.finished;
     }
+  },
+
+  team1scores: function() {
+    let celeb = Celebrity.find({
+      "players.userId": Meteor.userId()
+    }).fetch()[0];
+    if (celeb && celeb.turn && celeb.turn.team) {
+      for (let i = 0; i < celeb.players.length; i++) {
+        if (celeb.players[i].userId == Meteor.userId()) {
+          if (celeb.players[i].team == "Team 1") {
+            return "Your team has " + celeb.team1score + " points.";
+          } else {
+            return "The other team has " + celeb.team1score + " points.";
+          }
+        }
+      }
+    }
+  },
+
+  team2scores: function() {
+    let celeb = Celebrity.find({
+      "players.userId": Meteor.userId()
+    }).fetch()[0];
+    if (celeb && celeb.turn && celeb.turn.team) {
+      for (let i = 0; i < celeb.players.length; i++) {
+        if (celeb.players[i].userId == Meteor.userId()) {
+          if (celeb.players[i].team == "Team 2") {
+            return "Your team has " + celeb.team2score + " points.";
+          } else {
+            return "The other team has " + celeb.team2score + " points.";
+          }
+        }
+      }
+    }
   }
 
 });
 
 Template.celebrityPlay.onCreated(function(){
   Session.set("ready", false);
+  Session.set("showScores", false);
 });

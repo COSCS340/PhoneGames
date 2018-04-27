@@ -8,7 +8,12 @@ import "../imports/games/TTT/TTTclient.js";
 import "../imports/games/Spyfall/SpyfallClient.js";
 import "../imports/games/Celebrity/CelebrityClient.js";
 import "../lib/collections.js";
-import { msgCodes, errCodes, minimumPlayers, maximumPlayers } from "../lib/codes.js";
+import {
+  msgCodes,
+  errCodes,
+  minimumPlayers,
+  maximumPlayers
+} from "../lib/codes.js";
 import "../imports/chatbox/chatlobby_client.js";
 
 Meteor.startup(() => {
@@ -188,32 +193,36 @@ Template.joinGame.events({
           if (result == errCodes.userTaken) {
             $("#errName").html(result);
             $("#textbox-name").css("border-color", "#e52213");
-            return;
+          } else {
+            Meteor.call("joinGame", lobbyId, function(error, result) {
+              if (
+                result == errCodes.invalidLobbyCode ||
+                result == errCodes.fullLobby
+              ) {
+                $("#errLobby").html(result);
+                $("#textbox-lobby").css("border-color", "#e52213");
+              } else {
+                Session.set("docTitle", result);
+                Session.set("currentView", "lobby");
+              }
+            });
           }
         });
+        return;
       } else if (name) {
         if (name.length == 0) {
           $("#errName").html(errCodes.nameTooShort);
           $("#textbox-name").css("border-color", "#e52213");
+          return;
         } else if (name.length >= 15) {
           $("#errName").html(errCodes.nameTooLong);
           $("#textbox-name").css("border-color", "#e52213");
-        } else {
-          Meteor.call("joinGame", lobbyId, function(error, result) {
-            if (
-              result == errCodes.invalidLobbyCode ||
-              result == errCodes.fullLobby
-            ) {
-              $("#errLobby").html(result);
-              $("#textbox-lobby").css("border-color", "#e52213");
-            } else {
-              Session.set("docTitle", result);
-              Session.set("currentView", "lobby");
-            }
-          });
+          return;
         }
       }
-    } else {
+    }
+    let user = Meteor.users.findOne({ _id: Meteor.userId() });
+    if (user.username && lobbyId) {
       Meteor.call("joinGame", lobbyId, function(error, result) {
         if (
           result == errCodes.invalidLobbyCode ||
@@ -226,6 +235,11 @@ Template.joinGame.events({
           Session.set("currentView", "lobby");
         }
       });
+    } else {
+      $("#errLobby").html(
+        "You must enter your name before trying to join a lobby."
+      );
+      $("#textbox-lobby").css("border-color", "#e52213");
     }
   },
 

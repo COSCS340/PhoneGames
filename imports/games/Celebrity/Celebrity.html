@@ -43,7 +43,12 @@
       {{/if}}
     {{else}}
       <p>It's round {{round}} and {{currentTeam}} team is up.</p>
-      <p>They have {{time}} left before your team is up.</p>
+      <p>{{str}}</p>
+      {{#if showScores}}
+        <p>{{team1scores}}</p>
+        <p>{{team2scores}}</p>
+      {{/if}}
+      <button class = "btn-show">{{show}} Scores</button>
     {{/if}}
   {{else}}
     <p>{{{endStr}}}</p>
