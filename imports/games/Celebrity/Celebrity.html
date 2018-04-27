@@ -15,6 +15,7 @@
 
 <template name="Celebrity">
   {{#unless selected}}
+    <h1>You need to select 2 cards</h1>
     {{#each card}}
       <input type="checkbox" id="{{this.name}}" class="cardSelect">
       <label for="{{this.name}}">{{this.name}}</label><br>
