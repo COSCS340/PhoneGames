@@ -1,5 +1,10 @@
 @import url ("/../imports/chatbox/chat.css");
 
+img {
+    max-width: 70%;
+    height: auto;
+}
+
 .container-pane {
   width: 100%;
 }
