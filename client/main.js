@@ -248,9 +248,6 @@ Template.lobby.onCreated(function() {
       if (lobby[0].started == true) {
         Session.set("whatGame", lobby[0].gameName);
         Session.set("currentView", lobby[0].gameName);
-      } else {
-        console.log(lobby);
-        console.log(lobby[0].started);
       }
     }
   });
@@ -263,7 +260,7 @@ Template.lobby.onCreated(function() {
 Template.lobby.onDestroyed(function() {
   lobbyObserve.stop();
   if (Session.get("whatGame") != Session.get("currentView")) {
-    Meteor.call("removePlayer");
+    Meteor.call("removePlayer", Meteor.userId());
   }
 });
 
