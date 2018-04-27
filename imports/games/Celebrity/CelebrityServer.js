@@ -26,6 +26,7 @@ Meteor.methods({
       }
     );
     Meteor.setTimeout(function() {
+      Lobbies.remove({"players.userId": userId});
       Celebrity.remove({"players.userId": userId});
     }, 10000);
   },

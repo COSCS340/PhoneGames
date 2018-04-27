@@ -106,8 +106,12 @@ Template.Celebrity.events({
 });
 
 Template.Celebrity.onDestroyed(function() {
-  Meteor.call("removePlayer");
-  Meteor.call("removeCelebPlayer");
+  if (Lobbies.findOne({"players.userId": Meteor.userId()})) {
+    Meteor.call("removePlayer");
+  }
+  if (Celebrity.findOne({"players.userId": Meteor.userId()})) {
+    Meteor.call("removeCelebPlayer");
+  }
 });
 
 Template.celebrityPlay.events({
@@ -143,6 +147,8 @@ Template.celebrityPlay.helpers({
     }).fetch()[0];
     if (celeb && celeb.turn && celeb.turn.hand && celeb.turn.hand[0].path) {
       return celeb.turn.hand[0].path;
+    } else {
+      return "";
     }
   },
 
