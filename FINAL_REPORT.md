@@ -1,7 +1,6 @@
-# Final Report
-* This is where we will put the final report as / when it is written.
+## Heading
 
-# PhoneGames - **Party Game Dev Squad**
+### PhoneGames - **Party Game Dev Squad**
 - Team Number 8  
   - Jerry Duncan
   - Preston Provins
@@ -15,27 +14,27 @@
 - What is your motivation for your project?
   - Our motivation for this project is that we're avid gamers who enjoy playing party games, but having to carry around physical games can become tiresome. At the same time, there is a severe lack of digital party games on the market, so we decided to create a platform that allowed us to convert our favorite physical games to digital ones that we can take anywhere we go.
 - Briefly describe your approach
-  - todo
+  - **todo**
 - If there were major changes to requirements, design, or development plans in your project life cycle, discuss them here
-  - todo
+  - **todo**
 - Summarize your results and conclusions. Did you complete your project goals?
-  - todo
+  - **todo**
 ## Customer Value
 
-- todo
+- **todo**
 
 ## Technology
 
-
+- **todo**
 
 ## Team
 
-
+- **todo**
 
 ## Project Management
 
 - Did you complete all of your goals for the product on schedule?
-  - 
+  - **todo**
 
 ## Reflection
 - For this iteration:
@@ -45,23 +44,25 @@
 - Do you consider the final project a success? Why or why not?
 
 Because each of us had structured roles, our experiences of what went well and what didn't are very different from each others' and because of that, we've included every person's experience point by point.
+
 - Preston
   - **What went well?** Deploying our project to Google Cloud was easy once I figured out how to create my own deployment scripts and maneuver around the google app environment. The hard part was getting to that point because it took some time to understand everything that was going on but I was eventually able to make it work.
   - **What did not go well?** Getting my chat to work with the lobby system we have implemented was a hassle. At first I didn't understand the API we had so getting the user's lobby information and manipulating the data was difficult.
   - For planning and development I had to work with others in solidifying when we had a release that was ‘good enough’ for a deployment  so they could test the multiplayer functionality. Testing the chat box was easy because I could put it in development mode and test it on my local machine.
   - Overall, I would consider this project a success. I got to learn about a very interesting language (JavaScript), apply useful information from class to deploy a web app to Google Cloud, and accomplish many goals of the goals we had originally planned for the project.
-
+  
 - Jerry 
-  - **What went well?** todo
-  - **What did not go well?** todo
-  - todo
-  - todo
+  - **What went well?** Almost everything went well. Implementing user accounts, converting games to multiplayer, and creating our lobby system was very straightforward and easy.
+  - **What did not go well?** Because most of my job was implementing things on the backend of our app, I would create basic UIs that favored functionality over design and that left a lot to be desired by the users. I had a hard time converting my functional UIs to ones that were functional, intuitive, and pretty.
+  - As for planning, I planned my time appropriately and spread out my work fairly evenly over the semester, however I don't think this is the case for the whole team. Development went smoothly for the most part. We were able to test our platform really well for the first half of the semester, but by the end we had to almost skip testing completely to finish up games for the presentation. I was in charge of team management and I thought I did an okay job at giving out tasks but it was hard to motivate people to do their part in a reasonable amount of time and that led to many features getting cut and caused us to deliver a subpar product.
+  - I do not consider our project a success. I was able to use our project as a reason to learn JavaScript and get my foot in the door of web design, but our UI was unfinished, we didn't get to implement all of our goals, and there were plenty of bugs that didn't get removed due to poor testing and time crunch towards the end.
+  
 - Michael
   - **What went well?** Writing the client side code for our games was quick and easy.
   - **What did not go well?** Modifying those games to work with the server was a lot harder than anticipated. I am used to the thread and socket models used in Java and C so having to use MongoDB to store and retrieve data was difficult to get used to.
   - As for planning, I wish that I had planned out my time management better because I did not do a great job of spreading out the workload evenly through the semester so by the end of the semester I had to work overtime to meet our deadlines. In regards to team management, our team could have done a better job of explicitly divvying up the work. And for testing, we originally did a good job with testing for bugs and squashing them, but towards the end we ran out of time and that caused us to leave a few in our presentation. 
   - I would say that the project was a success. While I wish we had been able to finish the UI and create more games before our presentation, we were able to present a somewhat working product and achieve our main goal of laying the groundwork to easily add games in the future.
-
+  
 - Howard
   - **What went well?** I was able to implement UI scaling with relative ease and made it so our project looked good on mobile screens.
   - **What did not go well?** Working with the CSS and HTML separately on the UI was not very effective, it caused me a lot of problems and slowed down my development time dramatically. Also, I didn't consider that basic UI components such as buttons would look different between browsers and that led to a fragmented UI/UX.
