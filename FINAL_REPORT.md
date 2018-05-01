@@ -34,7 +34,30 @@
 ## Project Management
 
 - Did you complete all of your goals for the product on schedule?
-  - **todo**
+  - While we did finish the vast majority of our goals, we did manage to complete all of them. Our main objective was to create a website to host multiplayer board games that:
+    - Did not require the user to have to run their own servers
+    - Did not require purchase of any additional product
+    - Worked on both computers and mobile devices
+    - Required no additional downloads (such as apps)
+    - Implemented a global and lobby chat system
+    - Deployed on Gcloud
+  - We were able to accomplish all of our main goals, but unfortunately there were also some objectives that we were unable to complete before the presentation deadline. Our biggest disappointment was that we were unable to complete our complete UI overhaul that would have made the site look much nicer, more intuitive, and work seamlessly on mobile. While trying to merge our new UI, it broke too many parts on our website so we had to revert back to our old UI right before our presentation. 
+  - The next thing we had hoped to accomplish was adding more games. The hardest part about creating a game was trying to figure out how to deal with sending data between the server and client using MongoDB and making sure that it worked with our lobby system. Once we figured out how to do that, adding new games was very simple. Unfortunately, by the time we got to that point, we had to shift our focus towards the UI overhaul due to time constraints.
+  - There were also a few minor improvements we didn’t manage to complete either, such as instruction screens, leaderboards, and a friend system.
+  - Overall, the number one reason we didn’t get to implement every feature we had hoped to was because of poor time management. None of our objectives were too challenging to implement, they just required too much time so we cut out the less essential features and presented with what we had.
+
+  - Our completed goals:
+    - Game service does not require any user run servers or additional hardware
+    - No downloads (apps) are required
+    - Account creation and anonymous login 
+    - Chat system
+    - Compatibility with both phones and computers
+  - Our incomplete goals:
+    - UI overhaul
+    - More games
+    - Instruction screens
+    - Leaderboards
+    - Friend system
 
 ## Reflection
 - For this iteration:
@@ -54,7 +77,7 @@ Because each of us had structured roles, our experiences of what went well and w
 - Jerry 
   - **What went well?** Almost everything went well. Implementing user accounts, converting games to multiplayer, and creating our lobby system was very straightforward and easy.
   - **What did not go well?** Because most of my job was implementing things on the backend of our app, I would create basic UIs that favored functionality over design and that left a lot to be desired by the users. I had a hard time converting my functional UIs to ones that were functional, intuitive, and pretty.
-  - As for planning, I planned my time appropriately and spread out my work fairly evenly over the semester, however I don't think this is the case for the whole team. Development went smoothly for the most part. We were able to test our platform really well for the first half of the semester, but by the end we had to almost skip testing completely to finish up games for the presentation. I was in charge of team management and I thought I did an okay job at giving out tasks but it was hard to motivate people to do their part in a reasonable amount of time and that led to many features getting cut and caused us to deliver a subpar product.
+  - As for planning, I planned my time appropriately and spread out my work fairly evenly over the semester, however I don't think this is the case for the whole team. Development went smoothly for the most part. We were able to test our platform really well for the first half of the semester, but by the end we had to almost skip testing completely to prioritize finishing up our games for the presentation. I was in charge of team management and I thought I did an okay job at giving out tasks but it was hard to keep everyone on track and that led to many features getting cut and caused us to deliver a subpar product.
   - I do not consider our project a success. I was able to use our project as a reason to learn JavaScript and get my foot in the door of web design, but our UI was unfinished, we didn't get to implement all of our goals, and there were plenty of bugs that didn't get removed due to poor testing and time crunch towards the end.
   
 - Michael
