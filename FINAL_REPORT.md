@@ -29,7 +29,23 @@
 
 ## Team
 
-- **todo**
+- **What role did team members have through the project?**
+  - At the beginning of the semester we all chose roles that we thought we would focus on.
+  - Our starting roles:
+	  - Jerry - Accounts, merging games into website, website layout & UI, and project manager
+	  - Preston - Deployment (gcloud, docker)
+	  - Michael - Game Development
+	  - Howard - Game Development
+  - **Did all members contribute equally? Or was there one or two members who led the project?**
+    - Jerry led the project and doled out tasks and made sure everyone was working on what they were supposed to.
+- **Did team member roles change or were they mostly static?**
+  - About a week before the status report was due, we figured out that everyone was not great at parts of their role and we needed to switch them up
+  - Our roles from the status report until the end:
+    - Jerry - Lobbies, merging games into website, making sure everything worked, secondary game dev, and project manager
+    - Preston - Deployment, lobby chat, and the presentation slides
+    - Michael - Main game dev
+    - Howard - Website UI/UX
+- Jerry led the development of the project in code and design. Most members worked in the roughly the same role from the beginning of the project to the end. Jerry always worked on some component of the core functionality for every sprint. Preston was busy with implementing chat box functionality and getting our site deployed and hosted on Google Cloud. Michael was tasked with developing most of our games except for Celebrity. Howard worked improving the UI.
 
 ## Project Management
 
