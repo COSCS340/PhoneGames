@@ -22,7 +22,7 @@
   
 ## Customer Value
 
-- **todo**
+- Over the course of the project, our customer value section hasn’t been effected at all. Despite the small goals we were unable to complete that were briefly mentioned in the introduction, they have had no effect on whom we perceive to be our target audience or what our final solution will deliver to that intended audience. All of the quality of life features that we had hoped to complete were nice additions to our product, but they don't detract from the value we provide our intended customers and why we have determined that no change has occurred from our initial customer value section.
 
 ## Technology
 
