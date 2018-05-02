@@ -9,20 +9,22 @@
 
 ## Introduction
 
-- What is your project?
+- **What is your project?**
   - For our project, we built a browser based client-server game-system that allows us to implement a wide variety of party games for our users to play. We converted many physical party games to digital versions that allow our users to play with each other in real-time.
-- What is your motivation for your project?
+- **What is your motivation for your project?**
   - Our motivation for this project is that we're avid gamers who enjoy playing party games, but having to carry around physical games can become tiresome. At the same time, there is a severe lack of digital party games on the market, so we decided to create a platform that allowed us to convert our favorite physical games to digital ones that we can take anywhere we go.
-- Briefly describe your approach
+- **Briefly describe your approach**
   - We didn't want to spend too much time on setting up the core client-server code, and instead wanted to focus on creating interesting, feature rich games so we went looking for a fullstack framework that would help us out. We found and used a framework called Meteor to give us a client-server foundation that we built our website and games on.
-- If there were major changes to requirements, design, or development plans in your project life cycle, discuss them here
+- **If there were major changes to requirements, design, or development plans in your project life cycle, discuss them here**
   - Our final product has all the main features that we set out to implement in the beginning. Although the product is not as feature rich as originally intended, we have laid very useful groundwork we and other developers can use to aid in implementing more games. We stretched ourselves a little too far with the idea of making our own, original game, but we were able to incorporate already designed games to still make a fun and usable product.
-- Summarize your results and conclusions. Did you complete your project goals?
+- **Summarize your results and conclusions. Did you complete your project goals?**
   - While we were unable to complete all of the quality of life improvements we had hoped to make in time for the presentation deadline, we still managed to deliver a product that incorporated all of the main goals that we set out to accomplish at the beginning of the semester.
   
 ## Customer Value
 
-- Over the course of the project, our customer value section hasn’t been effected at all. Despite the small goals we were unable to complete that were briefly mentioned in the introduction, they have had no effect on whom we perceive to be our target audience or what our final solution will deliver to that intended audience. All of the quality of life features that we had hoped to complete were nice additions to our product, but they don't detract from the value we provide our intended customers and why we have determined that no change has occurred from our initial customer value section.
+- **Changes from earlier submissions**
+- **If no changes, simply note "no changes"**
+	- Over the course of the project, our customer value section hasn’t been effected at all. Despite the small goals we were unable to complete that were briefly mentioned in the introduction, they have had no effect on whom we perceive to be our target audience or what our final solution will deliver to that intended audience. All of the quality of life features that we had hoped to complete were nice additions to our product, but they don't detract from the value we provide our intended customers and why we have determined that no change has occurred from our initial customer value section.
 
 ## Technology
 
@@ -38,7 +40,7 @@
 	  - Michael - Game Development
 	  - Howard - Game Development
   - **Did all members contribute equally? Or was there one or two members who led the project?**
-    - Jerry led the project and doled out tasks and made sure everyone was working on what they were supposed to.
+    - Jerry led the project, doled out tasks, and made sure everyone was working on what they were supposed to.
 - **Did team member roles change or were they mostly static?**
   - About a week before the status report was due, we figured out that everyone was not great at parts of their role and we needed to switch them up
   - Our roles from the status report until the end:
@@ -50,7 +52,7 @@
 
 ## Project Management
 
-- Did you complete all of your goals for the product on schedule?
+- **Did you complete all of your goals for the product on schedule?**
   - While we did finish the vast majority of our goals, we did manage to complete all of them. Our main objective was to create a website to host multiplayer board games that:
     - Did not require the user to have to run their own servers
     - Did not require purchase of any additional product
@@ -77,11 +79,11 @@
     - Friend system
 
 ## Reflection
-- For this iteration:
-  - What went well?
-  - What did not go well?
-  - Discuss aspectes such as planning, development, testing, and team management
-- Do you consider the final project a success? Why or why not?
+- **For this iteration:**
+  - **What went well?**
+  - **What did not go well?**
+  - **Discuss aspectes such as planning, development, testing, and team management**
+- **Do you consider the final project a success? Why or why not?**
 
 Because each of us had structured roles, our experiences of what went well and what didn't are very different from each others' and because of that, we've included every person's experience point by point.
 
