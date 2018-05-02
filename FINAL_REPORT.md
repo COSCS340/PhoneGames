@@ -4,7 +4,7 @@
 - Team Number 8  
   - Jerry Duncan
   - Preston Provins
-  - Cameron O’Neil
+  - Michael O’Neil
   - Howard Choi
 
 ## Introduction
@@ -14,11 +14,12 @@
 - What is your motivation for your project?
   - Our motivation for this project is that we're avid gamers who enjoy playing party games, but having to carry around physical games can become tiresome. At the same time, there is a severe lack of digital party games on the market, so we decided to create a platform that allowed us to convert our favorite physical games to digital ones that we can take anywhere we go.
 - Briefly describe your approach
-  - **todo**
+  - We didn't want to spend too much time on setting up the core client-server code, and instead wanted to focus on creating interesting, feature rich games so we went looking for a fullstack framework that would help us out. We found and used a framework called Meteor to give us a client-server foundation that we built our website and games on.
 - If there were major changes to requirements, design, or development plans in your project life cycle, discuss them here
-  - **todo**
+  - Our final product has all the main features that we set out to implement in the beginning. Although the product is not as feature rich as originally intended, we have laid very useful groundwork we and other developers can use to aid in implementing more games. We stretched ourselves a little too far with the idea of making our own, original game, but we were able to incorporate already designed games to still make a fun and usable product.
 - Summarize your results and conclusions. Did you complete your project goals?
-  - **todo**
+  - While we were unable to complete all of the quality of life improvements we had hoped to make in time for the presentation deadline, we still managed to deliver a product that incorporated all of the main goals that we set out to accomplish at the beginning of the semester.
+  
 ## Customer Value
 
 - **todo**
