@@ -87,7 +87,7 @@
       - Joining and playing work perfectly
       - If someone closes their browser when leaving then it messes up whatever lobby they were in
     - Accounts/Names
-      - Users were only able to change their username and no one elses and could not use a username that already existed (i.e. no duplicates)
+      - Users were only able to change their own username and could not use a username that already existed (i.e. no duplicates)
 ## Team
 
 - **What role did team members have through the project?**
@@ -106,19 +106,19 @@
     - Preston - Deployment, lobby chat, and the presentation slides
     - Michael - Main game dev
     - Howard - Website UI/UX
-- Jerry led the development of the project in code and design. Most members worked in the roughly the same role from the beginning of the project to the end. Jerry always worked on some component of the core functionality for every sprint. Preston was busy with implementing chat box functionality and getting our site deployed and hosted on Google Cloud. Michael was tasked with developing most of our games except for Celebrity. Howard worked improving the UI.
+- Jerry led the development of the project in code and design. Most members worked in the roughly the same role from the beginning of the project to the end. Jerry always worked on some component of the core functionality for every sprint. Preston was busy with implementing chat box functionality and getting our site deployed and hosted on Google Cloud. Michael was tasked with developing most of our games except for Celebrity. Howard worked on improving the UI.
 
 ## Project Management
 
 - **Did you complete all of your goals for the product on schedule?**
-  - While we did finish the vast majority of our goals, we did manage to complete all of them. Our main objective was to create a website to host multiplayer board games that:
+  - While we did finish the vast majority of our goals, we did not manage to complete all of them. Our main objective was to create a website to host multiplayer board games that:
     - Did not require the user to have to run their own servers
     - Did not require purchase of any additional product
     - Worked on both computers and mobile devices
     - Required no additional downloads (such as apps)
     - Implemented a global and lobby chat system
     - Deployed on Gcloud
-  - We were able to accomplish all of our main goals, but unfortunately there were also some objectives that we were unable to complete before the presentation deadline. Our biggest disappointment was that we were unable to complete our complete UI overhaul that would have made the site look much nicer, more intuitive, and work seamlessly on mobile. While trying to merge our new UI, it broke too many parts on our website so we had to revert back to our old UI right before our presentation. 
+  - We were able to accomplish all of our main goals, but unfortunately there were also some objectives that we were unable to complete before the presentation deadline. Our biggest disappointment was that we were unable to finish our complete UI overhaul that would have made the site look much nicer, more intuitive, and work seamlessly on mobile. While trying to merge our new UI, it broke too many parts on our website so we had to revert back to our old UI right before our presentation. 
   - The next thing we had hoped to accomplish was adding more games. The hardest part about creating a game was trying to figure out how to deal with sending data between the server and client using MongoDB and making sure that it worked with our lobby system. Once we figured out how to do that, adding new games was very simple. Unfortunately, by the time we got to that point, we had to shift our focus towards the UI overhaul due to time constraints.
   - There were also a few minor improvements we didn’t manage to complete either, such as instruction screens, leaderboards, and a friend system.
   - Overall, the number one reason we didn’t get to implement every feature we had hoped to was because of poor time management. None of our objectives were too challenging to implement, they just required too much time so we cut out the less essential features and presented with what we had.
