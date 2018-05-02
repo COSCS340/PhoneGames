@@ -28,8 +28,66 @@
 
 ## Technology
 
-- **todo**
-
+- **Changes from your status reports**
+  - **What were your goals after completing your minimum viable system?**
+    - The core components we used to create a minimal viable system have not changed, although we have built more functionality on top of them. At the time of the minimal viable system demo we had a basic webpage that would allow users to sign in, play our single player games, and create lobbies but the functionality for playing multiplayer games wasn't in place - we simply had laid the groundwork for implementing them later on and left everything else in a work-in-progress state. After the minimum viable system demo, our main focus was to implement our core multiplayer experience and refine it. Each of us worked on something different so we would get done on time. Preston worked on adding a chat box so people could talk to each other while they played. Jerry worked on adding Celebrity, our main game, so that people could play the charades-style game during our presentation. Michael worked on adding Spyfall, another favorite game of ours, so that we, the customers, could play it once the presentation was over. Howard thought the user interface and experience were lacking so he worked on improving those on desktop and mobile.
+  - **What works and what does not work?**
+    - Here's our homepage (**other pictures are linked in the bullet points below, and the adm button isn't there for normal users**)
+![](https://i.imgur.com/NDTeTzC.png)
+    - Despite what happened in our presentation, playing any of our games does work. Here's what works (each of these bullet points is a link to a picture of it in action):
+      - [Chat box](https://i.imgur.com/ElPxqws.png)
+      - [Hangman](https://i.imgur.com/BJdkc9f.png)
+      - [Tic-Tac-Toe](https://i.imgur.com/csuspeY.png)
+      - [Celebrity](https://imgur.com/a/QLfuv2K)
+      - [Spyfall](https://imgur.com/a/J5Iijda)
+      - [Accounts](https://i.imgur.com/rJwDmfr.png)
+      - [Lobby System](https://i.imgur.com/dWCT0Zt.png)
+      - Playing with other people (this is shown in the Celeb and Spyfall images)
+    - Here's what doesn't work:
+      - [Proper scaling of the UI](https://i.imgur.com/2AKT5oJ.png)
+      - The UI/UX is drab, unappealing, and lacking in multiple places (just look at any of the images)
+      - Our fifth game, Love Letter is broken (don't have images as it was removed)
+      - Leaderboards were broken so we removed them (don't have images as it was removed)
+  
+- **What tests have you run?**
+  - We tested functionality and UI on a plethora of browsers and devices
+    - Browsers:
+      - Chrome
+      - Edge
+      - Opera
+      - Internet Explorer
+      - Firefox
+    - Devices:
+      - Windows Desktops
+      - Mac Desktops
+      - Windows tablets
+      - iPhone
+      - Android
+  - We tested all of our function calls from the browser console to ensure that no one could make a function call to something they weren't allowed
+  - We tested different amounts of players trying to join, leave, and play the games
+  - We tested making different accounts, duplicate names, trying to change other people's names, etc
+- **What were the results of your tests?**
+- Results
+    - Browsers:
+      - Chrome - functionality works and UI looks good
+      - Edge - functionality works and UI looks slightly small
+      - Opera - functionality works and UI looks good
+      - Internet Explorer - functionality works and UI looks good
+      - Firefox - functionality works and UI looks good
+    - Devices:
+      - Windows Desktops - functionality works and UI looks good
+      - Mac Desktops - functionality works and UI looks good
+      - Windows tablets - functionality works and UI looks good
+      - iPhone - functionality works and UI looks bad / doesn't scale well
+      - Android - functionality works and UI looks bad / doesn't scale well
+    - Function call penetration testing
+      - This is just one example, but we wrote tests to automate pen testing all of our functions
+      ![](https://i.imgur.com/tdH2h5z.png)
+    - Players joining, leaving, playing
+      - Joining and playing work perfectly
+      - If someone closes their browser when leaving then it messes up whatever lobby they were in
+    - Accounts/Names
+      - Users were only able to change their username and no one elses and could not use a username that already existed (i.e. no duplicates)
 ## Team
 
 - **What role did team members have through the project?**
